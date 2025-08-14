@@ -1,0 +1,58 @@
+2022-06-08 14:49:12	PARSER: Configured single CLEANING
+2022-06-08 14:49:12	PARSER: Configured single meshing
+2022-06-08 14:49:12	PARSER: Configured single topng
+2022-06-08 14:49:12	PARSER: Configured pattern CLEANINGpattern
+2022-06-08 14:49:12	PARSER: Configured pattern meshingpattern
+2022-06-08 14:49:12	PARSER: Configured pattern topngpattern
+2022-06-08 14:49:12	PARSER: Configured stage stage_CLEANING
+2022-06-08 14:49:12	PARSER: Configured stage stage_meshing
+2022-06-08 14:49:12	PARSER: Configured stage stage_topng
+2022-06-08 14:49:12	PARSER: Configured workflow DemoUPV
+2022-06-08 14:49:12	LAUCHER: Coupling stages and building blocks
+2022-06-08 14:49:12	DemoUPV: Workdir DemoUPV
+2022-06-08 14:49:12	DemoUPV: Workdir created
+2022-06-08 14:49:12	DemoUPV: Stage stage_CLEANING added
+2022-06-08 14:49:12	stage_CLEANING: Workdir stage_CLEANING
+2022-06-08 14:49:12	stage_CLEANING: Workdir created
+2022-06-08 14:49:12	stage_CLEANING: Added sink stage_meshing
+2022-06-08 14:49:12	stage_CLEANING: Added sink stage_topng
+2022-06-08 14:49:12	stage_CLEANING: Added building block CLEANINGpattern
+2022-06-08 14:49:12	CLEANINGpattern: Workdir CLEANINGpattern
+2022-06-08 14:49:12	CLEANINGpattern: Workdir created
+2022-06-08 14:49:12	CLEANING: Workdir CLEANING
+2022-06-08 14:49:12	CLEANING: Workdir created
+2022-06-08 14:49:12	DemoUPV: Stage stage_meshing added
+2022-06-08 14:49:12	stage_meshing: Workdir stage_meshing
+2022-06-08 14:49:12	stage_meshing: Workdir created
+2022-06-08 14:49:12	stage_meshing: Added source stage_CLEANING
+2022-06-08 14:49:12	stage_meshing: Added building block meshingpattern
+2022-06-08 14:49:12	meshingpattern: Workdir meshingpattern
+2022-06-08 14:49:12	meshingpattern: Workdir created
+2022-06-08 14:49:12	meshing: Workdir meshing
+2022-06-08 14:49:12	meshing: Workdir created
+2022-06-08 14:49:12	DemoUPV: Stage stage_topng added
+2022-06-08 14:49:12	stage_topng: Workdir stage_topng
+2022-06-08 14:49:12	stage_topng: Workdir created
+2022-06-08 14:49:12	stage_topng: Added source stage_CLEANING
+2022-06-08 14:49:12	stage_topng: Added building block topngpattern
+2022-06-08 14:49:12	topngpattern: Workdir topngpattern
+2022-06-08 14:49:12	topngpattern: Workdir created
+2022-06-08 14:49:12	topng: Workdir topng
+2022-06-08 14:49:12	topng: Workdir created
+2022-06-08 14:49:12	LAUNCHER: Creating YML file at DemoUPV/docker-compose.yml
+topng
+meshing
+CLEANING
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/DemoUPV -f /home/dsanchez/PuzzleMesh/deployer/app//results/DemoUPV/docker-compose.yml  up -d --build --scale topng=2  --scale meshing=2  --scale CLEANING=2  2> /dev/null
+Traceback (most recent call last):
+  File "representation/model_application.py", line 6, in <module>
+    import database.db_connector
+  File "/home/app/representation/database/db_connector.py", line 1, in <module>
+    import mysql.connector
+ModuleNotFoundError: No module named 'mysql'
+2022-06-08 14:49:12	LAUCHER: deploying virtual containers of workflow DemoUPV
+2022-06-08 14:50:19	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/DemoUPV -f /home/dsanchez/PuzzleMesh/deployer/app//results/DemoUPV/docker-compose.yml  down
+
+

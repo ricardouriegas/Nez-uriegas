@@ -1,0 +1,53 @@
+2021-08-26 13:24:01	PARSER: Configured single cleaning
+2021-08-26 13:24:01	PARSER: Configured single Meshin256
+2021-08-26 13:24:01	PARSER: Configured single Indexing
+2021-08-26 13:24:01	PARSER: Configured pattern cleaningpattern
+2021-08-26 13:24:01	PARSER: Configured pattern Meshin256pattern
+2021-08-26 13:24:01	PARSER: Configured pattern Indexingpattern
+2021-08-26 13:24:01	PARSER: Configured stage stage_cleaning
+2021-08-26 13:24:01	PARSER: Configured stage stage_Meshin256
+2021-08-26 13:24:01	PARSER: Configured stage stage_Indexing
+2021-08-26 13:24:01	PARSER: Configured workflow NewService
+Your PATH is: /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app/
+2021-08-26 13:24:01	LAUCHER: Coupling stages and building blocks
+2021-08-26 13:24:01	NewService: Workdir NewService
+2021-08-26 13:24:01	NewService: Workdir created
+2021-08-26 13:24:01	NewService: Stage stage_cleaning added
+2021-08-26 13:24:01	stage_cleaning: Workdir stage_cleaning
+2021-08-26 13:24:01	stage_cleaning: Workdir created
+2021-08-26 13:24:01	stage_cleaning: Added sink stage_Indexing
+2021-08-26 13:24:01	stage_cleaning: Added sink stage_Meshin256
+2021-08-26 13:24:01	stage_cleaning: Added building block cleaningpattern
+2021-08-26 13:24:01	cleaningpattern: Workdir cleaningpattern
+2021-08-26 13:24:01	cleaningpattern: Workdir created
+2021-08-26 13:24:01	cleaning: Workdir cleaning
+2021-08-26 13:24:01	cleaning: Workdir created
+2021-08-26 13:24:01	NewService: Stage stage_Meshin256 added
+2021-08-26 13:24:01	stage_Meshin256: Workdir stage_Meshin256
+2021-08-26 13:24:01	stage_Meshin256: Workdir created
+2021-08-26 13:24:01	stage_Meshin256: Added source stage_cleaning
+2021-08-26 13:24:01	stage_Meshin256: Added building block Meshin256pattern
+2021-08-26 13:24:01	Meshin256pattern: Workdir Meshin256pattern
+2021-08-26 13:24:01	Meshin256pattern: Workdir created
+2021-08-26 13:24:01	Meshin256: Workdir Meshin256
+2021-08-26 13:24:01	Meshin256: Workdir created
+2021-08-26 13:24:01	NewService: Stage stage_Indexing added
+2021-08-26 13:24:01	stage_Indexing: Workdir stage_Indexing
+2021-08-26 13:24:01	stage_Indexing: Workdir created
+2021-08-26 13:24:01	stage_Indexing: Added source stage_cleaning
+2021-08-26 13:24:01	stage_Indexing: Added building block Indexingpattern
+2021-08-26 13:24:01	Indexingpattern: Workdir Indexingpattern
+2021-08-26 13:24:01	Indexingpattern: Workdir created
+2021-08-26 13:24:01	Indexing: Workdir Indexing
+2021-08-26 13:24:01	Indexing: Workdir created
+2021-08-26 13:24:01	LAUNCHER: Creating YML file at NewService/docker-compose.yml
+Indexing
+Meshin256
+cleaning
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/NewService -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/NewService/docker-compose.yml  up -d --build --scale Meshin256=4  --scale Indexing=4  --scale cleaning=4  2> /dev/null
+2021-08-26 13:24:01	LAUCHER: deploying virtual containers of workflow NewService
+2021-08-26 13:24:17	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/NewService -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/NewService/docker-compose.yml  down
+
+

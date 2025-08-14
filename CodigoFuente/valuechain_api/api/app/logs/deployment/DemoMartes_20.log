@@ -1,0 +1,58 @@
+2022-07-05 15:29:14	PARSER: Configured single CLEANING
+2022-07-05 15:29:14	PARSER: Configured single topng
+2022-07-05 15:29:14	PARSER: Configured single detector
+2022-07-05 15:29:14	PARSER: Configured pattern CLEANINGpattern
+2022-07-05 15:29:14	PARSER: Configured pattern topngpattern
+2022-07-05 15:29:14	PARSER: Configured pattern detectorpattern
+2022-07-05 15:29:14	PARSER: Configured stage stage_CLEANING
+2022-07-05 15:29:14	PARSER: Configured stage stage_topng
+2022-07-05 15:29:14	PARSER: Configured stage stage_detector
+2022-07-05 15:29:14	PARSER: Configured workflow DemoMartes
+2022-07-05 15:29:14	LAUCHER: Coupling stages and building blocks
+2022-07-05 15:29:14	DemoMartes: Workdir DemoMartes
+2022-07-05 15:29:14	DemoMartes: Workdir created
+2022-07-05 15:29:14	DemoMartes: Stage stage_CLEANING added
+2022-07-05 15:29:14	stage_CLEANING: Workdir stage_CLEANING
+2022-07-05 15:29:14	stage_CLEANING: Workdir created
+2022-07-05 15:29:14	stage_CLEANING: Added sink stage_topng
+2022-07-05 15:29:14	stage_CLEANING: Added building block CLEANINGpattern
+2022-07-05 15:29:14	CLEANINGpattern: Workdir CLEANINGpattern
+2022-07-05 15:29:14	CLEANINGpattern: Workdir created
+2022-07-05 15:29:14	CLEANING: Workdir CLEANING
+2022-07-05 15:29:14	CLEANING: Workdir created
+2022-07-05 15:29:14	DemoMartes: Stage stage_topng added
+2022-07-05 15:29:14	stage_topng: Workdir stage_topng
+2022-07-05 15:29:14	stage_topng: Workdir created
+2022-07-05 15:29:14	stage_topng: Added source stage_CLEANING
+2022-07-05 15:29:14	stage_topng: Added sink stage_detector
+2022-07-05 15:29:14	stage_topng: Added building block topngpattern
+2022-07-05 15:29:14	topngpattern: Workdir topngpattern
+2022-07-05 15:29:14	topngpattern: Workdir created
+2022-07-05 15:29:14	topng: Workdir topng
+2022-07-05 15:29:14	topng: Workdir created
+2022-07-05 15:29:14	DemoMartes: Stage stage_detector added
+2022-07-05 15:29:14	stage_detector: Workdir stage_detector
+2022-07-05 15:29:14	stage_detector: Workdir created
+2022-07-05 15:29:14	stage_detector: Added source stage_topng
+2022-07-05 15:29:14	stage_detector: Added building block detectorpattern
+2022-07-05 15:29:14	detectorpattern: Workdir detectorpattern
+2022-07-05 15:29:14	detectorpattern: Workdir created
+2022-07-05 15:29:14	detector: Workdir detector
+2022-07-05 15:29:14	detector: Workdir created
+2022-07-05 15:29:14	LAUNCHER: Creating YML file at DemoMartes/docker-compose.yml
+detector
+topng
+CLEANING
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/DemoMartes -f /home/dsanchez/PuzzleMesh/deployer/app//results/DemoMartes/docker-compose.yml  up -d --build --scale topng=2  --scale detector=2  --scale CLEANING=2  2> /dev/null
+Traceback (most recent call last):
+  File "representation/model_application.py", line 6, in <module>
+    import database.db_connector
+  File "/home/app/representation/database/db_connector.py", line 1, in <module>
+    import mysql.connector
+ModuleNotFoundError: No module named 'mysql'
+2022-07-05 15:29:14	LAUCHER: deploying virtual containers of workflow DemoMartes
+2022-07-05 15:29:21	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/DemoMartes -f /home/dsanchez/PuzzleMesh/deployer/app//results/DemoMartes/docker-compose.yml  down
+
+

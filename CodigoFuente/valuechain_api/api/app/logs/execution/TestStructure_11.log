@@ -1,0 +1,96 @@
+2022-08-19 01:51:21	PARSER: Configured single Deidentification
+2022-08-19 01:51:21	PARSER: Configured single ToPNG
+2022-08-19 01:51:21	PARSER: Configured pattern Deidentificationpattern
+2022-08-19 01:51:21	PARSER: Configured pattern ToPNGpattern
+2022-08-19 01:51:21	PARSER: Configured stage stage_Deidentification
+2022-08-19 01:51:21	PARSER: Configured stage stage_ToPNG
+2022-08-19 01:51:21	PARSER: Configured workflow TestStructure
+2022-08-19 01:51:21	LAUCHER: Coupling stages and building blocks
+2022-08-19 01:51:21	TestStructure: Workdir TestStructure
+2022-08-19 01:51:21	TestStructure: Workdir exists
+2022-08-19 01:51:21	TestStructure: Stage stage_Deidentification added
+2022-08-19 01:51:21	stage_Deidentification: Workdir stage_Deidentification
+2022-08-19 01:51:21	stage_Deidentification: Workdir exists
+2022-08-19 01:51:21	stage_Deidentification: Added sink stage_ToPNG
+2022-08-19 01:51:21	stage_Deidentification: Added building block Deidentificationpattern
+2022-08-19 01:51:21	Deidentificationpattern: Workdir Deidentificationpattern
+2022-08-19 01:51:21	Deidentificationpattern: Workdir exists
+2022-08-19 01:51:21	Deidentification: Workdir Deidentification
+2022-08-19 01:51:21	Deidentification: Workdir exists
+2022-08-19 01:51:21	TestStructure: Stage stage_ToPNG added
+2022-08-19 01:51:21	stage_ToPNG: Workdir stage_ToPNG
+2022-08-19 01:51:21	stage_ToPNG: Workdir exists
+2022-08-19 01:51:21	stage_ToPNG: Added source stage_Deidentification
+2022-08-19 01:51:21	stage_ToPNG: Added building block ToPNGpattern
+2022-08-19 01:51:21	ToPNGpattern: Workdir ToPNGpattern
+2022-08-19 01:51:21	ToPNGpattern: Workdir exists
+2022-08-19 01:51:21	ToPNG: Workdir ToPNG
+2022-08-19 01:51:21	ToPNG: Workdir exists
+2022-08-19 01:51:21	LAUNCHER: Creating YML file at TestStructure/docker-compose.yml
+ToPNG
+Deidentification
+2022-08-19 01:51:21	LAUCHER: deploying virtual containers of workflow TestStructure
+java -jar Download.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 1b0063418c5902e5a4eb850df0b62b1f9c575834bbcc2edfdd81573bdbca4d7f 2 1 cinves '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/catalogs/OtroCat' 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true false 2
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 2 out of bounds for length 2
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.init(RobotHelper.java:262)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.downloadCatalog(RobotHelper.java:163)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.prepareCatalog(RobotHelper.java:177)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.prepareCatalog(RobotHelper.java:173)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.prepare(RobotHelper.java:186)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.download(RobotHelper.java:147)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.run(RobotHelper.java:143)
+	at mx.cinvestav.tamps.integracion.gui.RobotDownloader.<init>(RobotDownloader.java:46)
+	at mx.cinvestav.tamps.integracion.gui.RobotDownloader.main(RobotDownloader.java:39)
+2022-08-19 01:51:22	TestStructure: executing 
+{ "catalogname": " OtroCat/TestStructure-1660873882135 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"1b0063418c5902e5a4eb850df0b62b1f9c575834bbcc2edfdd81573bdbca4d7f", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+2022-08-19 01:51:22	stage_ToPNG: waiting
+2022-08-19 01:51:22	stage_Deidentification: waiting
+2022-08-19 01:51:22	stage_Deidentification: WORKING
+2022-08-19 01:51:22	stage_Deidentification: has 1 sources
+2022-08-19 01:51:22	Deidentificationpattern: waiting
+2022-08-19 01:51:22	Deidentificationpattern: running
+2022-08-19 01:51:22	Deidentificationpattern: executing load balancer
+2022-08-19 01:51:23	Deidentificationpattern: load balancer executed in RT = 947 miliseconds
+2022-08-19 01:51:23	Deidentification: waiting
+2022-08-19 01:51:23	Deidentification: waiting
+2022-08-19 01:51:23	Deidentification: running
+2022-08-19 01:51:23	Deidentification: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+2022-08-19 01:51:23	Deidentification: running
+python3 /code/process_dir.py --input /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//TestStructure/catalogs/OtroCat/CT1 --outfolder '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_Deidentification/Deidentificationpattern/Deidentification/' --save dicom
+WARNING No specification, loading default base deid.dicom
+WARNING use detect() --> clean() before saving is possible.
+WARNING use detect() --> clean() before saving is possible.
+2022-08-19 01:51:24	Deidentification: processed 4096 bytes in ST=0.000000 RT = 1498 miliseconds
+2022-08-19 01:51:24	Deidentificationpattern: pattern executed in ST = 2447 miliseconds
+{ "catalogname": " OtroCat/TestStructure-1660873882135/stage_Deidentification-1660873884630 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"bfcb478f1c36ec49cb5c0dabf57e110de46b0d0bd1034365725a1df9eff2a8ed", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+java -jar Upload.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 ccd0052b3241ea47fb2312bb269db79e1b30919217cbcbb0026cc82633b7d02b IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_Deidentification' cinves true 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true true 4
+2022-08-19 01:51:27	stage_Deidentification: data satage upload in ST = 2899 miliseconds
+2022-08-19 01:51:27	stage_Deidentification: stage executed in ST = 5347 miliseconds
+2022-08-19 01:51:27	stage_ToPNG: WORKING
+2022-08-19 01:51:27	stage_ToPNG: has 1 sources
+2022-08-19 01:51:27	ToPNGpattern: waiting
+2022-08-19 01:51:27	ToPNGpattern: running
+2022-08-19 01:51:27	ToPNGpattern: executing load balancer
+2022-08-19 01:51:28	ToPNGpattern: load balancer executed in RT = 883 miliseconds
+2022-08-19 01:51:28	ToPNG: waiting
+2022-08-19 01:51:28	ToPNG: waiting
+2022-08-19 01:51:28	ToPNG: running
+2022-08-19 01:51:28	ToPNG: running
+2022-08-19 01:51:28	ToPNG: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+python3 /code/dicom2rgb.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure//stage_Deidentification/Deidentificationpattern/Deidentification/CT1 /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_ToPNG/ToPNGpattern/ToPNG//CT1
+/usr/local/lib/python3.7/site-packages/pydicom/filereader.py:353: UserWarning: Expected explicit VR, but found implicit VR - using implicit VR for reading
+  warnings.warn(msg + f" - using {found_vr} VR for reading", UserWarning)
+2022-08-19 01:51:30	ToPNG: processed 4096 bytes in ST=0.000000 RT = 1991 miliseconds
+2022-08-19 01:51:30	ToPNGpattern: pattern executed in ST = 2875 miliseconds
+{ "catalogname": " OtroCat/TestStructure-1660873882135/stage_ToPNG-1660873890406 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"bfcb478f1c36ec49cb5c0dabf57e110de46b0d0bd1034365725a1df9eff2a8ed", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+java -jar Upload.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 5dd72bc5663a988d0bc7edac70616f8b875781758b784a61edca8404756898b3 IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_ToPNG' cinves true 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true true 4
+2022-08-19 01:51:32	stage_ToPNG: data satage upload in ST = 2383 miliseconds
+2022-08-19 01:51:32	stage_ToPNG: stage executed in ST = 5259 miliseconds

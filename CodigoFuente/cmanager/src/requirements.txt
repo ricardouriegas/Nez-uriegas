@@ -1,0 +1,15 @@
+flask
+flask-restful
+Flask-Session
+Flask-API
+flask-cors
+flask_json
+requests
+json2html
+simplejson
+sqlalchemy
+Flask-SQLAlchemy
+docker>=4.4.1
+flask_marshmallow
+marshmallow-sqlalchemy
+pycryptodome>=3.4.3

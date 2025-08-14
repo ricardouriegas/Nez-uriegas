@@ -1,0 +1,128 @@
+2022-09-27 13:32:02	PARSER: Configured single Deidentification
+2022-09-27 13:32:02	PARSER: Configured single ToPNG
+2022-09-27 13:32:02	PARSER: Configured single DetectorPulmon
+2022-09-27 13:32:02	PARSER: Configured pattern Deidentificationpattern
+2022-09-27 13:32:02	PARSER: Configured pattern ToPNGpattern
+2022-09-27 13:32:02	PARSER: Configured pattern DetectorPulmonpattern
+2022-09-27 13:32:02	PARSER: Configured stage stage_Deidentification
+2022-09-27 13:32:02	PARSER: Configured stage stage_ToPNG
+2022-09-27 13:32:02	PARSER: Configured stage stage_DetectorPulmon
+2022-09-27 13:32:02	PARSER: Configured workflow PuzzlePrueba
+2022-09-27 13:32:02	LAUCHER: Coupling stages and building blocks
+2022-09-27 13:32:02	PuzzlePrueba: Workdir PuzzlePrueba
+2022-09-27 13:32:02	PuzzlePrueba: Workdir exists
+2022-09-27 13:32:02	PuzzlePrueba: Stage stage_Deidentification added
+2022-09-27 13:32:02	stage_Deidentification: Workdir stage_Deidentification
+2022-09-27 13:32:02	stage_Deidentification: Workdir exists
+2022-09-27 13:32:02	stage_Deidentification: Added sink stage_ToPNG
+2022-09-27 13:32:02	stage_Deidentification: Added building block Deidentificationpattern
+2022-09-27 13:32:02	Deidentificationpattern: Workdir Deidentificationpattern
+2022-09-27 13:32:02	Deidentificationpattern: Workdir exists
+2022-09-27 13:32:02	Deidentification: Workdir Deidentification
+2022-09-27 13:32:02	Deidentification: Workdir exists
+2022-09-27 13:32:02	PuzzlePrueba: Stage stage_ToPNG added
+2022-09-27 13:32:02	stage_ToPNG: Workdir stage_ToPNG
+2022-09-27 13:32:02	stage_ToPNG: Workdir exists
+2022-09-27 13:32:02	stage_ToPNG: Added source stage_Deidentification
+2022-09-27 13:32:02	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-09-27 13:32:02	stage_ToPNG: Added building block ToPNGpattern
+2022-09-27 13:32:02	ToPNGpattern: Workdir ToPNGpattern
+2022-09-27 13:32:02	ToPNGpattern: Workdir exists
+2022-09-27 13:32:02	ToPNG: Workdir ToPNG
+2022-09-27 13:32:02	ToPNG: Workdir exists
+2022-09-27 13:32:02	PuzzlePrueba: Stage stage_DetectorPulmon added
+2022-09-27 13:32:02	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-09-27 13:32:02	stage_DetectorPulmon: Workdir exists
+2022-09-27 13:32:02	stage_DetectorPulmon: Added source stage_ToPNG
+2022-09-27 13:32:02	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-09-27 13:32:02	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-09-27 13:32:02	DetectorPulmonpattern: Workdir exists
+2022-09-27 13:32:02	DetectorPulmon: Workdir DetectorPulmon
+2022-09-27 13:32:02	DetectorPulmon: Workdir exists
+2022-09-27 13:32:02	LAUNCHER: Creating YML file at PuzzlePrueba/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+2022-09-27 13:32:02	LAUCHER: deploying virtual containers of workflow PuzzlePrueba
+java -jar Download.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75 2 1 cinves '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/catalogs/MyCat' f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true false 1
+2022-09-27 13:32:05	PuzzlePrueba: executing 
+{ "catalogname": " MyCat/PuzzlePrueba-1664285525046 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75", "processed": "true" }
+148.247.204.224:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+2022-09-27 13:32:05	stage_DetectorPulmon: waiting
+2022-09-27 13:32:05	stage_ToPNG: waiting
+2022-09-27 13:32:05	stage_Deidentification: waiting
+2022-09-27 13:32:05	stage_Deidentification: WORKING
+2022-09-27 13:32:05	stage_Deidentification: has 1 sources
+2022-09-27 13:32:05	Deidentificationpattern: waiting
+2022-09-27 13:32:05	Deidentificationpattern: running
+2022-09-27 13:32:05	Deidentificationpattern: executing load balancer
+2022-09-27 13:32:05	Deidentificationpattern: load balancer executed in RT = 681 miliseconds
+2022-09-27 13:32:05	Deidentification: waiting
+2022-09-27 13:32:05	Deidentification: running
+2022-09-27 13:32:05	Deidentification: waiting
+2022-09-27 13:32:05	Deidentification: running
+2022-09-27 13:32:05	Deidentification: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+python3 /code/process_dir.py --input /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//PuzzlePrueba/catalogs/MyCat/lala --outfolder '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/stage_Deidentification/Deidentificationpattern/Deidentification/' --save dicom
+WARNING No specification, loading default base deid.dicom
+2022-09-27 13:32:07	Deidentification: processed 4096 bytes in ST=0.000000 RT = 1453 miliseconds
+2022-09-27 13:32:07	Deidentificationpattern: pattern executed in ST = 2135 miliseconds
+{ "catalogname": " MyCat/PuzzlePrueba-1664285525046/stage_Deidentification-1664285527211 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"d09d5b12017ff58d6acc07790a4946de301d8cc50e372447f70ff39f46e1b8ce", "processed": "true" }
+148.247.204.224:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 9ba1c7ae40f49fcbfe89d0b93dac7808cce9a876c143668fcc2f3662601f5bfd IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/stage_Deidentification' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-27 13:32:07	stage_Deidentification: data satage upload in ST = 359 miliseconds
+2022-09-27 13:32:07	stage_Deidentification: stage executed in ST = 2494 miliseconds
+2022-09-27 13:32:07	stage_ToPNG: WORKING
+2022-09-27 13:32:07	stage_ToPNG: has 1 sources
+2022-09-27 13:32:07	ToPNGpattern: waiting
+2022-09-27 13:32:07	ToPNGpattern: running
+2022-09-27 13:32:07	ToPNGpattern: executing load balancer
+2022-09-27 13:32:08	ToPNGpattern: load balancer executed in RT = 660 miliseconds
+2022-09-27 13:32:08	ToPNG: waiting
+2022-09-27 13:32:08	ToPNG: waiting
+2022-09-27 13:32:08	ToPNG: running
+2022-09-27 13:32:08	ToPNG: running
+2022-09-27 13:32:08	ToPNG: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+python3 /code/dicom2rgb.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba//stage_Deidentification/Deidentificationpattern/Deidentification/lala /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/stage_ToPNG/ToPNGpattern/ToPNG//lala
+2022-09-27 13:32:11	ToPNG: processed 4096 bytes in ST=0.000000 RT = 3674 miliseconds
+2022-09-27 13:32:11	ToPNGpattern: pattern executed in ST = 4335 miliseconds
+{ "catalogname": " MyCat/PuzzlePrueba-1664285525046/stage_ToPNG-1664285531906 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"d09d5b12017ff58d6acc07790a4946de301d8cc50e372447f70ff39f46e1b8ce", "processed": "true" }
+148.247.204.224:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 b479686255d3267248009bbb4b46fd3b0a9ac2d6d580881c07a91c09ab27b83d IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/stage_ToPNG' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-27 13:32:18	stage_ToPNG: data satage upload in ST = 6670 miliseconds
+2022-09-27 13:32:18	stage_DetectorPulmon: WORKING
+2022-09-27 13:32:18	stage_ToPNG: stage executed in ST = 11005 miliseconds
+2022-09-27 13:32:18	stage_DetectorPulmon: has 1 sources
+2022-09-27 13:32:18	DetectorPulmonpattern: waiting
+2022-09-27 13:32:18	DetectorPulmonpattern: running
+2022-09-27 13:32:18	DetectorPulmonpattern: executing load balancer
+2022-09-27 13:32:19	DetectorPulmonpattern: load balancer executed in RT = 599 miliseconds
+2022-09-27 13:32:19	DetectorPulmon: waiting
+2022-09-27 13:32:19	DetectorPulmon: waiting
+2022-09-27 13:32:19	DetectorPulmon: running
+2022-09-27 13:32:19	DetectorPulmon: running
+2022-09-27 13:32:19	DetectorPulmon: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+python3 /code/detectorPulmones.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba//stage_ToPNG/ToPNGpattern/ToPNG/lala /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/stage_DetectorPulmon/DetectorPulmonpattern/DetectorPulmon//lala
+2022-09-27 13:32:20.030958: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2022-09-27 13:32:20.030997: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-09-27 13:32:21.213944: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-27 13:32:21.214753: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2022-09-27 13:32:21.214778: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+2022-09-27 13:32:21.214801: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] no NVIDIA GPU device is present: /dev/nvidia0 does not exist
+2022-09-27 13:32:23.581076: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 963379200 exceeds 10% of free system memory.
+2022-09-27 13:32:23.656970: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 963379200 exceeds 10% of free system memory.
+WARNING:tensorflow:From /code/models/research/object_detection/utils/model_util.py:57: Tensor.experimental_ref (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use ref() instead.
+2022-09-27 13:32:25.214471: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 963379200 exceeds 10% of free system memory.
+2022-09-27 13:32:25.291172: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 963379200 exceeds 10% of free system memory.
+2022-09-27 13:32:26.764078: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 963379200 exceeds 10% of free system memory.
+/code/detectorPulmones.py:240: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  plt.figure(figsize=(15,10))
+2022-09-27 13:32:59	DetectorPulmon: processed 4096 bytes in ST=0.000000 RT = 39855 miliseconds
+2022-09-27 13:32:59	DetectorPulmonpattern: pattern executed in ST = 40455 miliseconds
+{ "catalogname": " MyCat/PuzzlePrueba-1664285525046/stage_DetectorPulmon-1664285579032 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"d09d5b12017ff58d6acc07790a4946de301d8cc50e372447f70ff39f46e1b8ce", "processed": "true" }
+148.247.204.224:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 8b476fd79177b3c57ea51b6b7f08555088320fe22578a143b172258b860eca6f IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/stage_DetectorPulmon' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-27 13:32:59	stage_DetectorPulmon: data satage upload in ST = 312 miliseconds
+2022-09-27 13:32:59	stage_DetectorPulmon: stage executed in ST = 40769 miliseconds

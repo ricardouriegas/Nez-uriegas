@@ -1,0 +1,53 @@
+2021-08-26 12:55:49	PARSER: Configured single cleaning
+2021-08-26 12:55:49	PARSER: Configured single Indexing
+2021-08-26 12:55:49	PARSER: Configured single meshing
+2021-08-26 12:55:49	PARSER: Configured pattern cleaningpattern
+2021-08-26 12:55:49	PARSER: Configured pattern Indexingpattern
+2021-08-26 12:55:49	PARSER: Configured pattern meshingpattern
+2021-08-26 12:55:49	PARSER: Configured stage stage_cleaning
+2021-08-26 12:55:49	PARSER: Configured stage stage_Indexing
+2021-08-26 12:55:49	PARSER: Configured stage stage_meshing
+2021-08-26 12:55:49	PARSER: Configured workflow DicomProcesssingService
+Your PATH is: /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app/
+2021-08-26 12:55:49	LAUCHER: Coupling stages and building blocks
+2021-08-26 12:55:49	DicomProcesssingService: Workdir DicomProcesssingService
+2021-08-26 12:55:49	DicomProcesssingService: Workdir created
+2021-08-26 12:55:49	DicomProcesssingService: Stage stage_cleaning added
+2021-08-26 12:55:49	stage_cleaning: Workdir stage_cleaning
+2021-08-26 12:55:49	stage_cleaning: Workdir created
+2021-08-26 12:55:49	stage_cleaning: Added sink stage_meshing
+2021-08-26 12:55:49	stage_cleaning: Added sink stage_Indexing
+2021-08-26 12:55:49	stage_cleaning: Added building block cleaningpattern
+2021-08-26 12:55:49	cleaningpattern: Workdir cleaningpattern
+2021-08-26 12:55:49	cleaningpattern: Workdir created
+2021-08-26 12:55:49	cleaning: Workdir cleaning
+2021-08-26 12:55:49	cleaning: Workdir created
+2021-08-26 12:55:49	DicomProcesssingService: Stage stage_Indexing added
+2021-08-26 12:55:49	stage_Indexing: Workdir stage_Indexing
+2021-08-26 12:55:49	stage_Indexing: Workdir created
+2021-08-26 12:55:49	stage_Indexing: Added source stage_cleaning
+2021-08-26 12:55:49	stage_Indexing: Added building block Indexingpattern
+2021-08-26 12:55:49	Indexingpattern: Workdir Indexingpattern
+2021-08-26 12:55:49	Indexingpattern: Workdir created
+2021-08-26 12:55:49	Indexing: Workdir Indexing
+2021-08-26 12:55:49	Indexing: Workdir created
+2021-08-26 12:55:49	DicomProcesssingService: Stage stage_meshing added
+2021-08-26 12:55:49	stage_meshing: Workdir stage_meshing
+2021-08-26 12:55:49	stage_meshing: Workdir created
+2021-08-26 12:55:49	stage_meshing: Added source stage_cleaning
+2021-08-26 12:55:49	stage_meshing: Added building block meshingpattern
+2021-08-26 12:55:49	meshingpattern: Workdir meshingpattern
+2021-08-26 12:55:49	meshingpattern: Workdir created
+2021-08-26 12:55:49	meshing: Workdir meshing
+2021-08-26 12:55:49	meshing: Workdir created
+2021-08-26 12:55:49	LAUNCHER: Creating YML file at DicomProcesssingService/docker-compose.yml
+meshing
+Indexing
+cleaning
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/DicomProcesssingService -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/DicomProcesssingService/docker-compose.yml  up -d --build --scale meshing=4  --scale Indexing=4  --scale cleaning=4  2> /dev/null
+2021-08-26 12:55:49	LAUCHER: deploying virtual containers of workflow DicomProcesssingService
+2021-08-26 12:56:05	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/DicomProcesssingService -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/DicomProcesssingService/docker-compose.yml  down
+
+

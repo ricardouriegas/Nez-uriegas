@@ -1,0 +1,144 @@
+2022-08-19 02:10:12	PARSER: Configured single Deidentification
+2022-08-19 02:10:12	PARSER: Configured single ToPNG
+2022-08-19 02:10:12	PARSER: Configured single DetectorPulmon
+2022-08-19 02:10:12	PARSER: Configured pattern Deidentificationpattern
+2022-08-19 02:10:12	PARSER: Configured pattern ToPNGpattern
+2022-08-19 02:10:12	PARSER: Configured pattern DetectorPulmonpattern
+2022-08-19 02:10:12	PARSER: Configured stage stage_Deidentification
+2022-08-19 02:10:12	PARSER: Configured stage stage_ToPNG
+2022-08-19 02:10:12	PARSER: Configured stage stage_DetectorPulmon
+2022-08-19 02:10:12	PARSER: Configured workflow PruebaMasImagenes
+2022-08-19 02:10:12	LAUCHER: Coupling stages and building blocks
+2022-08-19 02:10:12	PruebaMasImagenes: Workdir PruebaMasImagenes
+2022-08-19 02:10:12	PruebaMasImagenes: Workdir exists
+2022-08-19 02:10:12	PruebaMasImagenes: Stage stage_Deidentification added
+2022-08-19 02:10:12	stage_Deidentification: Workdir stage_Deidentification
+2022-08-19 02:10:12	stage_Deidentification: Workdir exists
+2022-08-19 02:10:12	stage_Deidentification: Added sink stage_ToPNG
+2022-08-19 02:10:12	stage_Deidentification: Added building block Deidentificationpattern
+2022-08-19 02:10:12	Deidentificationpattern: Workdir Deidentificationpattern
+2022-08-19 02:10:12	Deidentificationpattern: Workdir exists
+2022-08-19 02:10:12	Deidentification: Workdir Deidentification
+2022-08-19 02:10:12	Deidentification: Workdir exists
+2022-08-19 02:10:12	PruebaMasImagenes: Stage stage_ToPNG added
+2022-08-19 02:10:12	stage_ToPNG: Workdir stage_ToPNG
+2022-08-19 02:10:12	stage_ToPNG: Workdir exists
+2022-08-19 02:10:12	stage_ToPNG: Added source stage_Deidentification
+2022-08-19 02:10:12	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-08-19 02:10:12	stage_ToPNG: Added building block ToPNGpattern
+2022-08-19 02:10:12	ToPNGpattern: Workdir ToPNGpattern
+2022-08-19 02:10:12	ToPNGpattern: Workdir exists
+2022-08-19 02:10:12	ToPNG: Workdir ToPNG
+2022-08-19 02:10:12	ToPNG: Workdir exists
+2022-08-19 02:10:12	PruebaMasImagenes: Stage stage_DetectorPulmon added
+2022-08-19 02:10:12	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-08-19 02:10:12	stage_DetectorPulmon: Workdir exists
+2022-08-19 02:10:12	stage_DetectorPulmon: Added source stage_ToPNG
+2022-08-19 02:10:12	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-08-19 02:10:12	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-08-19 02:10:12	DetectorPulmonpattern: Workdir exists
+2022-08-19 02:10:12	DetectorPulmon: Workdir DetectorPulmon
+2022-08-19 02:10:12	DetectorPulmon: Workdir exists
+2022-08-19 02:10:12	LAUNCHER: Creating YML file at PruebaMasImagenes/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+2022-08-19 02:10:12	LAUCHER: deploying virtual containers of workflow PruebaMasImagenes
+java -jar Download.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 d1495721d7da9aede9337a6cb243dd5b34eccdacec4a85b42d0e2195e6604bbb 2 1 cinves '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMasImagenes/catalogs/PruebaCat' 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true false 2
+Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 2 out of bounds for length 2
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.init(RobotHelper.java:262)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.downloadCatalog(RobotHelper.java:163)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.prepareCatalog(RobotHelper.java:177)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.prepareCatalog(RobotHelper.java:173)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.prepare(RobotHelper.java:186)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.download(RobotHelper.java:147)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.run(RobotHelper.java:143)
+	at mx.cinvestav.tamps.integracion.gui.RobotDownloader.<init>(RobotDownloader.java:46)
+	at mx.cinvestav.tamps.integracion.gui.RobotDownloader.main(RobotDownloader.java:39)
+2022-08-19 02:10:12	PruebaMasImagenes: executing 
+{ "catalogname": " PruebaCat/PruebaMasImagenes-1660875012696 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"d1495721d7da9aede9337a6cb243dd5b34eccdacec4a85b42d0e2195e6604bbb", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+2022-08-19 02:10:12	stage_ToPNG: waiting
+2022-08-19 02:10:12	stage_DetectorPulmon: waiting
+2022-08-19 02:10:12	stage_Deidentification: waiting
+2022-08-19 02:10:12	stage_Deidentification: WORKING
+2022-08-19 02:10:12	stage_Deidentification: has 1 sources
+2022-08-19 02:10:12	Deidentificationpattern: waiting
+2022-08-19 02:10:12	Deidentificationpattern: running
+2022-08-19 02:10:12	Deidentificationpattern: executing load balancer
+2022-08-19 02:10:13	Deidentificationpattern: load balancer executed in RT = 853 miliseconds
+2022-08-19 02:10:13	Deidentification: waiting
+2022-08-19 02:10:13	Deidentification: running
+2022-08-19 02:10:13	Deidentification: waiting
+2022-08-19 02:10:13	Deidentification: running
+2022-08-19 02:10:13	Deidentification: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+python3 /code/process_dir.py --input /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//PruebaMasImagenes/catalogs/PruebaCat/CT3 --outfolder '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMasImagenes/stage_Deidentification/Deidentificationpattern/Deidentification/' --save dicom
+WARNING No specification, loading default base deid.dicom
+WARNING use detect() --> clean() before saving is possible.
+WARNING use detect() --> clean() before saving is possible.
+2022-08-19 02:10:14	Deidentification: processed 4096 bytes in ST=0.000000 RT = 1211 miliseconds
+2022-08-19 02:10:14	Deidentificationpattern: pattern executed in ST = 2065 miliseconds
+{ "catalogname": " PruebaCat/PruebaMasImagenes-1660875012696/stage_Deidentification-1660875014809 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"114410a2a809cb4b40a26785c4d97e092535430078b1e236dcb735cb8939ad04", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+java -jar Upload.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 d11e4f2bd77e2b0c94e3f4015430c3058faf08c90dd49a270f4e686d2f9747cf IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMasImagenes/stage_Deidentification' cinves true 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true true 4
+2022-08-19 02:10:17	stage_Deidentification: data satage upload in ST = 2440 miliseconds
+2022-08-19 02:10:17	stage_Deidentification: stage executed in ST = 4505 miliseconds
+2022-08-19 02:10:17	stage_ToPNG: WORKING
+2022-08-19 02:10:17	stage_ToPNG: has 1 sources
+2022-08-19 02:10:17	ToPNGpattern: waiting
+2022-08-19 02:10:17	ToPNGpattern: running
+2022-08-19 02:10:17	ToPNGpattern: executing load balancer
+2022-08-19 02:10:17	ToPNGpattern: load balancer executed in RT = 694 miliseconds
+2022-08-19 02:10:17	ToPNG: waiting
+2022-08-19 02:10:17	ToPNG: waiting
+2022-08-19 02:10:17	ToPNG: running
+2022-08-19 02:10:17	ToPNG: running
+2022-08-19 02:10:17	ToPNG: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+python3 /code/dicom2rgb.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMasImagenes//stage_Deidentification/Deidentificationpattern/Deidentification/CT3 /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMasImagenes/stage_ToPNG/ToPNGpattern/ToPNG//CT3
+/usr/local/lib/python3.7/site-packages/pydicom/filereader.py:353: UserWarning: Expected explicit VR, but found implicit VR - using implicit VR for reading
+  warnings.warn(msg + f" - using {found_vr} VR for reading", UserWarning)
+2022-08-19 02:10:20	ToPNG: processed 4096 bytes in ST=0.000000 RT = 2186 miliseconds
+2022-08-19 02:10:20	ToPNGpattern: pattern executed in ST = 2881 miliseconds
+{ "catalogname": " PruebaCat/PruebaMasImagenes-1660875012696/stage_ToPNG-1660875020132 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"114410a2a809cb4b40a26785c4d97e092535430078b1e236dcb735cb8939ad04", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+java -jar Upload.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 2f789fd8d10db378103996394e571230bad6e33c618a127457747cf7263ee3f9 IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMasImagenes/stage_ToPNG' cinves true 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true true 4
+2022-08-19 02:10:22	stage_ToPNG: data satage upload in ST = 2435 miliseconds
+2022-08-19 02:10:22	stage_ToPNG: stage executed in ST = 5317 miliseconds
+2022-08-19 02:10:22	stage_DetectorPulmon: WORKING
+2022-08-19 02:10:22	stage_DetectorPulmon: has 1 sources
+2022-08-19 02:10:22	DetectorPulmonpattern: waiting
+2022-08-19 02:10:22	DetectorPulmonpattern: running
+2022-08-19 02:10:22	DetectorPulmonpattern: executing load balancer
+2022-08-19 02:10:23	DetectorPulmonpattern: load balancer executed in RT = 697 miliseconds
+2022-08-19 02:10:23	DetectorPulmon: waiting
+2022-08-19 02:10:23	DetectorPulmon: waiting
+2022-08-19 02:10:23	DetectorPulmon: running
+2022-08-19 02:10:23	DetectorPulmon: running
+2022-08-19 02:10:23	DetectorPulmon: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+python3 /code/detectorPulmones.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMasImagenes//stage_ToPNG/ToPNGpattern/ToPNG/CT3 /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMasImagenes/stage_DetectorPulmon/DetectorPulmonpattern/DetectorPulmon//CT3
+2022-08-19 02:10:24.192902: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2022-08-19 02:10:24.192930: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-08-19 02:10:25.460576: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-08-19 02:10:25.462133: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2022-08-19 02:10:25.462163: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+2022-08-19 02:10:25.462181: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] no NVIDIA GPU device is present: /dev/nvidia0 does not exist
+2022-08-19 02:10:28.083311: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 963379200 exceeds 10% of free system memory.
+2022-08-19 02:10:28.171176: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 963379200 exceeds 10% of free system memory.
+WARNING:tensorflow:From /code/models/research/object_detection/utils/model_util.py:57: Tensor.experimental_ref (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use ref() instead.
+2022-08-19 02:10:30.344026: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 963379200 exceeds 10% of free system memory.
+2022-08-19 02:10:30.428833: W tensorflow/core/framework/cpu_allocator_impl.cc:80] Allocation of 963379200 exceeds 10% of free system memory.
+2022-08-19 02:10:32	DetectorPulmon: processed 4096 bytes in ST=0.000000 RT = 9110 miliseconds
+2022-08-19 02:10:32	DetectorPulmonpattern: pattern executed in ST = 9808 miliseconds
+{ "catalogname": " PruebaCat/PruebaMasImagenes-1660875012696/stage_DetectorPulmon-1660875032376 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"114410a2a809cb4b40a26785c4d97e092535430078b1e236dcb735cb8939ad04", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+java -jar Upload.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 d65b785713216a4faf98a10f9edfcc32bb84f53470009c53bbc31885c305b986 IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMasImagenes/stage_DetectorPulmon' cinves true 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true true 4
+2022-08-19 02:10:34	stage_DetectorPulmon: data satage upload in ST = 2330 miliseconds
+2022-08-19 02:10:34	stage_DetectorPulmon: stage executed in ST = 12139 miliseconds

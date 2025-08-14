@@ -1,0 +1,53 @@
+2021-08-26 05:41:56	PARSER: Configured single cleaning
+2021-08-26 05:41:56	PARSER: Configured single meshing
+2021-08-26 05:41:56	PARSER: Configured single dicomtojpg
+2021-08-26 05:41:56	PARSER: Configured pattern cleaningpattern
+2021-08-26 05:41:56	PARSER: Configured pattern meshingpattern
+2021-08-26 05:41:56	PARSER: Configured pattern dicomtojpgpattern
+2021-08-26 05:41:56	PARSER: Configured stage stage_cleaning
+2021-08-26 05:41:56	PARSER: Configured stage stage_meshing
+2021-08-26 05:41:56	PARSER: Configured stage stage_dicomtojpg
+2021-08-26 05:41:56	PARSER: Configured workflow INRProcessing
+Your PATH is: /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app/
+2021-08-26 05:41:56	LAUCHER: Coupling stages and building blocks
+2021-08-26 05:41:56	INRProcessing: Workdir INRProcessing
+2021-08-26 05:41:56	INRProcessing: Workdir exists
+2021-08-26 05:41:56	INRProcessing: Stage stage_cleaning added
+2021-08-26 05:41:56	stage_cleaning: Workdir stage_cleaning
+2021-08-26 05:41:56	stage_cleaning: Workdir exists
+2021-08-26 05:41:56	stage_cleaning: Added sink stage_meshing
+2021-08-26 05:41:56	stage_cleaning: Added building block cleaningpattern
+2021-08-26 05:41:56	cleaningpattern: Workdir cleaningpattern
+2021-08-26 05:41:56	cleaningpattern: Workdir exists
+2021-08-26 05:41:56	cleaning: Workdir cleaning
+2021-08-26 05:41:56	cleaning: Workdir exists
+2021-08-26 05:41:56	INRProcessing: Stage stage_meshing added
+2021-08-26 05:41:56	stage_meshing: Workdir stage_meshing
+2021-08-26 05:41:56	stage_meshing: Workdir exists
+2021-08-26 05:41:56	stage_meshing: Added source stage_cleaning
+2021-08-26 05:41:56	stage_meshing: Added sink stage_dicomtojpg
+2021-08-26 05:41:56	stage_meshing: Added building block meshingpattern
+2021-08-26 05:41:56	meshingpattern: Workdir meshingpattern
+2021-08-26 05:41:56	meshingpattern: Workdir exists
+2021-08-26 05:41:56	meshing: Workdir meshing
+2021-08-26 05:41:56	meshing: Workdir exists
+2021-08-26 05:41:56	INRProcessing: Stage stage_dicomtojpg added
+2021-08-26 05:41:56	stage_dicomtojpg: Workdir stage_dicomtojpg
+2021-08-26 05:41:56	stage_dicomtojpg: Workdir exists
+2021-08-26 05:41:56	stage_dicomtojpg: Added source stage_meshing
+2021-08-26 05:41:56	stage_dicomtojpg: Added building block dicomtojpgpattern
+2021-08-26 05:41:56	dicomtojpgpattern: Workdir dicomtojpgpattern
+2021-08-26 05:41:56	dicomtojpgpattern: Workdir exists
+2021-08-26 05:41:56	dicomtojpg: Workdir dicomtojpg
+2021-08-26 05:41:56	dicomtojpg: Workdir exists
+2021-08-26 05:41:56	LAUNCHER: Creating YML file at INRProcessing/docker-compose.yml
+dicomtojpg
+meshing
+cleaning
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/INRProcessing -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/INRProcessing/docker-compose.yml  up -d --build --scale meshing=4  --scale dicomtojpg=4  --scale cleaning=4  2> /dev/null
+2021-08-26 05:41:56	LAUCHER: deploying virtual containers of workflow INRProcessing
+2021-08-26 05:41:57	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/INRProcessing -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/INRProcessing/docker-compose.yml  down
+
+

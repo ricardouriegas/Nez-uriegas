@@ -1,0 +1,373 @@
+version: "3"
+services:
+  #############
+  # Servicios de Nez
+  ############
+  valuechain: #Interfaz gráfica para la construcción de sistemas de e-salud
+    image: ddomizzi/guinez:v1
+    # build:
+    #     context: ./valuechain
+    #     dockerfile: Dockerfile
+    command: ""
+    tty: true
+    restart: unless-stopped
+    ports:
+      - 22101:80
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "psql-data-vc:/var/lib/postgresql/9.5/main"
+      - "./valuechain/www/:/var/www/html"
+      - "./deployer/app/results/:/var/www/html/resultsdeployment"
+      - "./valuechain/logs:/logs"
+    environment:
+      SUPERVISION_HOST: "192.168.0.4"
+      SUPERVISION_PORT: 22000
+      WEB_PORT: 22005
+      AUTH_HOST: auth
+      APIGATEWAY_HOST: apigateway
+  value-chain-api: #API para la construcción de sistemas de e-salud
+    image: ddomizzi/nezapi:v1
+    #build: ./valuechain_api/api
+    tty: true
+    restart: unless-stopped
+    expose:
+      - 80
+    ports:
+      - "20510:80"
+    volumes:
+      - "./valuechain_api/api/app/:/var/www/html/"
+      - "./deployer/app/cfg-files/:/var/www/html/geb/cfg-files/"
+      - "./deployer/app/results/:/var/www/html/geb/results/"
+      - "./valuechain_api/logs:/var/www/html/logs/deployment/"
+    environment:
+      AUTH_HOST: auth
+      PUBSUB_HOST: pub_sub
+      DB_HOST: value-chain-api-db
+      DB_PORT: 5432
+      DB_NAME: valuechain
+      DB_USER: postgres
+      DB_PASS: postgres
+      DEPLOYER_HOST: "deployer"
+      DEPLOYER_PORT: 5001
+  deployer: #Servicio para el despliegue de sistemas de e-salud
+    build: ./deployer
+    image: ddomizzi/deployernez:v1
+    command: "python3 /home/app/run.py"
+    tty: true
+    restart: unless-stopped
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./deployer/app:/home/app"
+      - "/home/domizzi/Documents/GitHub/MuyalNezEntregable/CodigoFuente/deployer/app/:/home/domizzi/Documents/GitHub/MuyalNezEntregable/CodigoFuente/deployer/app/"
+    environment:
+      FLASK_ENV: development
+      HOST_PATH: /home/domizzi/Documents/GitHub/MuyalNezEntregable/CodigoFuente/deployer/app/
+  value-chain-api-db: #Base de datos del servicio de construcción
+    #build: ./valuechain_api/api/db
+    image: ddomizzi/dbnez:v1
+    tty: true
+    restart: unless-stopped
+    expose:
+      - "5432"
+    #ports:
+    #  - "5432:5432"
+    volumes:
+      - "psql-data-vc-api:/var/lib/postgresql/data"
+    environment:      
+      POSTGRES_DB: valuechain
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+  container-manager: #Monitor de contenedores virtuales
+    #build: ./cmanager
+    image: ddomizzi/cmanagernez:v1
+    command: python run.py
+    tty: true
+    restart: unless-stopped
+    ports:
+      - 22100:5000
+    # networks:
+    #   - registry-net-ext
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    #  - "sqlt-data-cm:/home/app/db"
+      - "./cmanager/src:/home"
+    environment: 
+      REGISTRY_HOST: "registry"
+      REGISTRY_PORT: 5000
+      VALUECHAIN_HOST: "value-chain-api"
+      VALUECHAIN_PORT: 80
+      GATEWAY_HOST: "apigateway"
+      GATEWAY_PORT: 80
+  #############
+  # Servicios de Painal
+  ############
+  apigateway: #API de Painal
+    image: ddomizzi/gateway:muyal
+    depends_on:
+      - auth
+    ports:
+      - "20500:80"
+    environment:
+      AUTH_HOST: auth
+      PUB_SUB_HOST: pub_sub
+      #METADATA_HOST: metadata
+    volumes:
+      - ./APIGateway/APIGateway/:/var/www/html/
+    restart: always
+  auth: #Authentication service
+    image: ddomizzi/auth:muyal
+    # docker build -f Auth -t apache:php_ssmtp .
+    depends_on:
+      - db_auth
+    expose:
+      - "80"
+    environment:
+      DB_USER: muyalmanager
+      DB_PASSWORD: niCi7unamltrubrlJusp
+      DB_NAME: auth
+      DB_HOST: db_auth
+      DB_PORT: 5432
+      AUTH_PORT: 47011
+      FRONTEND_PORT: 30004
+      SERVER_PORT: 30500
+      FRONTEND: localhost:22101/dashboard
+    volumes:
+      - ./auth/auth/:/var/www/html/
+    restart: always
+
+  db_auth: #Authentication database
+    image: ddomizzi/databaseauth:muyal
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DB: auth
+      POSTGRES_USER: muyalmanager
+      POSTGRES_PASSWORD: niCi7unamltrubrlJusp
+    volumes:
+      - psql-auth:/var/lib/postgresql/data
+      - ./auth/schema-sql/auth.sql:/docker-entrypoint-initdb.d/auth.sql
+    restart: always
+  frontend: #Interfez gráfica
+    image: ddomizzi/frontend:muyal
+    ports:
+      - "20004:80"
+    depends_on:
+      - auth
+      - pub_sub
+      - apigateway
+    environment:
+      AUTH_HOST: auth
+      PUB_SUB_HOST: pub_sub
+      APIGATEWAY_HOST: apigateway
+      METADATA_HOST: metadata
+    volumes:
+      - ./frontend/frontend/:/var/www/html/
+    restart: always
+  db_pub_sub: #Base de datos del servicio de publicación y suscripción
+    image: ddomizzi/dbpubsub:muyal
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DB: pub_sub
+      POSTGRES_USER: muyalmanager
+      POSTGRES_PASSWORD: sicuhowradRaxi5R2ke6
+    volumes:
+      - psql-pubsub:/var/lib/postgresql/data
+      - ./pub_sub/schema-sql/pub_sub.sql:/docker-entrypoint-initdb.d/pub_sub.sql
+    restart: always
+  pub_sub: #Servicio de pub/sub 
+    image: ddomizzi/pubsub:muyal
+    depends_on:
+      - db_pub_sub
+    expose:
+      - "80"
+    environment:
+      DB_USER: muyalmanager
+      DB_PASSWORD: sicuhowradRaxi5R2ke6
+      DB_NAME: pub_sub
+      DB_HOST: db_pub_sub
+      DB_PORT: 5432
+      AUTH_HOST: auth
+      METADATA_HOST: metadata
+      APIGATEWAY: apigateway
+    volumes:
+      - ./pub_sub/pub_sub/:/var/www/html/
+    restart: always
+  db_metadata: #Base de datos del servicio de metadatos 
+    image: ddomizzi/dbmetadata:muyal
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_DB: multi
+      POSTGRES_USER: muyalmanager
+      POSTGRES_PASSWORD: f0l34lraSoTRumoGitRo
+    volumes:
+      - psql-metadata:/var/lib/postgresql/data
+      - ./metadata/schema-sql/multi_07mar2018.sql:/docker-entrypoint-initdb.d/1-multi.sql
+    restart: always
+  metadata: #Servicio de metadatos 
+    image: ddomizzi/metadata:muyal
+    depends_on:
+      - db_metadata
+      - balancing
+      - storage1
+    ports:
+      - "20505:80"
+    expose:
+      - "80"
+    environment:
+      DB_USER: muyalmanager
+      DB_PASSWORD: f0l34lraSoTRumoGitRo
+      DB_HOST: db_metadata
+      DB_NAME: multi
+      DB_PORT: 5432
+      PUB_SUB_HOST: pub_sub
+      AUTH_HOST: auth
+      URL: "http://10.118.28.109:20505"
+    volumes:
+      - ./metadata/metadata/:/var/www/html/
+    restart: always
+  balancing: #Servicio de balanceo de carga 
+    image: ddomizzi/balancing:muyal
+    expose:
+      - "80"
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+    volumes:
+      - ./balancing/balancing/:/var/www/html/
+    restart: always
+  ######################
+  # Servicios de almacenamiento
+  ######################
+  storage1:
+    image: ddomizzi/storage:muyal
+    ports:
+        - "20006:80"
+    #expose:
+        # - "80"
+    volumes:
+        - ./storage/storage1/:/var/www/html
+        - ./storage/storage1/c:/var/www/html/c
+        - ./storage/storage1/abekeys:/var/www/html/abekeys
+    environment:
+        NODE_ID: 1
+        FOLDER_UPLOADS: c/
+        FOLDER_ABEKEYS: abekeys/
+        URL_METADATA: metadata
+
+  storage2:
+    image: ddomizzi/storage:muyal
+    ports:
+        - "20007:80"
+    #expose:
+        # - "80"
+    volumes:
+        - ./storage/storage2/:/var/www/html
+        - ./storage/storage2/c:/var/www/html/c
+        - ./storage/storage2/abekeys:/var/www/html/abekeys
+    environment:
+        NODE_ID: 2
+        FOLDER_UPLOADS: c/
+        FOLDER_ABEKEYS: abekeys/
+        URL_METADATA: metadata
+  storage3:
+    image: ddomizzi/storage:muyal
+    ports:
+        - "20008:80"
+    #expose:
+        # - "80"
+    volumes:
+        - ./storage/storage3/:/var/www/html
+        - ./storage/storage3/c:/var/www/html/c
+        - ./storage/storage3/abekeys:/var/www/html/abekeys
+    environment:
+        NODE_ID: 3
+        FOLDER_UPLOADS: c/
+        FOLDER_ABEKEYS: abekeys/
+        URL_METADATA: metadata
+  storage4:
+    image: ddomizzi/storage:muyal
+    ports:
+        - "20009:80"
+    #expose:
+        # - "80"
+    volumes:
+        - ./storage/storage4/:/var/www/html
+        - ./storage/storage4/c:/var/www/html/c
+        - ./storage/storage4/abekeys:/var/www/html/abekeys
+    environment:
+        NODE_ID: 4
+        FOLDER_UPLOADS: c/
+        FOLDER_ABEKEYS: abekeys/
+        URL_METADATA: metadata
+  storage5:
+    image: ddomizzi/storage:muyal
+    ports:
+        - "20010:80"
+    #expose:
+        # - "80"
+    volumes:
+        - ./storage/storage5/:/var/www/html
+        - ./storage/storage5/c:/var/www/html/c
+        - ./storage/storage5/abekeys:/var/www/html/abekeys
+    environment:
+        NODE_ID: 5
+        FOLDER_UPLOADS: c/
+        FOLDER_ABEKEYS: abekeys/
+        URL_METADATA: metadata
+        
+#############################
+# Chimalli
+############################
+  decipher:
+    container_name: decipher
+    image: ddomizzi/decipher:muyal
+    tty: true
+    restart: unless-stopped
+    volumes:
+      - ./frontend/frontend/painal/downloads:/app/downloads
+  segmenter: #Servicio de codificación de datos con IDA
+    container_name: segmenter
+    image: ddomizzi/kulla:code
+    command: "tail -f /dev/null" #"python run.py"
+    tty: true
+    restart: unless-stopped
+    volumes:
+      #- "/home/hugo/2023/painal-chimalli/Muyal-Painal-Chimalli/deployer/app/:/home/hugo/2023/painal-chimalli/Muyal-Painal-Chimalli/deployer/app/"
+      - "./deployer/app/dispersals/uploads/c1/:/home/Volume/chunk1/"
+      - "./deployer/app/dispersals/uploads/c2/:/home/Volume/chunk2/"
+      - "./deployer/app/dispersals/uploads/c3/:/home/Volume/chunk3/"
+      - "./deployer/app/dispersals/uploads/c4/:/home/Volume/chunk4/"
+      - "./deployer/app/dispersals/uploads/c5/:/home/Volume/chunk5/"
+  merger: #Servicio de decodificación de datos con IDA
+    container_name: merger
+    image: ddomizzi/merger:muyal
+    command: "tail -f /dev/null" #"python run.py"
+    tty: true
+    restart: unless-stopped
+    volumes:
+      #- "/home/hugo/2023/painal-chimalli/Muyal-Painal-Chimalli/deployer/app/:/home/hugo/2023/painal-chimalli/Muyal-Painal-Chimalli/deployer/app/"
+      - "./deployer/app/dispersals/downloads/c1/:/home/Volume/Results/chunk1/"
+      - "./deployer/app/dispersals/downloads/c2/:/home/Volume/Results/chunk2/"
+      - "./deployer/app/dispersals/downloads/c3/:/home/Volume/Results/chunk3/"
+      - "./deployer/app/dispersals/downloads/c4/:/home/Volume/Results/chunk4/"
+      - "./deployer/app/dispersals/downloads/c5/:/home/Volume/Results/chunk5/"  
+  
+volumes:  
+  psql-data-vc:
+    driver: local
+  sqlt-data-cm:
+    driver: local
+  psql-metadata:
+    driver: local
+  psql-pubsub:
+    driver: local
+  psql-data-vc-api:
+    driver: local
+  mysql-db-data:
+    driver: local
+  psql-auth:
+    driver: local
+  psql-vc:
+    driver: local

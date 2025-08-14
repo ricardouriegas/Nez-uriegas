@@ -1,0 +1,20 @@
+Fecha, Hora, PathOrigen, Nombre, Segmentos, TiempoReadData, TiempoWriteMemory ,Comando, TiempoServicioFiltroSiguiente, Trf 
+201909, 212837, /home/dsanchez/transform/file1.txt, file1.txt , 1, 1, 2,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 1000000 0 file1.txt, 148, 153
+201909, 213003, /home/dsanchez/transform/file2.txt, file2.txt , 1, 0, 0,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 100000 32768 file2.txt, 24, 24
+201909, 213127, /home/dsanchez/Deduplication System/readFiles/conf.cfg, 1
+201909, 213136, /home/dsanchez/Deduplication System/readFiles/config.cfg, config.cfg , 1, 0, 0,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 208 0 config.cfg, 5, 7
+201909, 213634, /home/dsanchez/dagonstar/iot/iot_project/service/mongodbdata/index-5-7893198808790796289.wt, index-5-7893198808790796289.wt , 2, 0, 0,  /home/KB-SegmentadorIDA/PL_SegmentadorMemoria_SHM 45056 229382 index-5-7893198808790796289.wt 2,  14, 14
+201909, 141223, /home/domizzi/Downloads/docker/2019_presentacion_protocolo_doctorado_dante (1).pdf, 2019_presentacion_protocolo_doctorado_dante (1).pdf , 1, 0, 0,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 1188214 0 2019_presentacion_protocolo_doctorado_dante (1).pdf, 1, 10
+201909, 141224, /home/domizzi/Downloads/docker/Curso_Definiciones.pdf, Curso_Definiciones.pdf , 1, 0, 0,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 101729 32768 Curso_Definiciones.pdf, 36, 36
+201909, 141644, /home/domizzi/Downloads/docker/2019_presentacion_protocolo_doctorado_dante (1).pdf, 2019_presentacion_protocolo_doctorado_dante (1).pdf , 1, 0, 0,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 1188214 65536 2019_presentacion_protocolo_doctorado_dante (1).pdf, 1, 2
+201909, 141947, /home/domizzi/Downloads/docker/2019_presentacion_protocolo_doctorado_dante (1).pdf, 2019_presentacion_protocolo_doctorado_dante (1).pdf , 1, 0, 1,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 1188214 98304 2019_presentacion_protocolo_doctorado_dante (1).pdf, 0, 2
+201909, 142010, /home/domizzi/Downloads/docker/2019_presentacion_protocolo_doctorado_dante (1).pdf, 2019_presentacion_protocolo_doctorado_dante (1).pdf , 1, 0, 0,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 1188214 131072 2019_presentacion_protocolo_doctorado_dante (1).pdf, 1, 2
+201909, 142529, 2019_presentacion_protocolo_doctorado_dante (1).pdf, 0
+201909, 142558, 2019_presentacion_protocolo_doctorado_dante (1).pdf, 0
+201909, 142610, /home/domizzi/Downloads/docker/2019_presentacion_protocolo_doctorado_dante (1).pdf, 2019_presentacion_protocolo_doctorado_dante (1).pdf , 1, 2, 3,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 1188214 163840 '2019_presentacion_protocolo_doctorado_dante (1).pdf', 151, 158
+201909, 194303, /home/domizzi/Downloads/docker/AlgoritmodePaxos_10_58_54_V2.odp, AlgoritmodePaxos_10_58_54_V2.odp , 1, 0, 0,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 117980 0 'AlgoritmodePaxos_10_58_54_V2.odp', 32, 55
+201909, 194303, /home/domizzi/Downloads/docker/docker/code.deb, code.deb , 1, 27, 37,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 54341964 32768 'code.deb', 5847, 5922
+201909, 194310, /home/domizzi/Downloads/docker/docker/seminario2.pdf, seminario2.pdf , 1, 1, 5,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 2673730 65536 'seminario2.pdf', 338, 346
+201909, 194311, /home/domizzi/Downloads/docker/docker/cuestionario EGRESADO (1).doc, cuestionario EGRESADO (1).doc , 1, 0, 0,  /home/KB-SegmentadorIDA/PL_Ida_O1FS4N 44544 98304 'cuestionario EGRESADO (1).doc', 10, 10
+202108, 224152, /home/domizzi/Documents/INRDATA/P5/20190121/CT1/1anonima, 0
+202108, 224549, /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app/results/NewService/stage_Meshin256/Meshin256pattern/Meshin256/CT2.stl, 0

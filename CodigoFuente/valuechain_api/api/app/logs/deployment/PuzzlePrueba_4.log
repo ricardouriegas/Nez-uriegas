@@ -1,0 +1,73 @@
+2022-09-27 00:08:25	PARSER: Configured single Deidentification
+2022-09-27 00:08:25	PARSER: Configured single ToPNG
+2022-09-27 00:08:25	PARSER: Configured single DetectorPulmon
+2022-09-27 00:08:25	PARSER: Configured pattern Deidentificationpattern
+2022-09-27 00:08:25	PARSER: Configured pattern ToPNGpattern
+2022-09-27 00:08:25	PARSER: Configured pattern DetectorPulmonpattern
+2022-09-27 00:08:25	PARSER: Configured stage stage_Deidentification
+2022-09-27 00:08:25	PARSER: Configured stage stage_ToPNG
+2022-09-27 00:08:25	PARSER: Configured stage stage_DetectorPulmon
+2022-09-27 00:08:25	PARSER: Configured workflow PuzzlePrueba
+2022-09-27 00:08:25	LAUCHER: Coupling stages and building blocks
+2022-09-27 00:08:25	PuzzlePrueba: Workdir PuzzlePrueba
+2022-09-27 00:08:25	PuzzlePrueba: Workdir created
+2022-09-27 00:08:25	PuzzlePrueba: Stage stage_Deidentification added
+2022-09-27 00:08:25	stage_Deidentification: Workdir stage_Deidentification
+2022-09-27 00:08:25	stage_Deidentification: Workdir created
+2022-09-27 00:08:25	stage_Deidentification: Added sink stage_ToPNG
+2022-09-27 00:08:25	stage_Deidentification: Added building block Deidentificationpattern
+2022-09-27 00:08:25	Deidentificationpattern: Workdir Deidentificationpattern
+2022-09-27 00:08:25	Deidentificationpattern: Workdir created
+2022-09-27 00:08:25	Deidentification: Workdir Deidentification
+2022-09-27 00:08:25	Deidentification: Workdir created
+2022-09-27 00:08:25	PuzzlePrueba: Stage stage_ToPNG added
+2022-09-27 00:08:25	stage_ToPNG: Workdir stage_ToPNG
+2022-09-27 00:08:25	stage_ToPNG: Workdir created
+2022-09-27 00:08:25	stage_ToPNG: Added source stage_Deidentification
+2022-09-27 00:08:25	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-09-27 00:08:25	stage_ToPNG: Added building block ToPNGpattern
+2022-09-27 00:08:25	ToPNGpattern: Workdir ToPNGpattern
+2022-09-27 00:08:25	ToPNGpattern: Workdir created
+2022-09-27 00:08:25	ToPNG: Workdir ToPNG
+2022-09-27 00:08:25	ToPNG: Workdir created
+2022-09-27 00:08:25	PuzzlePrueba: Stage stage_DetectorPulmon added
+2022-09-27 00:08:25	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-09-27 00:08:25	stage_DetectorPulmon: Workdir created
+2022-09-27 00:08:25	stage_DetectorPulmon: Added source stage_ToPNG
+2022-09-27 00:08:25	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-09-27 00:08:25	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-09-27 00:08:25	DetectorPulmonpattern: Workdir created
+2022-09-27 00:08:25	DetectorPulmon: Workdir DetectorPulmon
+2022-09-27 00:08:25	DetectorPulmon: Workdir created
+2022-09-27 00:08:25	LAUNCHER: Creating YML file at PuzzlePrueba/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/docker-compose.yml  up -d --build --scale ToPNG=2  --scale DetectorPulmon=2  --scale Deidentification=2  2> /dev/null
+2022-09-27 00:08:25	LAUCHER: deploying virtual containers of workflow PuzzlePrueba
+2022-09-27 00:08:28	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/docker-compose.yml  down
+
+
+/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PuzzlePrueba/stages.json
+Traceback (most recent call last):
+  File "normas/main.py", line 38, in <module>
+    main(cfg_path, json_path, yml_path, f"{output_path}")
+  File "normas/main.py", line 14, in main
+    compliance.compliance(cfg, js, yml, output_path)
+  File "/home/app/normas/compliance.py", line 58, in compliance
+    reports.generate_checklist_graph(COBIT, percentage, output_path)
+  File "/home/app/normas/reports.py", line 52, in generate_checklist_graph
+    fig.write_image(f'{output_path}/{checklist["name"].strip()}_compliance_graph.png')
+  File "/usr/local/lib/python3.6/dist-packages/plotly/basedatatypes.py", line 3821, in write_image
+    return pio.write_image(self, *args, **kwargs)
+  File "/usr/local/lib/python3.6/dist-packages/plotly/io/_kaleido.py", line 275, in write_image
+    engine=engine,
+  File "/usr/local/lib/python3.6/dist-packages/plotly/io/_kaleido.py", line 139, in to_image
+    """
+ValueError: 
+Image export using the "kaleido" engine requires the kaleido package,
+which can be installed using pip:
+    $ pip install -U kaleido
+

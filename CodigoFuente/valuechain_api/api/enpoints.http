@@ -1,0 +1,213 @@
+@token = 4c083032e00dadc37c57a2c6a2d943a4a18de695228f59c413f093e1dcc6ab19
+@token2 = 3ca43d1684030960e7d5f20f9b5d76e66a5bbf7494debce52f43b35b9ecc9237
+
+### TEST HOME
+GET http://127.0.0.1:22102/api/v1 HTTP/1.1
+
+
+
+### CREATE USER
+POST http://127.0.0.1:22102/api/v1/users?access_token={{token}} HTTP/1.1
+
+### GET USER
+GET http://127.0.0.1:22102/api/v1/users?access_token={{token}} HTTP/1.1
+
+### UPDATE USER
+PUT http://127.0.0.1:22102/api/v1/users?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "new_token": "{{token2}}"
+}
+
+### DELETE USER
+DELETE http://127.0.0.1:22102/api/v1/users?access_token={{token}} HTTP/1.1
+
+
+
+### CREATE BUILDINGBLOCK
+POST http://127.0.0.1:22102/api/v1/buildingblocks?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "test bb",
+    "command": "ls",
+    "image": "image",
+    "port": "8080"
+}
+
+### GET BUILDINGBLOCKS
+GET http://127.0.0.1:22102/api/v1/buildingblocks?access_token={{token}} HTTP/1.1
+
+### UPDATE BUILDINGBLOCK
+PUT http://127.0.0.1:22102/api/v1/buildingblocks?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "test bb changed",
+    "command": "ls changed",
+    "image": "image changed",
+    "port": "8081"
+}
+
+### DELETE BUILDINGBLOCK
+DELETE http://127.0.0.1:22102/api/v1/buildingblocks?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1
+}
+
+
+
+
+### CREATE STAGE
+POST http://127.0.0.1:22102/api/v1/stages?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "test st",
+    "source": "source",
+    "sink": "sink",
+    "transformation": "transf"
+}
+
+### GET STAGES
+GET http://127.0.0.1:22102/api/v1/stages?access_token={{token}} HTTP/1.1
+
+### UPDATE STAGE
+PUT http://127.0.0.1:22102/api/v1/stages?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "test st changed",
+    "source": "source changed",
+    "sink": "sink changed",
+    "transformation": "transf changed"
+}
+
+### DELETE STAGE
+DELETE http://127.0.0.1:22102/api/v1/stages?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1
+}
+
+### UPDATE STAGE (ADD BB TO STAGE: transformation)
+PUT http://127.0.0.1:22102/api/v1/stages/transformation?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 27,
+    "transformation": "transf changed"
+}
+
+
+
+
+### CREATE WORKFLOW
+POST http://127.0.0.1:22102/api/v1/workflows?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "test wf",
+    "status": 1,
+    "stages": "one two three",
+    "rawgraph": ""
+}
+
+### GET WORKFLOWS
+GET http://127.0.0.1:22102/api/v1/workflows?access_token={{token}} HTTP/1.1
+
+### UPDATE WORKFLOW
+PUT http://127.0.0.1:22102/api/v1/workflows?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "test wf changed",
+    "status": 0,
+    "stages": "one two three four",
+    "rawgraph": ""
+}
+
+### DELETE WORKFLOW
+DELETE http://127.0.0.1:22102/api/v1/workflows?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 3
+}
+
+### GET SINGLE WORKFLOW
+GET http://127.0.0.1:22102/api/v1/workflows/6?access_token={{token}} HTTP/1.1
+
+### RUN WORKFLOW
+POST http://127.0.0.1:22102/api/v1/workflows/run?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": 1
+}
+
+### READ WORKFLOW LOG
+POST http://127.0.0.1:22102/api/v1/workflows/log?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "testing"
+}
+
+
+### PUBLISH WORKFLOW TO USER
+POST http://127.0.0.1:22102/api/v1/workflows/publish/to_user?access_token={{token}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "idworkflow": "1",
+    "iduser": "{{token2}}"
+}
+
+### GET PUBLISHED WORKFLOWS FROM ME (PENDING AND APPROVED)
+GET http://127.0.0.1:22102/api/v1/workflows/published/from_me?access_token={{token}} HTTP/1.1
+
+### RESPONSE
+[
+  {
+    "idpub": 2,
+    "idworkflow": 1,
+    "iduser": 2,
+    "subscribed": true,
+    "wfname": "testing",
+    "stages": "st1 st2 st3 "
+  }
+]
+
+### SUBSCRIBE TO PUBLISHED WORKFLOW
+POST http://127.0.0.1:22102/api/v1/workflows/subscribe/to_workflow?access_token={{token2}} HTTP/1.1
+Content-Type: application/json
+
+{
+    "idpublish": "2"
+}
+
+### GET SUBSCRIBED WORKFLOWS TO ME (PENDING AND APPROVED)
+GET http://127.0.0.1:22102/api/v1/workflows/subscribed/to_me?access_token={{token2}} HTTP/1.1
+
+### RESPONSE
+[
+  {
+    "idpub": 2,
+    "idworkflow": 1,
+    "iduser": 2,
+    "subscribed": true,
+    "wfname": "testing",
+    "owner": 1,
+    "stages": "st1 st2 st3 "
+  }
+]
+
+### PUBLISH WORKFLOW TO ORGANIZATION

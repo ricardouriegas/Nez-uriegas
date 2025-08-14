@@ -1,0 +1,65 @@
+2023-03-02 15:33:57	PARSER: Configured single Anonimizacion
+2023-03-02 15:33:57	PARSER: Configured single ToRGB
+2023-03-02 15:33:57	PARSER: Configured single DetectorPulmon
+2023-03-02 15:33:57	PARSER: Configured pattern Anonimizacionpattern
+2023-03-02 15:33:57	PARSER: Configured pattern ToRGBpattern
+2023-03-02 15:33:57	PARSER: Configured pattern DetectorPulmonpattern
+2023-03-02 15:33:57	PARSER: Configured stage stage_Anonimizacion
+2023-03-02 15:33:57	PARSER: Configured stage stage_ToRGB
+2023-03-02 15:33:57	PARSER: Configured stage stage_DetectorPulmon
+2023-03-02 15:33:57	PARSER: Configured workflow TestPuzzle
+2023-03-02 15:33:57	LAUCHER: Coupling stages and building blocks
+2023-03-02 15:33:57	TestPuzzle: Workdir TestPuzzle
+2023-03-02 15:33:57	TestPuzzle: Workdir created
+2023-03-02 15:33:57	TestPuzzle: Stage stage_Anonimizacion added
+2023-03-02 15:33:57	stage_Anonimizacion: Workdir stage_Anonimizacion
+2023-03-02 15:33:57	stage_Anonimizacion: Workdir created
+2023-03-02 15:33:57	stage_Anonimizacion: Added sink stage_ToRGB
+2023-03-02 15:33:57	stage_Anonimizacion: Added building block Anonimizacionpattern
+2023-03-02 15:33:57	Anonimizacionpattern: Workdir Anonimizacionpattern
+2023-03-02 15:33:57	Anonimizacionpattern: Workdir created
+2023-03-02 15:33:57	Anonimizacion: Workdir Anonimizacion
+2023-03-02 15:33:57	Anonimizacion: Workdir created
+2023-03-02 15:33:57	TestPuzzle: Stage stage_ToRGB added
+2023-03-02 15:33:57	stage_ToRGB: Workdir stage_ToRGB
+2023-03-02 15:33:57	stage_ToRGB: Workdir created
+2023-03-02 15:33:57	stage_ToRGB: Added source stage_Anonimizacion
+2023-03-02 15:33:57	stage_ToRGB: Added sink stage_DetectorPulmon
+2023-03-02 15:33:57	stage_ToRGB: Added building block ToRGBpattern
+2023-03-02 15:33:57	ToRGBpattern: Workdir ToRGBpattern
+2023-03-02 15:33:57	ToRGBpattern: Workdir created
+2023-03-02 15:33:57	ToRGB: Workdir ToRGB
+2023-03-02 15:33:57	ToRGB: Workdir created
+2023-03-02 15:33:57	TestPuzzle: Stage stage_DetectorPulmon added
+2023-03-02 15:33:57	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2023-03-02 15:33:57	stage_DetectorPulmon: Workdir created
+2023-03-02 15:33:57	stage_DetectorPulmon: Added source stage_ToRGB
+2023-03-02 15:33:57	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2023-03-02 15:33:57	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2023-03-02 15:33:57	DetectorPulmonpattern: Workdir created
+2023-03-02 15:33:57	DetectorPulmon: Workdir DetectorPulmon
+2023-03-02 15:33:57	DetectorPulmon: Workdir created
+2023-03-02 15:33:57	LAUNCHER: Creating YML file at TestPuzzle/docker-compose.yml
+ToRGB
+DetectorPulmon
+Anonimizacion
+docker-compose --log-level ERROR -p /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle -f /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle/docker-compose.yml  up -d --build --scale DetectorPulmon=2  --scale ToRGB=2  --scale Anonimizacion=2  2> /dev/null
+2023-03-02 15:33:57	LAUCHER: deploying virtual containers of workflow TestPuzzle
+2023-03-02 15:33:59	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle -f /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle/docker-compose.yml  down
+
+
+/home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle/stages.json
+docker-compose --log-level ERROR -p /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle -f /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle/docker-compose.yml  ps -q
+docker inspect --format='{{.Name}}' 48fcf099055bf873893502df1cd4e893b2ce5bcf94658ba0f2103402d0754ec0
+docker inspect --format='{{.Name}}' 697b0fa3ef1c7cda9a2fca8b711a64c58a66348a1e749ea0e61a1509b31bdcdb
+docker inspect --format='{{.Name}}' 63ed8e0e9bace9cbf845bc5031ad561f4a54b94208807b9fc835398887b70aeb
+docker inspect --format='{{.Name}}' 9cbd62651cb7ee55c9f08f78cea3db71ed27c2065f698ff7063ae2ee67556822
+docker inspect --format='{{.Name}}' 91a3252c739b4ae0efe821bcec6aa9777fe90cdfcda19ba3c97b11d75604453b
+docker inspect --format='{{.Name}}' e83eeeba78cdf969e058e993a7c71741f1756076a32acf7b3f13835128826b03
+docker inspect --format='{{.Name}}' 9f946cd0ef58316153431b0e1525d186eae41112eb703401585319dca2d497b1
+docker inspect --format='{{.Name}}' 26666ee8ebed0faf8107de021b1fa85df5448d3aabb338476d53230db5ce9068
+docker inspect --format='{{.Name}}' 156e39bf2450e703650ea969fcdcf568485b36e4113b2213634a3c91b37be209
+docker inspect --format='{{.Name}}' 7c378de35d7dde80033673b86a9c2d461c309623ff93f1f9f1caaff9e12cbab7
+python3 normas/main.py /home/app/cfg-files/TestPuzzle.cfg /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle/stages.json /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle/docker-compose.yml /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/TestPuzzle

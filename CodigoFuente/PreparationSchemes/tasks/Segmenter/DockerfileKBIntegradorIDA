@@ -1,0 +1,10 @@
+FROM ddomizzi/merger:v1
+
+
+
+# Se copian los binarios de las aplicaciones desarrolladas así como las bibliotecas que estas aplicaciones utilizan
+COPY KB-IntegradorIDA/ /home/KB-IntegradorIDA/
+#Se establece un directorio de trabajo para el contenedor
+WORKDIR /home/KB-IntegradorIDA/
+#Se compilan la aplicaciones
+RUN make

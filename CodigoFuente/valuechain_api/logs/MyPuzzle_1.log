@@ -1,0 +1,65 @@
+2023-04-03 19:47:46	PARSER: Configured single Anonimizacion
+2023-04-03 19:47:46	PARSER: Configured single ToRGB
+2023-04-03 19:47:46	PARSER: Configured single DetectorPulmon
+2023-04-03 19:47:46	PARSER: Configured pattern Anonimizacionpattern
+2023-04-03 19:47:46	PARSER: Configured pattern ToRGBpattern
+2023-04-03 19:47:46	PARSER: Configured pattern DetectorPulmonpattern
+2023-04-03 19:47:46	PARSER: Configured stage stage_Anonimizacion
+2023-04-03 19:47:46	PARSER: Configured stage stage_ToRGB
+2023-04-03 19:47:46	PARSER: Configured stage stage_DetectorPulmon
+2023-04-03 19:47:46	PARSER: Configured workflow MyPuzzle
+2023-04-03 19:47:46	LAUCHER: Coupling stages and building blocks
+2023-04-03 19:47:46	MyPuzzle: Workdir MyPuzzle
+2023-04-03 19:47:46	MyPuzzle: Workdir exists
+2023-04-03 19:47:46	MyPuzzle: Stage stage_Anonimizacion added
+2023-04-03 19:47:46	stage_Anonimizacion: Workdir stage_Anonimizacion
+2023-04-03 19:47:46	stage_Anonimizacion: Workdir exists
+2023-04-03 19:47:46	stage_Anonimizacion: Added sink stage_ToRGB
+2023-04-03 19:47:46	stage_Anonimizacion: Added building block Anonimizacionpattern
+2023-04-03 19:47:46	Anonimizacionpattern: Workdir Anonimizacionpattern
+2023-04-03 19:47:46	Anonimizacionpattern: Workdir exists
+2023-04-03 19:47:46	Anonimizacion: Workdir Anonimizacion
+2023-04-03 19:47:46	Anonimizacion: Workdir exists
+2023-04-03 19:47:46	MyPuzzle: Stage stage_ToRGB added
+2023-04-03 19:47:46	stage_ToRGB: Workdir stage_ToRGB
+2023-04-03 19:47:46	stage_ToRGB: Workdir exists
+2023-04-03 19:47:46	stage_ToRGB: Added source stage_Anonimizacion
+2023-04-03 19:47:46	stage_ToRGB: Added sink stage_DetectorPulmon
+2023-04-03 19:47:46	stage_ToRGB: Added building block ToRGBpattern
+2023-04-03 19:47:46	ToRGBpattern: Workdir ToRGBpattern
+2023-04-03 19:47:46	ToRGBpattern: Workdir exists
+2023-04-03 19:47:46	ToRGB: Workdir ToRGB
+2023-04-03 19:47:46	ToRGB: Workdir exists
+2023-04-03 19:47:46	MyPuzzle: Stage stage_DetectorPulmon added
+2023-04-03 19:47:46	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2023-04-03 19:47:46	stage_DetectorPulmon: Workdir exists
+2023-04-03 19:47:46	stage_DetectorPulmon: Added source stage_ToRGB
+2023-04-03 19:47:46	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2023-04-03 19:47:46	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2023-04-03 19:47:46	DetectorPulmonpattern: Workdir exists
+2023-04-03 19:47:46	DetectorPulmon: Workdir DetectorPulmon
+2023-04-03 19:47:46	DetectorPulmon: Workdir exists
+2023-04-03 19:47:46	LAUNCHER: Creating YML file at MyPuzzle/docker-compose.yml
+ToRGB
+DetectorPulmon
+Anonimizacion
+docker-compose --log-level ERROR -p /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle -f /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle/docker-compose.yml  up -d --build --scale DetectorPulmon=2  --scale ToRGB=2  --scale Anonimizacion=2  2> /dev/null
+2023-04-03 19:47:46	LAUCHER: deploying virtual containers of workflow MyPuzzle
+2023-04-03 19:47:47	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle -f /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle/docker-compose.yml  down
+
+
+/home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle/stages.json
+docker-compose --log-level ERROR -p /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle -f /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle/docker-compose.yml  ps -q
+docker inspect --format='{{.Name}}' f8554d5fd4ff1ca1692daee5c28d087d31651dbd9b1f19a4808bb2c5d1d9925f
+docker inspect --format='{{.Name}}' 1cd9a577f87615ee84f8a6ff2ac063d35a5b7d42f047eb0553da09f9f4b331d6
+docker inspect --format='{{.Name}}' b122526db183bb817e99d1a308924ec6fa28ebce8a327d78a77fcd590a5a9909
+docker inspect --format='{{.Name}}' ec215fbae36e24f20ae74f85e7d86718408ab43bebc56cf6bf363741547ecd58
+docker inspect --format='{{.Name}}' 6880874e090c6a7751fa47444768fa5213ddc29f2a84b2568f7387b79769ef36
+docker inspect --format='{{.Name}}' 6f5f64e4f89d684c00fb46ced3d863ca3b8f5fc04d17d22852e85f8d3aa92faa
+docker inspect --format='{{.Name}}' 9650162a144075b1636dc36a45e965d3befd5db6e175a9868ac88facb7bc12ab
+docker inspect --format='{{.Name}}' 8179cb05952b131dd6f5a6f525e1eb2684069f38c56c3dacec2af7d61a6a7483
+docker inspect --format='{{.Name}}' 0970dd81c42ee343a217b0e440a294a002053cfc533c140d3aac5d229a7bacfe
+docker inspect --format='{{.Name}}' 8f1f6d6ac58838a7c04111dd421e4a29a9029a9b54b62158f158a02bba5c1a68
+python3 normas/main.py /home/app/cfg-files/MyPuzzle.cfg /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle/stages.json /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle/docker-compose.yml /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/MyPuzzle

@@ -1,0 +1,1 @@
+docker run -ti --name integ-dev -v /home/hreyes/GitCinvestav/kulla-blocks-indev/KB-IntegradorIDA/:/home/KB-IntegradorIDA/ -v /home/hreyes/Demos/Sink/:/home/KB-IntegradorIDA/Results/ -v /home/hreyes/Demos/Storage1/:/home/Volume/Results/ --restart=always kulla:base

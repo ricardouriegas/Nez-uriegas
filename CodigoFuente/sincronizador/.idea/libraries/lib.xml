@@ -1,0 +1,37 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/jai-imageio-core-1.4.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/qtjambi-native-linux64-gcc-4.8.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-io-2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-compress-1.17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jpbc-api-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcprov-jdk15on-150.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/bcpg-jdk15on-150.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-cache-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-compress-1.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CPABE.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.json-20120521.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-win-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpmime-4.5.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sun-jai_codec.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/sqlite-jdbc-3.23.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jai_core-1.1.3-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/Download.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpmime-4.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jai-core-1.1.3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/qtjambi-4.8.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/Upload.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpcore-4.4.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/httpclient-4.5.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jpbc-plaf-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/commons-io-2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/CryptoLib.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

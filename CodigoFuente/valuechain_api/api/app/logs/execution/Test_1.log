@@ -1,0 +1,48 @@
+2022-12-12 21:46:16	PARSER: Configured single Anonimizacion
+2022-12-12 21:46:16	PARSER: Configured single ToPNG
+2022-12-12 21:46:16	PARSER: Configured pattern Anonimizacionpattern
+2022-12-12 21:46:16	PARSER: Configured pattern ToPNGpattern
+2022-12-12 21:46:16	PARSER: Configured stage stage_Anonimización
+2022-12-12 21:46:16	PARSER: Configured stage stage_ToPNG
+2022-12-12 21:46:16	PARSER: Configured workflow Test
+2022-12-12 21:46:16	LAUCHER: Coupling stages and building blocks
+2022-12-12 21:46:16	Test: Workdir Test
+2022-12-12 21:46:16	Test: Workdir exists
+2022-12-12 21:46:16	Test: Stage stage_Anonimización added
+2022-12-12 21:46:16	stage_Anonimización: Workdir stage_Anonimización
+2022-12-12 21:46:16	stage_Anonimización: Workdir exists
+2022-12-12 21:46:16	stage_Anonimización: Added sink stage_ToPNG
+2022-12-12 21:46:16	stage_Anonimización: Added building block Anonimizacionpattern
+2022-12-12 21:46:16	Anonimizacionpattern: Workdir Anonimizacionpattern
+2022-12-12 21:46:16	Anonimizacionpattern: Workdir exists
+2022-12-12 21:46:16	Anonimizacion: Workdir Anonimizacion
+2022-12-12 21:46:16	Anonimizacion: Workdir exists
+2022-12-12 21:46:16	Test: Stage stage_ToPNG added
+2022-12-12 21:46:16	stage_ToPNG: Workdir stage_ToPNG
+2022-12-12 21:46:16	stage_ToPNG: Workdir exists
+2022-12-12 21:46:16	stage_ToPNG: Added source stage_Anonimización
+2022-12-12 21:46:16	stage_ToPNG: Added building block ToPNGpattern
+2022-12-12 21:46:16	ToPNGpattern: Workdir ToPNGpattern
+2022-12-12 21:46:16	ToPNGpattern: Workdir exists
+2022-12-12 21:46:16	ToPNG: Workdir ToPNG
+2022-12-12 21:46:16	ToPNG: Workdir exists
+2022-12-12 21:46:16	LAUNCHER: Creating YML file at Test/docker-compose.yml
+ToPNG
+Anonimizacion
+2022-12-12 21:46:16	LAUCHER: deploying virtual containers of workflow Test
+/home/domizzi/Documents/nez/deployer/app//results/Test
+java -jar Download.jar 6381bbdf71d48afbf93df584d443ce8da7fc89612954b3096528233c2e868602 3c132fc5f5a4d309664b406d0b194b195158bf4b 7868100d3c1da2954fc15a8e0f5dede939fe2be45bf003d1b6609ddb8ddb1ddf 2 1 cinves '/home/domizzi/Documents/nez/deployer/app//results/Test/catalogs/P1' 7ef3c1c1f99eb383609e72dd6467185f8084e07c91d41af43f12320c6871b739 true false 1
+Exception in thread "main" java.lang.NullPointerException
+	at logic.Api.sendGet(Api.java:149)
+	at logic.Api._getCatalogInfo(Api.java:106)
+	at logic.APIServices.getCatalogInfo(APIServices.java:59)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.prepare(RobotHelper.java:183)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.download(RobotHelper.java:147)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.run(RobotHelper.java:143)
+	at mx.cinvestav.tamps.integracion.gui.RobotDownloader.<init>(RobotDownloader.java:46)
+	at mx.cinvestav.tamps.integracion.gui.RobotDownloader.main(RobotDownloader.java:39)
+2022-12-12 21:48:26	Test: executing 
+{ "catalogname": " P1/Test-1670881706426 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"7868100d3c1da2954fc15a8e0f5dede939fe2be45bf003d1b6609ddb8ddb1ddf", "processed": "true" }
+192.168.1.200:20500//pub_sub/v1/catalogs/create?access_token=7ef3c1c1f99eb383609e72dd6467185f8084e07c91d41af43f12320c6871b739
+curl_easy_perform() failed: Couldn't connect to server
+Segmentation fault (core dumped)

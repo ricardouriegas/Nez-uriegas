@@ -1,0 +1,45 @@
+# Nodes
+
+### getUploadNodes
+POST http://148.247.204.199:47004/balancing/v1/nodes/uploadNodes/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "userid": "{{url}}",
+    "fileid": "{{capacity}}",
+    "filename": "{{memory}}",
+    "filesize": "{{memory}}",
+    "nodes": [
+        {
+        "token_user": "bf98d0626d0f43972592a73f1229ea8844a0d2a84a91572813aa854f216f1654",
+        "tokencatalog": "2d2c8ca5ad4eaeee77c63b4fd7118bac0d902a11e66a0d244429c32b437b4ad1"
+        }
+    ]
+}
+
+
+
+
+### all
+GET http://148.247.204.199:46001/register/v1/nodes/ HTTP/1.1
+
+### get
+GET http://148.247.204.199:46001/register/v1/nodes/1/ HTTP/1.1
+
+### create
+
+@url = http://127.0.0.1:46004/
+@capacity = 40000000000
+@memory = 2000000000
+
+POST http://148.247.204.199:46001/register/v1/nodes/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "url": "{{url}}",
+    "capacity": "{{capacity}}",
+    "memory": "{{memory}}"
+}
+
+### delete
+DELETE http://148.247.204.199:46001/register/v1/nodes/3/delete HTTP/1.1

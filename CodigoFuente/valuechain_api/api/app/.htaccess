@@ -1,0 +1,41 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^api/v1/?$ API.php?type=1 [NC,L]
+RewriteCond %{QUERY_STRING} ^access_token=(\w+)$
+RewriteRule ^api/v1/users/?$ API.php?type=1001&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/buildingblocks/?$ API.php?type=2001&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/stages/?$ API.php?type=3001&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/workflows/?$ API.php?type=4001&access_token=%1 [QSA,NC,L]
+
+RewriteRule ^api/v1/nfrs/?$ API.php?type=8000&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/platforms/?$ API.php?type=9000&access_token=%1 [QSA,NC,L]
+
+RewriteRule ^api/v1/deployments/([0-9]{1,64})/?$ API.php?id=$1&type=9001&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/executions/([0-9]{1,64})/?$ API.php?id=$1&type=9002&access_token=%1 [QSA,NC,L]
+
+RewriteRule ^api/v1/workflows/([0-9]{1,64})/stages/?$ API.php?id=$1&type=5002&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/workflows/([0-9]{1,64})/catalogs/?$ API.php?id=$1&type=5004&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/stages/transformation?$ API.php?type=3002&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/workflows/([0-9]{1,64})/?$ API.php?id=$1&type=4002&access_token=%1 [QSA,NC,L]
+
+RewriteRule ^api/v1/workflows/run/?$ API.php?type=4003&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/workflows/execute/?$ API.php?type=4009&tokenuser=%2&access_token=%1&apikey=%3 [QSA,NC,L]
+RewriteRule ^api/v1/workflows/stop/?$ API.php?type=4010&tokenuser=%2&access_token=%1&apikey=%3 [QSA,NC,L]
+
+RewriteRule ^api/v1/workflows/conf/?$ API.php?type=9003&access_token=%1 [QSA,NC,L]
+
+RewriteRule ^api/v1/workflows/logs/?$ API.php?type=4003&access_token=%1 [QSA,NC,L]
+
+RewriteRule ^api/v1/workflows/log/?$ API.php?type=4004&tokenuser=%2&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/workflows/publish/to_user/?$ API.php?type=4005&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/workflows/subscribe/to_workflow/?$ API.php?type=4006&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/workflows/published/from_me/?$ API.php?type=4007&access_token=%1 [QSA,NC,L]
+RewriteRule ^api/v1/workflows/subscribed/to_me/?$ API.php?type=4008&access_token=%1 [QSA,NC,L]
+# RewriteRule ^api/v1/workflows/publish/to_org/?$ API.php?type=4006&access_token=%1 [QSA,NC,L]
+
+# RewriteRule ^(.*)$ API.php?type=0 [NC,L]
+
+</IfModule>

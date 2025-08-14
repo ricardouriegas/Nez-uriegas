@@ -1,0 +1,39 @@
+2021-08-26 14:32:24	PARSER: Configured single cleaning
+2021-08-26 14:32:24	PARSER: Configured single dicomtojpg
+2021-08-26 14:32:24	PARSER: Configured pattern cleaningpattern
+2021-08-26 14:32:24	PARSER: Configured pattern dicomtojpgpattern
+2021-08-26 14:32:24	PARSER: Configured stage stage_cleaning
+2021-08-26 14:32:24	PARSER: Configured stage stage_dicomtojpg
+2021-08-26 14:32:24	PARSER: Configured workflow JPGCreator
+Your PATH is: /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app/
+2021-08-26 14:32:24	LAUCHER: Coupling stages and building blocks
+2021-08-26 14:32:24	JPGCreator: Workdir JPGCreator
+2021-08-26 14:32:24	JPGCreator: Workdir exists
+2021-08-26 14:32:24	JPGCreator: Stage stage_cleaning added
+2021-08-26 14:32:24	stage_cleaning: Workdir stage_cleaning
+2021-08-26 14:32:24	stage_cleaning: Workdir exists
+2021-08-26 14:32:24	stage_cleaning: Added sink stage_dicomtojpg
+2021-08-26 14:32:24	stage_cleaning: Added building block cleaningpattern
+2021-08-26 14:32:24	cleaningpattern: Workdir cleaningpattern
+2021-08-26 14:32:24	cleaningpattern: Workdir exists
+2021-08-26 14:32:24	cleaning: Workdir cleaning
+2021-08-26 14:32:24	cleaning: Workdir exists
+2021-08-26 14:32:24	JPGCreator: Stage stage_dicomtojpg added
+2021-08-26 14:32:24	stage_dicomtojpg: Workdir stage_dicomtojpg
+2021-08-26 14:32:24	stage_dicomtojpg: Workdir exists
+2021-08-26 14:32:24	stage_dicomtojpg: Added source stage_cleaning
+2021-08-26 14:32:24	stage_dicomtojpg: Added building block dicomtojpgpattern
+2021-08-26 14:32:24	dicomtojpgpattern: Workdir dicomtojpgpattern
+2021-08-26 14:32:24	dicomtojpgpattern: Workdir exists
+2021-08-26 14:32:24	dicomtojpg: Workdir dicomtojpg
+2021-08-26 14:32:24	dicomtojpg: Workdir exists
+2021-08-26 14:32:24	LAUNCHER: Creating YML file at JPGCreator/docker-compose.yml
+dicomtojpg
+cleaning
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/JPGCreator -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/JPGCreator/docker-compose.yml  up -d --build --scale dicomtojpg=4  --scale cleaning=4  2> /dev/null
+2021-08-26 14:32:24	LAUCHER: deploying virtual containers of workflow JPGCreator
+2021-08-26 14:32:32	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/JPGCreator -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/JPGCreator/docker-compose.yml  down
+
+

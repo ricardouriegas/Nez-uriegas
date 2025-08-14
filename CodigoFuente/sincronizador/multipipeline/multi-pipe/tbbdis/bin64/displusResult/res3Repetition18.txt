@@ -1,0 +1,8 @@
+SVN Rev: Unversioned directory
+Generar campo: 71.927000 milisegundos
+nthreads: 4 nmsg: 4
+Dispersar(4): 1064664.077000 milisegundos
+ok2: file3ok5: file3ok
+3: file3
+ok4: file3ok1: file3
+

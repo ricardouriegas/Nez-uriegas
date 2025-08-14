@@ -1,0 +1,52 @@
+2022-08-19 02:28:03	PARSER: Configured single Deidentification
+2022-08-19 02:28:03	PARSER: Configured single ToPNG
+2022-08-19 02:28:03	PARSER: Configured single DetectorPulmon
+2022-08-19 02:28:03	PARSER: Configured pattern Deidentificationpattern
+2022-08-19 02:28:03	PARSER: Configured pattern ToPNGpattern
+2022-08-19 02:28:03	PARSER: Configured pattern DetectorPulmonpattern
+2022-08-19 02:28:03	PARSER: Configured stage stage_Deidentification
+2022-08-19 02:28:03	PARSER: Configured stage stage_ToPNG
+2022-08-19 02:28:03	PARSER: Configured stage stage_DetectorPulmon
+2022-08-19 02:28:03	PARSER: Configured workflow pruebapulmon
+2022-08-19 02:28:03	LAUCHER: Coupling stages and building blocks
+2022-08-19 02:28:03	pruebapulmon: Workdir pruebapulmon
+2022-08-19 02:28:03	pruebapulmon: Workdir created
+2022-08-19 02:28:03	pruebapulmon: Stage stage_Deidentification added
+2022-08-19 02:28:03	stage_Deidentification: Workdir stage_Deidentification
+2022-08-19 02:28:03	stage_Deidentification: Workdir created
+2022-08-19 02:28:03	stage_Deidentification: Added sink stage_ToPNG
+2022-08-19 02:28:03	stage_Deidentification: Added building block Deidentificationpattern
+2022-08-19 02:28:03	Deidentificationpattern: Workdir Deidentificationpattern
+2022-08-19 02:28:03	Deidentificationpattern: Workdir created
+2022-08-19 02:28:03	Deidentification: Workdir Deidentification
+2022-08-19 02:28:03	Deidentification: Workdir created
+2022-08-19 02:28:03	pruebapulmon: Stage stage_ToPNG added
+2022-08-19 02:28:03	stage_ToPNG: Workdir stage_ToPNG
+2022-08-19 02:28:03	stage_ToPNG: Workdir created
+2022-08-19 02:28:03	stage_ToPNG: Added source stage_Deidentification
+2022-08-19 02:28:03	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-08-19 02:28:03	stage_ToPNG: Added building block ToPNGpattern
+2022-08-19 02:28:03	ToPNGpattern: Workdir ToPNGpattern
+2022-08-19 02:28:03	ToPNGpattern: Workdir created
+2022-08-19 02:28:03	ToPNG: Workdir ToPNG
+2022-08-19 02:28:03	ToPNG: Workdir created
+2022-08-19 02:28:03	pruebapulmon: Stage stage_DetectorPulmon added
+2022-08-19 02:28:03	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-08-19 02:28:03	stage_DetectorPulmon: Workdir created
+2022-08-19 02:28:03	stage_DetectorPulmon: Added source stage_ToPNG
+2022-08-19 02:28:03	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-08-19 02:28:03	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-08-19 02:28:03	DetectorPulmonpattern: Workdir created
+2022-08-19 02:28:03	DetectorPulmon: Workdir DetectorPulmon
+2022-08-19 02:28:03	DetectorPulmon: Workdir created
+2022-08-19 02:28:03	LAUNCHER: Creating YML file at pruebapulmon/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/pruebapulmon -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/pruebapulmon/docker-compose.yml  up -d --build --scale ToPNG=2  --scale DetectorPulmon=2  --scale Deidentification=2  2> /dev/null
+2022-08-19 02:28:03	LAUCHER: deploying virtual containers of workflow pruebapulmon
+2022-08-19 02:28:07	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/pruebapulmon -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/pruebapulmon/docker-compose.yml  down
+
+

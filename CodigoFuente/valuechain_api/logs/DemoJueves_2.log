@@ -1,0 +1,48 @@
+2022-12-13 03:54:29	PARSER: Configured single Anonimizacion
+2022-12-13 03:54:29	PARSER: Configured single ToPNG
+2022-12-13 03:54:29	PARSER: Configured pattern Anonimizacionpattern
+2022-12-13 03:54:29	PARSER: Configured pattern ToPNGpattern
+2022-12-13 03:54:29	PARSER: Configured stage stage_Anonimizacion
+2022-12-13 03:54:29	PARSER: Configured stage stage_ToPNG
+2022-12-13 03:54:29	PARSER: Configured workflow DemoJueves
+2022-12-13 03:54:29	LAUCHER: Coupling stages and building blocks
+2022-12-13 03:54:29	DemoJueves: Workdir DemoJueves
+2022-12-13 03:54:29	DemoJueves: Workdir created
+2022-12-13 03:54:29	DemoJueves: Stage stage_Anonimizacion added
+2022-12-13 03:54:29	stage_Anonimizacion: Workdir stage_Anonimizacion
+2022-12-13 03:54:29	stage_Anonimizacion: Workdir created
+2022-12-13 03:54:29	stage_Anonimizacion: Added sink stage_ToPNG
+2022-12-13 03:54:29	stage_Anonimizacion: Added building block Anonimizacionpattern
+2022-12-13 03:54:29	Anonimizacionpattern: Workdir Anonimizacionpattern
+2022-12-13 03:54:29	Anonimizacionpattern: Workdir created
+2022-12-13 03:54:29	Anonimizacion: Workdir Anonimizacion
+2022-12-13 03:54:29	Anonimizacion: Workdir created
+2022-12-13 03:54:29	DemoJueves: Stage stage_ToPNG added
+2022-12-13 03:54:29	stage_ToPNG: Workdir stage_ToPNG
+2022-12-13 03:54:29	stage_ToPNG: Workdir created
+2022-12-13 03:54:29	stage_ToPNG: Added source stage_Anonimizacion
+2022-12-13 03:54:29	stage_ToPNG: Added building block ToPNGpattern
+2022-12-13 03:54:29	ToPNGpattern: Workdir ToPNGpattern
+2022-12-13 03:54:29	ToPNGpattern: Workdir created
+2022-12-13 03:54:29	ToPNG: Workdir ToPNG
+2022-12-13 03:54:29	ToPNG: Workdir created
+2022-12-13 03:54:29	LAUNCHER: Creating YML file at DemoJueves/docker-compose.yml
+ToPNG
+Anonimizacion
+docker-compose --log-level ERROR -p /home/domizzi/Documents/nez/deployer/app//results/DemoJueves -f /home/domizzi/Documents/nez/deployer/app//results/DemoJueves/docker-compose.yml  up -d --build --scale ToPNG=2  --scale Anonimizacion=2  2> /dev/null
+2022-12-13 03:54:29	LAUCHER: deploying virtual containers of workflow DemoJueves
+2022-12-13 03:54:31	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/nez/deployer/app//results/DemoJueves -f /home/domizzi/Documents/nez/deployer/app//results/DemoJueves/docker-compose.yml  down
+
+
+/home/domizzi/Documents/nez/deployer/app//results/DemoJueves/stages.json
+docker-compose --log-level ERROR -p /home/domizzi/Documents/nez/deployer/app//results/DemoJueves -f /home/domizzi/Documents/nez/deployer/app//results/DemoJueves/docker-compose.yml  ps -q
+docker inspect --format='{{.Name}}' 5e742195166c0ab92de8b5ed1c22d318b9441121da8bba6f075c77364f5e0696
+docker inspect --format='{{.Name}}' 202f2e62107481f9af7cefbaa51c1e79c4982117f7f4063918e0a7f9542fcf64
+docker inspect --format='{{.Name}}' 0d5f487f8f236f5affc12f9fc3bfafbec5b983b07be06977ad6db16a9d572aec
+docker inspect --format='{{.Name}}' 8fb2eb0f507820cf16b13799ecaacba9d607815c07d6e5a9f71bf709c7e85987
+docker inspect --format='{{.Name}}' eecf4814ac5633c2b0dd70932d7fa66f9376272e92ea3e9a847a3a09e4a6ba3c
+docker inspect --format='{{.Name}}' 31b0f67fa194fb87a670c10947544f1ac6764d0e5ae43887270b3dce32f560a6
+docker inspect --format='{{.Name}}' b6e2f016aaed11f678f2de7218cf74509a02b987759133d56f33fb245874e669
+python3 normas/main.py /home/app/cfg-files/DemoJueves.cfg /home/domizzi/Documents/nez/deployer/app//results/DemoJueves/stages.json /home/domizzi/Documents/nez/deployer/app//results/DemoJueves/docker-compose.yml /home/domizzi/Documents/nez/deployer/app//results/DemoJueves

@@ -1,0 +1,53 @@
+2022-09-29 17:17:32	PARSER: Configured single Deidentification
+2022-09-29 17:17:32	PARSER: Configured single ToPNG
+2022-09-29 17:17:32	PARSER: Configured single DetectorPulmon
+2022-09-29 17:17:32	PARSER: Configured pattern Deidentificationpattern
+2022-09-29 17:17:32	PARSER: Configured pattern ToPNGpattern
+2022-09-29 17:17:32	PARSER: Configured pattern DetectorPulmonpattern
+2022-09-29 17:17:32	PARSER: Configured stage stage_Deidentification
+2022-09-29 17:17:32	PARSER: Configured stage stage_ToPNG
+2022-09-29 17:17:32	PARSER: Configured stage stage_DetectorPulmon
+2022-09-29 17:17:32	PARSER: Configured workflow DemoJueves
+2022-09-29 17:17:32	LAUCHER: Coupling stages and building blocks
+2022-09-29 17:17:32	DemoJueves: Workdir DemoJueves
+2022-09-29 17:17:32	DemoJueves: Workdir exists
+2022-09-29 17:17:32	DemoJueves: Stage stage_Deidentification added
+2022-09-29 17:17:32	stage_Deidentification: Workdir stage_Deidentification
+2022-09-29 17:17:32	stage_Deidentification: Workdir exists
+2022-09-29 17:17:32	stage_Deidentification: Added sink stage_ToPNG
+2022-09-29 17:17:32	stage_Deidentification: Added building block Deidentificationpattern
+2022-09-29 17:17:32	Deidentificationpattern: Workdir Deidentificationpattern
+2022-09-29 17:17:32	Deidentificationpattern: Workdir exists
+2022-09-29 17:17:32	Deidentification: Workdir Deidentification
+2022-09-29 17:17:32	Deidentification: Workdir exists
+2022-09-29 17:17:32	DemoJueves: Stage stage_ToPNG added
+2022-09-29 17:17:32	stage_ToPNG: Workdir stage_ToPNG
+2022-09-29 17:17:32	stage_ToPNG: Workdir exists
+2022-09-29 17:17:32	stage_ToPNG: Added source stage_Deidentification
+2022-09-29 17:17:32	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-09-29 17:17:32	stage_ToPNG: Added building block ToPNGpattern
+2022-09-29 17:17:32	ToPNGpattern: Workdir ToPNGpattern
+2022-09-29 17:17:32	ToPNGpattern: Workdir exists
+2022-09-29 17:17:32	ToPNG: Workdir ToPNG
+2022-09-29 17:17:32	ToPNG: Workdir exists
+2022-09-29 17:17:32	DemoJueves: Stage stage_DetectorPulmon added
+2022-09-29 17:17:32	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-09-29 17:17:32	stage_DetectorPulmon: Workdir exists
+2022-09-29 17:17:32	stage_DetectorPulmon: Added source stage_ToPNG
+2022-09-29 17:17:32	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-09-29 17:17:32	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-09-29 17:17:32	DetectorPulmonpattern: Workdir exists
+2022-09-29 17:17:32	DetectorPulmon: Workdir DetectorPulmon
+2022-09-29 17:17:32	DetectorPulmon: Workdir exists
+2022-09-29 17:17:32	LAUNCHER: Creating YML file at DemoJueves/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/docker-compose.yml  up -d --build --scale ToPNG=2  --scale DetectorPulmon=2  --scale Deidentification=2  2> /dev/null
+2022-09-29 17:17:32	LAUCHER: deploying virtual containers of workflow DemoJueves
+2022-09-29 17:17:34	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/docker-compose.yml  down
+
+
+/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stages.json

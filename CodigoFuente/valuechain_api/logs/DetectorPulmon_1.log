@@ -1,0 +1,65 @@
+2023-02-14 00:43:52	PARSER: Configured single Anonimizacion
+2023-02-14 00:43:52	PARSER: Configured single ToRGB
+2023-02-14 00:43:52	PARSER: Configured single DetectorPulmon
+2023-02-14 00:43:52	PARSER: Configured pattern Anonimizacionpattern
+2023-02-14 00:43:52	PARSER: Configured pattern ToRGBpattern
+2023-02-14 00:43:52	PARSER: Configured pattern DetectorPulmonpattern
+2023-02-14 00:43:52	PARSER: Configured stage stage_Anonimizacion
+2023-02-14 00:43:52	PARSER: Configured stage stage_ToRGB
+2023-02-14 00:43:52	PARSER: Configured stage stage_DetectorPulmon
+2023-02-14 00:43:52	PARSER: Configured workflow DetectorPulmon
+2023-02-14 00:43:52	LAUCHER: Coupling stages and building blocks
+2023-02-14 00:43:52	DetectorPulmon: Workdir DetectorPulmon
+2023-02-14 00:43:52	DetectorPulmon: Workdir created
+2023-02-14 00:43:52	DetectorPulmon: Stage stage_Anonimizacion added
+2023-02-14 00:43:52	stage_Anonimizacion: Workdir stage_Anonimizacion
+2023-02-14 00:43:52	stage_Anonimizacion: Workdir created
+2023-02-14 00:43:52	stage_Anonimizacion: Added sink stage_ToRGB
+2023-02-14 00:43:52	stage_Anonimizacion: Added building block Anonimizacionpattern
+2023-02-14 00:43:52	Anonimizacionpattern: Workdir Anonimizacionpattern
+2023-02-14 00:43:52	Anonimizacionpattern: Workdir created
+2023-02-14 00:43:52	Anonimizacion: Workdir Anonimizacion
+2023-02-14 00:43:52	Anonimizacion: Workdir created
+2023-02-14 00:43:52	DetectorPulmon: Stage stage_ToRGB added
+2023-02-14 00:43:52	stage_ToRGB: Workdir stage_ToRGB
+2023-02-14 00:43:52	stage_ToRGB: Workdir created
+2023-02-14 00:43:52	stage_ToRGB: Added source stage_Anonimizacion
+2023-02-14 00:43:52	stage_ToRGB: Added sink stage_DetectorPulmon
+2023-02-14 00:43:52	stage_ToRGB: Added building block ToRGBpattern
+2023-02-14 00:43:52	ToRGBpattern: Workdir ToRGBpattern
+2023-02-14 00:43:52	ToRGBpattern: Workdir created
+2023-02-14 00:43:52	ToRGB: Workdir ToRGB
+2023-02-14 00:43:52	ToRGB: Workdir created
+2023-02-14 00:43:52	DetectorPulmon: Stage stage_DetectorPulmon added
+2023-02-14 00:43:52	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2023-02-14 00:43:52	stage_DetectorPulmon: Workdir created
+2023-02-14 00:43:52	stage_DetectorPulmon: Added source stage_ToRGB
+2023-02-14 00:43:52	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2023-02-14 00:43:52	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2023-02-14 00:43:52	DetectorPulmonpattern: Workdir created
+2023-02-14 00:43:52	DetectorPulmon: Workdir DetectorPulmon
+2023-02-14 00:43:52	DetectorPulmon: Workdir created
+2023-02-14 00:43:52	LAUNCHER: Creating YML file at DetectorPulmon/docker-compose.yml
+ToRGB
+DetectorPulmon
+Anonimizacion
+docker-compose --log-level ERROR -p /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon -f /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon/docker-compose.yml  up -d --build --scale DetectorPulmon=2  --scale ToRGB=2  --scale Anonimizacion=2  2> /dev/null
+2023-02-14 00:43:52	LAUCHER: deploying virtual containers of workflow DetectorPulmon
+2023-02-14 00:43:55	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon -f /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon/docker-compose.yml  down
+
+
+/home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon/stages.json
+docker-compose --log-level ERROR -p /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon -f /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon/docker-compose.yml  ps -q
+docker inspect --format='{{.Name}}' 710b878fde27b08e2cbbb41089ad0b4d253ae88e400e390392dbfb5e73d5ef80
+docker inspect --format='{{.Name}}' fdfc1899fbdb85dae91a09990240ffd01e9061b98008f4eb125d5cfde37876e2
+docker inspect --format='{{.Name}}' 8a1b69536caf791474cd05ffc63cf834e6c0a22ee3615ba190eb263770852eac
+docker inspect --format='{{.Name}}' ac7a884cefacd5bc944134d927785f9e9647e4d6c3f317e233c4e6de94b0d6df
+docker inspect --format='{{.Name}}' 02d92ad75d49387a8fa12f40bb96c8f6af2ca0fdec4b27b65b40724a49186ffc
+docker inspect --format='{{.Name}}' fac5654682c5b6a3123818c9c45e2903e672e1f77105587772e2ea37801c7b73
+docker inspect --format='{{.Name}}' b18d8c2400391aadf2847f93382447ad1f9f0a443546941d791e9a483595c1f1
+docker inspect --format='{{.Name}}' f78e9f896f3cb166a800eca69023a5528eeb5f980c3f8d0b977869e4178db9a8
+docker inspect --format='{{.Name}}' 06a6e7081778c9c5edab59cecd8f2c36a56b66b7fe2b0253949051532d2b5980
+docker inspect --format='{{.Name}}' 721472ab2770148da4c4af8a2ea42fcb8d652634547e86fae2bb81b04934186a
+python3 normas/main.py /home/app/cfg-files/DetectorPulmon.cfg /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon/stages.json /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon/docker-compose.yml /home/domizzi/Documents/Muyal-Ilal-ligero/deployer/app//results/DetectorPulmon

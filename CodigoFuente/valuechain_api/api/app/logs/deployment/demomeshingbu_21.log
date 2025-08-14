@@ -1,0 +1,38 @@
+2022-08-23 21:49:06	PARSER: Configured single Deidentification
+2022-08-23 21:49:06	PARSER: Configured single meshingdemobuap
+2022-08-23 21:49:06	PARSER: Configured pattern Deidentificationpattern
+2022-08-23 21:49:06	PARSER: Configured pattern meshingdemobuappattern
+2022-08-23 21:49:06	PARSER: Configured stage stage_Deidentification
+2022-08-23 21:49:06	PARSER: Configured stage stage_meshingdemobuap
+2022-08-23 21:49:06	PARSER: Configured workflow demomeshingbu
+2022-08-23 21:49:06	LAUCHER: Coupling stages and building blocks
+2022-08-23 21:49:06	demomeshingbu: Workdir demomeshingbu
+2022-08-23 21:49:06	demomeshingbu: Workdir created
+2022-08-23 21:49:06	demomeshingbu: Stage stage_Deidentification added
+2022-08-23 21:49:06	stage_Deidentification: Workdir stage_Deidentification
+2022-08-23 21:49:06	stage_Deidentification: Workdir created
+2022-08-23 21:49:06	stage_Deidentification: Added sink stage_meshingdemobuap
+2022-08-23 21:49:06	stage_Deidentification: Added building block Deidentificationpattern
+2022-08-23 21:49:06	Deidentificationpattern: Workdir Deidentificationpattern
+2022-08-23 21:49:06	Deidentificationpattern: Workdir created
+2022-08-23 21:49:06	Deidentification: Workdir Deidentification
+2022-08-23 21:49:06	Deidentification: Workdir created
+2022-08-23 21:49:06	demomeshingbu: Stage stage_meshingdemobuap added
+2022-08-23 21:49:06	stage_meshingdemobuap: Workdir stage_meshingdemobuap
+2022-08-23 21:49:06	stage_meshingdemobuap: Workdir created
+2022-08-23 21:49:06	stage_meshingdemobuap: Added source stage_Deidentification
+2022-08-23 21:49:06	stage_meshingdemobuap: Added building block meshingdemobuappattern
+2022-08-23 21:49:06	meshingdemobuappattern: Workdir meshingdemobuappattern
+2022-08-23 21:49:06	meshingdemobuappattern: Workdir created
+2022-08-23 21:49:06	meshingdemobuap: Workdir meshingdemobuap
+2022-08-23 21:49:06	meshingdemobuap: Workdir created
+2022-08-23 21:49:06	LAUNCHER: Creating YML file at demomeshingbu/docker-compose.yml
+meshingdemobuap
+Deidentification
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/demomeshingbu -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/demomeshingbu/docker-compose.yml  up -d --build --scale meshingdemobuap=2  --scale Deidentification=2  2> /dev/null
+2022-08-23 21:49:06	LAUCHER: deploying virtual containers of workflow demomeshingbu
+2022-08-23 21:49:09	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/demomeshingbu -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/demomeshingbu/docker-compose.yml  down
+
+

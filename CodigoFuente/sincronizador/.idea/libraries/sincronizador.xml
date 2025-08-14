@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sincronizador">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Download.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Upload.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Sincronizador.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

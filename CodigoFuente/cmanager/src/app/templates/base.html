@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        {% block head %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <!--<link rel="icon" href="http://getbootstrap.com/favicon.ico">-->
+
+        <title>{% block title %}{% endblock %} - E-Services Manager</title>
+
+        <!-- Bootstrap core CSS -->
+        <!-- <link href="http://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+        <!-- <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"> -->
+        <link href="{{ url_for('static', filename='libs/bootstrap-4.6.0/css/bootstrap.min.css') }}" rel="stylesheet">
+        
+        <!-- Custom styles for this template -->
+        <!-- <link href="http://getbootstrap.com/docs/4.1/examples/dashboard/dashboard.css" rel="stylesheet">  -->
+        <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous"> -->
+        <link href="{{ url_for('static', filename='libs/fontawesome-5.15.2/css/all.min.css') }}" rel="stylesheet">
+
+        <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
+
+        {% endblock %}
+    </head>
+
+    <body>
+        {% block navbar %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow">
+            <a class="navbar-brand" href="/home">E-Services Manager</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="itemContainers" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span data-feather="box"></span>Containers
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="itemContainers">
+                            <a class="dropdown-item" href="/containers"><span class="mr-1" data-feather="list"></span>List</a>
+                            <a class="dropdown-item" href="/containers/details"><span class="mr-1" data-feather="info"></span>Details</a>
+                            <a class="dropdown-item" href="/containers/creation"><span class="mr-1" data-feather="tool"></span>Creation tool</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="itemImages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span data-feather="layers"></span>Images
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="itemImages">
+                            <a class="dropdown-item" href="/images"><span class="mr-1" data-feather="list"></span>List</a>
+                            <a class="dropdown-item" href="/images/details"><span class="mr-1" data-feather="info"></span>Details</a>
+                            <a class="dropdown-item" href="/images/builder"><span class="mr-1" data-feather="tool"></span>Build tool</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="itemServices" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span data-feather="grid"></span>Services
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="itemServices">
+                            <a class="dropdown-item" href="/services"><span class="mr-1" data-feather="list"></span>List</a>
+                            <a class="dropdown-item" href="/services/new"><span class="mr-1" data-feather="tool"></span>Build tool</a>
+                            <a class="dropdown-item" href="/services/subs"><span class="mr-1" data-feather="user-check"></span>Subscriptions</a>
+                        </div>
+                    </li>
+                </ul>
+                <div class="d-flex justify-content-center">
+                    <span class="navbar-text mr-2"> {% if user %} {{ user }} {% endif %} </span>
+                    <button onclick="logout()" class="btn btn-danger w-100 h-100" style="border-radius: 0;">
+                        <span class="mximage-2" data-feather="log-out"></span>Log out
+                    </button>
+                </div>
+            </div>
+        </nav>
+        {% endblock %}
+
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        </div>
+
+            {% block footer %}
+            <!-- GLOBAL MODAL FOR CONFIRMATIONS --> 
+            <div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-dark text-white">
+                            <h5 class="modal-title">Confirm action</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div id="modalConfirmBody" class="modal-body">
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnConfirm" class="btn btn-sm btn-primary">Confirm</button>
+                            <button id="btnCancel" class="btn btn-sm btn-secondary">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bootstrap core JavaScript
+            ================================================== -->
+            <script src="{{ url_for('static', filename='libs/jquery-3.5.1/jquery.min.js') }}"></script>
+            <script src="{{ url_for('static', filename='libs/bootstrap-4.6.0/js/bootstrap.bundle.min.js') }}"></script>
+                
+            <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+            <!-- <script src="http://getbootstrap.com/docs/4.1/assets/js/vendor/popper.min.js"></script> -->
+                
+            <!-- Icons -->
+            <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+            <script>
+                feather.replace()
+            </script>
+
+            <!-- Custom JS Files -->
+            <script src="{{url_for('static', filename='js/utils.js')}}"></script>
+            <script src="{{url_for('static', filename='js/base.js')}}"></script>
+            {% endblock %}
+            
+    </body>
+</html>

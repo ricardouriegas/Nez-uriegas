@@ -1,0 +1,48 @@
+2023-07-17 19:25:35	PARSER: Configured single Anonimizacion
+2023-07-17 19:25:35	PARSER: Configured single ToRGB
+2023-07-17 19:25:35	PARSER: Configured pattern Anonimizacionpattern
+2023-07-17 19:25:35	PARSER: Configured pattern ToRGBpattern
+2023-07-17 19:25:35	PARSER: Configured stage stage_Anonimizacion
+2023-07-17 19:25:35	PARSER: Configured stage stage_ToRGB
+2023-07-17 19:25:35	PARSER: Configured workflow pruebalunes
+2023-07-17 19:25:35	LAUCHER: Coupling stages and building blocks
+2023-07-17 19:25:35	pruebalunes: Workdir pruebalunes
+2023-07-17 19:25:35	pruebalunes: Workdir created
+2023-07-17 19:25:35	pruebalunes: Stage stage_Anonimizacion added
+2023-07-17 19:25:35	stage_Anonimizacion: Workdir stage_Anonimizacion
+2023-07-17 19:25:35	stage_Anonimizacion: Workdir created
+2023-07-17 19:25:35	stage_Anonimizacion: Added sink stage_ToRGB
+2023-07-17 19:25:35	stage_Anonimizacion: Added building block Anonimizacionpattern
+2023-07-17 19:25:35	Anonimizacionpattern: Workdir Anonimizacionpattern
+2023-07-17 19:25:35	Anonimizacionpattern: Workdir created
+2023-07-17 19:25:35	Anonimizacion: Workdir Anonimizacion
+2023-07-17 19:25:35	Anonimizacion: Workdir created
+2023-07-17 19:25:35	pruebalunes: Stage stage_ToRGB added
+2023-07-17 19:25:35	stage_ToRGB: Workdir stage_ToRGB
+2023-07-17 19:25:35	stage_ToRGB: Workdir created
+2023-07-17 19:25:35	stage_ToRGB: Added source stage_Anonimizacion
+2023-07-17 19:25:35	stage_ToRGB: Added building block ToRGBpattern
+2023-07-17 19:25:35	ToRGBpattern: Workdir ToRGBpattern
+2023-07-17 19:25:35	ToRGBpattern: Workdir created
+2023-07-17 19:25:35	ToRGB: Workdir ToRGB
+2023-07-17 19:25:35	ToRGB: Workdir created
+2023-07-17 19:25:35	LAUNCHER: Creating YML file at pruebalunes/docker-compose.yml
+ToRGB
+Anonimizacion
+docker-compose --log-level ERROR -p /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes -f /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes/docker-compose.yml  up -d --build --scale ToRGB=2  --scale Anonimizacion=2  2> /dev/null
+2023-07-17 19:25:35	LAUCHER: deploying virtual containers of workflow pruebalunes
+2023-07-17 19:25:37	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes -f /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes/docker-compose.yml  down
+
+
+/home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes/stages.json
+docker-compose --log-level ERROR -p /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes -f /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes/docker-compose.yml  ps -q
+docker inspect --format='{{.Name}}' 90eedf09faa043f7627db0d045b27faf8e3e0f60e00f55a83040309f2db68413
+docker inspect --format='{{.Name}}' 1f86e196cb4b55b052bbefb5753b72d4b63b8bd58ab62602a39b54202a4d35b2
+docker inspect --format='{{.Name}}' 9032d3460edc664e433c2ab514d132c4b089073faa2d6425e99dfd15e9452d7e
+docker inspect --format='{{.Name}}' 9f789e953d7076fefa9ee249fe358444d3c18d2f53fb3561b5ce89f2bcb0cc05
+docker inspect --format='{{.Name}}' ed0de3c058381c4f2fde54486093a4ad7a62d8737e64de3da242657421583c89
+docker inspect --format='{{.Name}}' 9245e2db89967dbafb7ead28da1b5111f556014f2e21290c6b115b66fe068c4d
+docker inspect --format='{{.Name}}' 77e9c451cb36d5619cb1e0d9a4e23192eb4c88b2f595eb74b0f393069e16e16e
+python3 normas/main.py /home/app/cfg-files/pruebalunes.cfg /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes/stages.json /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes/docker-compose.yml /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruebalunes

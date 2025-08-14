@@ -1,0 +1,35 @@
+2021-08-22 23:06:10	PARSER: Configured single Test
+2021-08-22 23:06:10	PARSER: Configured single Test2
+stage_Test	xxx	stage_Test2
+2021-08-22 23:06:10	PARSER: Configured stage stage_Test
+stage_Test2	xxx	
+2021-08-22 23:06:10	PARSER: Configured stage stage_Test2
+2021-08-22 23:06:10	PARSER: Configured workflow test3424
+2021-08-22 23:06:10	LAUCHER: Coupling stages and building blocks
+2021-08-22 23:06:10	test3424: Workdir test3424
+2021-08-22 23:06:10	test3424: Workdir exists
+entro
+2021-08-22 23:06:10	test3424: Stage stage_Test added
+2021-08-22 23:06:10	stage_Test: Workdir stage_Test
+2021-08-22 23:06:10	stage_Test: Workdir exists
+2021-08-22 23:06:10	stage_Test: Added sink stage_Test2
+2021-08-22 23:06:10	stage_Test: Added building block Test
+2021-08-22 23:06:10	Test: Workdir Test
+2021-08-22 23:06:10	Test: Workdir exists
+2021-08-22 23:06:10	test3424: Stage stage_Test2 added
+2021-08-22 23:06:10	stage_Test2: Workdir stage_Test2
+2021-08-22 23:06:10	stage_Test2: Workdir exists
+2021-08-22 23:06:10	stage_Test2: Added source stage_Test
+2021-08-22 23:06:10	stage_Test2: Added building block Test2
+2021-08-22 23:06:10	Test2: Workdir Test2
+2021-08-22 23:06:10	Test2: Workdir exists
+2021-08-22 23:06:10	LAUNCHER: Creating YML file at test3424/docker-compose.yml
+Test2
+Test
+docker-compose --log-level ERROR -p /home/app/results/test3424 -f /home/app/results/test3424/docker-compose.yml  up -d --build 2> /dev/null
+2021-08-22 23:06:10	LAUCHER: deploying virtual containers of workflow test3424
+2021-08-22 23:06:11	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/app/results/test3424 -f /home/app/results/test3424/docker-compose.yml  down
+
+

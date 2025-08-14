@@ -1,0 +1,34 @@
+FROM php:7.0-apache
+
+# Set Apache environment variables (can be changed on docker run with -e)
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+ENV APACHE_RUN_DIR /var/run/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+ENV APACHE_SERVERADMIN admin@localhost
+ENV APACHE_SERVERNAME localhost
+ENV APACHE_SERVERALIAS docker.localhost
+ENV APACHE_DOCUMENTROOT /var/www
+
+RUN apt-get update && apt-get install -y \
+	python-software-properties \
+	software-properties-common \
+	nano \
+	net-tools \
+	libcurl3-gnutls \
+ 	curl \
+	libjson0 \
+	libjson0-dev \
+	gcc
+
+RUN apt-get update && apt-get install -y libpq-dev && docker-php-ext-install pdo pdo_pgsql
+
+COPY ./configs/apache2.conf /etc/apache2/
+
+COPY ./configs/php.ini /etc/php/7.0/apache2/
+
+RUN a2enmod rewrite
+
+COPY ./app /var/www/html/

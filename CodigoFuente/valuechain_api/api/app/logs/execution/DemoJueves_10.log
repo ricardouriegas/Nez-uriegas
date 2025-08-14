@@ -1,0 +1,61 @@
+2022-09-27 16:55:00	PARSER: Configured single Deidentification
+2022-09-27 16:55:00	PARSER: Configured single ToPNG
+2022-09-27 16:55:00	PARSER: Configured single DetectorPulmon
+2022-09-27 16:55:00	PARSER: Configured pattern Deidentificationpattern
+2022-09-27 16:55:00	PARSER: Configured pattern ToPNGpattern
+2022-09-27 16:55:00	PARSER: Configured pattern DetectorPulmonpattern
+2022-09-27 16:55:00	PARSER: Configured stage stage_Deidentification
+2022-09-27 16:55:00	PARSER: Configured stage stage_ToPNG
+2022-09-27 16:55:00	PARSER: Configured stage stage_DetectorPulmon
+2022-09-27 16:55:00	PARSER: Configured workflow DemoJueves
+2022-09-27 16:55:00	LAUCHER: Coupling stages and building blocks
+2022-09-27 16:55:00	DemoJueves: Workdir DemoJueves
+2022-09-27 16:55:00	DemoJueves: Workdir exists
+2022-09-27 16:55:00	DemoJueves: Stage stage_Deidentification added
+2022-09-27 16:55:00	stage_Deidentification: Workdir stage_Deidentification
+2022-09-27 16:55:00	stage_Deidentification: Workdir exists
+2022-09-27 16:55:00	stage_Deidentification: Added sink stage_ToPNG
+2022-09-27 16:55:00	stage_Deidentification: Added building block Deidentificationpattern
+2022-09-27 16:55:00	Deidentificationpattern: Workdir Deidentificationpattern
+2022-09-27 16:55:00	Deidentificationpattern: Workdir exists
+2022-09-27 16:55:00	Deidentification: Workdir Deidentification
+2022-09-27 16:55:00	Deidentification: Workdir exists
+2022-09-27 16:55:00	DemoJueves: Stage stage_ToPNG added
+2022-09-27 16:55:00	stage_ToPNG: Workdir stage_ToPNG
+2022-09-27 16:55:00	stage_ToPNG: Workdir exists
+2022-09-27 16:55:00	stage_ToPNG: Added source stage_Deidentification
+2022-09-27 16:55:00	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-09-27 16:55:00	stage_ToPNG: Added building block ToPNGpattern
+2022-09-27 16:55:00	ToPNGpattern: Workdir ToPNGpattern
+2022-09-27 16:55:00	ToPNGpattern: Workdir exists
+2022-09-27 16:55:00	ToPNG: Workdir ToPNG
+2022-09-27 16:55:00	ToPNG: Workdir exists
+2022-09-27 16:55:00	DemoJueves: Stage stage_DetectorPulmon added
+2022-09-27 16:55:00	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-09-27 16:55:00	stage_DetectorPulmon: Workdir exists
+2022-09-27 16:55:00	stage_DetectorPulmon: Added source stage_ToPNG
+2022-09-27 16:55:00	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-09-27 16:55:00	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-09-27 16:55:00	DetectorPulmonpattern: Workdir exists
+2022-09-27 16:55:00	DetectorPulmon: Workdir DetectorPulmon
+2022-09-27 16:55:00	DetectorPulmon: Workdir exists
+2022-09-27 16:55:00	LAUNCHER: Creating YML file at DemoJueves/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+2022-09-27 16:55:00	LAUCHER: deploying virtual containers of workflow DemoJueves
+java -jar Download.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75 2 1 cinves '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/catalogs/MyCat' f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true false 1
+Exception in thread "main" java.lang.NullPointerException
+	at logic.Api.sendGet(Api.java:149)
+	at logic.Api._getCatalogInfo(Api.java:106)
+	at logic.APIServices.getCatalogInfo(APIServices.java:59)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.prepare(RobotHelper.java:183)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.download(RobotHelper.java:147)
+	at mx.cinvestav.tamps.integracion.gui.RobotHelper.run(RobotHelper.java:143)
+	at mx.cinvestav.tamps.integracion.gui.RobotDownloader.<init>(RobotDownloader.java:46)
+	at mx.cinvestav.tamps.integracion.gui.RobotDownloader.main(RobotDownloader.java:39)
+2022-09-27 16:55:03	DemoJueves: executing 
+{ "catalogname": " MyCat/DemoJueves-1664297703775 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75", "processed": "true" }
+148.247.204.224:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+curl_easy_perform() failed: Couldn't connect to server
+Segmentation fault (core dumped)

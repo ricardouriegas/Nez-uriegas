@@ -1,0 +1,60 @@
+2022-08-22 15:33:57	PARSER: Configured single Deidentification
+2022-08-22 15:33:57	PARSER: Configured single ToPNG
+2022-08-22 15:33:57	PARSER: Configured single DetectorPulmon
+2022-08-22 15:33:57	PARSER: Configured pattern Deidentificationpattern
+2022-08-22 15:33:57	PARSER: Configured pattern ToPNGpattern
+2022-08-22 15:33:57	PARSER: Configured pattern DetectorPulmonpattern
+2022-08-22 15:33:57	PARSER: Configured stage stage_Deidentification
+2022-08-22 15:33:57	PARSER: Configured stage stage_ToPNG
+2022-08-22 15:33:57	PARSER: Configured stage stage_DetectorPulmon
+2022-08-22 15:33:57	PARSER: Configured workflow Prueba1Puebla
+2022-08-22 15:33:57	LAUCHER: Coupling stages and building blocks
+2022-08-22 15:33:57	Prueba1Puebla: Workdir Prueba1Puebla
+2022-08-22 15:33:57	Prueba1Puebla: Workdir exists
+2022-08-22 15:33:57	Prueba1Puebla: Stage stage_Deidentification added
+2022-08-22 15:33:57	stage_Deidentification: Workdir stage_Deidentification
+2022-08-22 15:33:57	stage_Deidentification: Workdir exists
+2022-08-22 15:33:57	stage_Deidentification: Added sink stage_ToPNG
+2022-08-22 15:33:57	stage_Deidentification: Added building block Deidentificationpattern
+2022-08-22 15:33:57	Deidentificationpattern: Workdir Deidentificationpattern
+2022-08-22 15:33:57	Deidentificationpattern: Workdir exists
+2022-08-22 15:33:57	Deidentification: Workdir Deidentification
+2022-08-22 15:33:57	Deidentification: Workdir exists
+2022-08-22 15:33:57	Prueba1Puebla: Stage stage_ToPNG added
+2022-08-22 15:33:57	stage_ToPNG: Workdir stage_ToPNG
+2022-08-22 15:33:57	stage_ToPNG: Workdir exists
+2022-08-22 15:33:57	stage_ToPNG: Added source stage_Deidentification
+2022-08-22 15:33:57	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-08-22 15:33:57	stage_ToPNG: Added building block ToPNGpattern
+2022-08-22 15:33:57	ToPNGpattern: Workdir ToPNGpattern
+2022-08-22 15:33:57	ToPNGpattern: Workdir exists
+2022-08-22 15:33:57	ToPNG: Workdir ToPNG
+2022-08-22 15:33:57	ToPNG: Workdir exists
+2022-08-22 15:33:57	Prueba1Puebla: Stage stage_DetectorPulmon added
+2022-08-22 15:33:57	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-08-22 15:33:57	stage_DetectorPulmon: Workdir exists
+2022-08-22 15:33:57	stage_DetectorPulmon: Added source stage_ToPNG
+2022-08-22 15:33:57	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-08-22 15:33:57	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-08-22 15:33:57	DetectorPulmonpattern: Workdir exists
+2022-08-22 15:33:57	DetectorPulmon: Workdir DetectorPulmon
+2022-08-22 15:33:57	DetectorPulmon: Workdir exists
+2022-08-22 15:33:57	LAUNCHER: Creating YML file at Prueba1Puebla/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Prueba1Puebla -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Prueba1Puebla/docker-compose.yml  up -d --build --scale ToPNG=2  --scale DetectorPulmon=2  --scale Deidentification=2  2> /dev/null
+Traceback (most recent call last):
+  File "normas/main.py", line 2, in <module>
+    import compliance
+  File "/home/app/normas/compliance.py", line 1, in <module>
+    import external, checklists_final, reports
+  File "/home/app/normas/reports.py", line 2, in <module>
+    import plotly.graph_objects as go #pip install plotly==5.3.1    pip install -U kaleido
+ModuleNotFoundError: No module named 'plotly'
+2022-08-22 15:33:57	LAUCHER: deploying virtual containers of workflow Prueba1Puebla
+2022-08-22 15:33:58	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Prueba1Puebla -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Prueba1Puebla/docker-compose.yml  down
+
+

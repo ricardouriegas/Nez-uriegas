@@ -1,0 +1,3 @@
+FROM ddomizzi/apache:php
+
+COPY ./metadata/ /var/www/html/

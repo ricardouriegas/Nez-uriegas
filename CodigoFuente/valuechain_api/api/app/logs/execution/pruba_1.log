@@ -1,0 +1,89 @@
+2023-08-21 14:56:52	PARSER: Configured single Anonimizacion
+2023-08-21 14:56:52	PARSER: Configured single ToRGB
+2023-08-21 14:56:52	PARSER: Configured single DetectorPulmon
+2023-08-21 14:56:52	PARSER: Configured pattern Anonimizacionpattern
+2023-08-21 14:56:52	PARSER: Configured pattern ToRGBpattern
+2023-08-21 14:56:52	PARSER: Configured pattern DetectorPulmonpattern
+2023-08-21 14:56:52	PARSER: Configured stage stage_Anonimizacion
+2023-08-21 14:56:52	PARSER: Configured stage stage_ToRGB
+2023-08-21 14:56:52	PARSER: Configured stage stage_DetectorPulmon
+2023-08-21 14:56:52	PARSER: Configured workflow pruba
+2023-08-21 14:56:52	LAUCHER: Coupling stages and building blocks
+2023-08-21 14:56:52	pruba: Workdir pruba
+2023-08-21 14:56:52	pruba: Workdir exists
+2023-08-21 14:56:52	pruba: Stage stage_Anonimizacion added
+2023-08-21 14:56:52	stage_Anonimizacion: Workdir stage_Anonimizacion
+2023-08-21 14:56:52	stage_Anonimizacion: Workdir exists
+2023-08-21 14:56:52	stage_Anonimizacion: Added sink stage_ToRGB
+2023-08-21 14:56:52	stage_Anonimizacion: Added building block Anonimizacionpattern
+2023-08-21 14:56:52	Anonimizacionpattern: Workdir Anonimizacionpattern
+2023-08-21 14:56:52	Anonimizacionpattern: Workdir exists
+2023-08-21 14:56:52	Anonimizacion: Workdir Anonimizacion
+2023-08-21 14:56:52	Anonimizacion: Workdir exists
+2023-08-21 14:56:52	pruba: Stage stage_ToRGB added
+2023-08-21 14:56:52	stage_ToRGB: Workdir stage_ToRGB
+2023-08-21 14:56:52	stage_ToRGB: Workdir exists
+2023-08-21 14:56:52	stage_ToRGB: Added source stage_Anonimizacion
+2023-08-21 14:56:52	stage_ToRGB: Added sink stage_DetectorPulmon
+2023-08-21 14:56:52	stage_ToRGB: Added building block ToRGBpattern
+2023-08-21 14:56:52	ToRGBpattern: Workdir ToRGBpattern
+2023-08-21 14:56:52	ToRGBpattern: Workdir exists
+2023-08-21 14:56:52	ToRGB: Workdir ToRGB
+2023-08-21 14:56:52	ToRGB: Workdir exists
+2023-08-21 14:56:52	pruba: Stage stage_DetectorPulmon added
+2023-08-21 14:56:52	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2023-08-21 14:56:52	stage_DetectorPulmon: Workdir exists
+2023-08-21 14:56:52	stage_DetectorPulmon: Added source stage_ToRGB
+2023-08-21 14:56:52	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2023-08-21 14:56:52	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2023-08-21 14:56:52	DetectorPulmonpattern: Workdir exists
+2023-08-21 14:56:52	DetectorPulmon: Workdir DetectorPulmon
+2023-08-21 14:56:52	DetectorPulmon: Workdir exists
+2023-08-21 14:56:52	LAUNCHER: Creating YML file at pruba/docker-compose.yml
+ToRGB
+DetectorPulmon
+Anonimizacion
+2023-08-21 14:56:52	LAUCHER: deploying virtual containers of workflow pruba
+/home/app/results/pruba
+java -jar Download.jar 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1 2870aeb0a153c2985275c64ee1a5030c12692eff 5e3c005f8aa4e0a65274b925483afdab261aaf8d76956815f3857b6a793a4d8a 2 1 cinves '/home/app/results/pruba/catalogs/TESTCATALOG' e0ca8d9aa56319fd68a2853f2ddc0153dd36211b11c16e76b261d3c6cd6a2477 true false 1
+java -jar Download.jar 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1 2870aeb0a153c2985275c64ee1a5030c12692eff 5e3c005f8aa4e0a65274b925483afdab261aaf8d76956815f3857b6a793a4d8a 2 1 cinves '/home/app/results/pruba/catalogs/TESTCATALOG' e0ca8d9aa56319fd68a2853f2ddc0153dd36211b11c16e76b261d3c6cd6a2477 true false 1
+2023-08-21 14:56:57	pruba: executing 
+{ "catalogname": " TESTCATALOG/pruba-1692629817019 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"5e3c005f8aa4e0a65274b925483afdab261aaf8d76956815f3857b6a793a4d8a", "processed": "true" }
+192.168.1.227:20500//pub_sub/v1/catalogs/create?access_token=e0ca8d9aa56319fd68a2853f2ddc0153dd36211b11c16e76b261d3c6cd6a2477
+2023-08-21 14:56:57	stage_Anonimizacion: waiting
+2023-08-21 14:56:57	stage_Anonimizacion: WORKING
+2023-08-21 14:56:57	stage_ToRGB: waiting
+2023-08-21 14:56:57	stage_DetectorPulmon: waiting
+2023-08-21 14:56:57	stage_Anonimizacion: has 1 sources
+2023-08-21 14:56:57	Anonimizacionpattern: waiting
+2023-08-21 14:56:57	Anonimizacionpattern: running
+2023-08-21 14:56:57	Anonimizacionpattern: executing load balancer
+docker-compose --log-level ERROR -p /home/app/results/pruba -f /home/app/results/pruba/docker-compose.yml  exec -T lbAnonimizacionpattern  sh -c "./main 2 DL /home/app/results//pruba/catalogs/TESTCATALOG "
+docker-compose --log-level ERROR -p /home/app/results/pruba -f /home/app/results/pruba/docker-compose.yml  exec -T lbAnonimizacionpattern  sh -c "./main 2 DL /home/app/results//pruba/catalogs/TESTCATALOG "
+{"result": [[],[]]}
+2023-08-21 14:56:57	Anonimizacionpattern: load balancer executed in RT = 623 miliseconds
+2023-08-21 14:56:57	Anonimizacion: waiting
+2023-08-21 14:56:57	Anonimizacion: running
+2023-08-21 14:56:57	Anonimizacion: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+2023-08-21 14:56:57	Anonimizacion: waiting
+2023-08-21 14:56:57	Anonimizacion: running
+2023-08-21 14:56:57	Anonimizacion: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+2023-08-21 14:56:57	Anonimizacionpattern: pattern executed in ST = 623 miliseconds
+{ "catalogname": " TESTCATALOG/pruba-1692629817019/stage_Anonimizacion-1692629817677 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"bab066570282b8f6edf34843b27fea45b0a7c1d42a728e4a71d2d566396faa5e", "processed": "true" }
+192.168.1.227:20500//pub_sub/v1/catalogs/create?access_token=e0ca8d9aa56319fd68a2853f2ddc0153dd36211b11c16e76b261d3c6cd6a2477
+java -jar Upload.jar 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1 2870aeb0a153c2985275c64ee1a5030c12692eff 399c003b963f56e650406e594850b11ca50e8e2b9a25442e2c85bdb3139f36e4 IDA bob 2 '/home/app/results/pruba/stage_Anonimizacion' cinves true e0ca8d9aa56319fd68a2853f2ddc0153dd36211b11c16e76b261d3c6cd6a2477 true true 4
+java -jar Upload.jar 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1 2870aeb0a153c2985275c64ee1a5030c12692eff 399c003b963f56e650406e594850b11ca50e8e2b9a25442e2c85bdb3139f36e4 IDA bob 2 '/home/app/results/pruba/stage_Anonimizacion' cinves true e0ca8d9aa56319fd68a2853f2ddc0153dd36211b11c16e76b261d3c6cd6a2477 true true 4
+2023-08-21 14:56:58	stage_Anonimizacion: data satage upload in ST = 423 miliseconds
+2023-08-21 14:56:58	stage_Anonimizacion: stage executed in ST = 1047 miliseconds
+2023-08-21 14:56:58	stage_ToRGB: WORKING
+2023-08-21 14:56:58	stage_ToRGB: has 1 sources
+2023-08-21 14:56:58	ToRGBpattern: waiting
+2023-08-21 14:56:58	ToRGBpattern: running
+2023-08-21 14:56:58	ToRGBpattern: executing load balancer
+docker-compose --log-level ERROR -p /home/app/results/pruba -f /home/app/results/pruba/docker-compose.yml  exec -T lbToRGBpattern  sh -c "./main 2 DL /home/app/results/pruba//stage_Anonimizacion/Anonimizacionpattern/Anonimizacion "
+The directory can't be opened.: No such file or directory
+docker-compose --log-level ERROR -p /home/app/results/pruba -f /home/app/results/pruba/docker-compose.yml  exec -T lbToRGBpattern  sh -c "./main 2 DL /home/app/results/pruba//stage_Anonimizacion/Anonimizacionpattern/Anonimizacion "
+
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  parse error - unexpected end of input
+Aborted (core dumped)

@@ -1,0 +1,297 @@
+2022-09-21 23:49:03	PARSER: Configured single Deidentification
+2022-09-21 23:49:03	PARSER: Configured single ToPNG
+2022-09-21 23:49:03	PARSER: Configured pattern Deidentificationpattern
+2022-09-21 23:49:03	PARSER: Configured pattern ToPNGpattern
+2022-09-21 23:49:03	PARSER: Configured stage stage_Deidentification
+2022-09-21 23:49:03	PARSER: Configured stage stage_ToPNG
+2022-09-21 23:49:03	PARSER: Configured workflow Test
+2022-09-21 23:49:03	LAUCHER: Coupling stages and building blocks
+2022-09-21 23:49:03	Test: Workdir Test
+2022-09-21 23:49:03	Test: Workdir exists
+2022-09-21 23:49:03	Test: Stage stage_Deidentification added
+2022-09-21 23:49:03	stage_Deidentification: Workdir stage_Deidentification
+2022-09-21 23:49:03	stage_Deidentification: Workdir exists
+2022-09-21 23:49:03	stage_Deidentification: Added sink stage_ToPNG
+2022-09-21 23:49:03	stage_Deidentification: Added building block Deidentificationpattern
+2022-09-21 23:49:03	Deidentificationpattern: Workdir Deidentificationpattern
+2022-09-21 23:49:03	Deidentificationpattern: Workdir exists
+2022-09-21 23:49:03	Deidentification: Workdir Deidentification
+2022-09-21 23:49:03	Deidentification: Workdir exists
+2022-09-21 23:49:03	Test: Stage stage_ToPNG added
+2022-09-21 23:49:03	stage_ToPNG: Workdir stage_ToPNG
+2022-09-21 23:49:03	stage_ToPNG: Workdir exists
+2022-09-21 23:49:03	stage_ToPNG: Added source stage_Deidentification
+2022-09-21 23:49:03	stage_ToPNG: Added building block ToPNGpattern
+2022-09-21 23:49:03	ToPNGpattern: Workdir ToPNGpattern
+2022-09-21 23:49:03	ToPNGpattern: Workdir exists
+2022-09-21 23:49:03	ToPNG: Workdir ToPNG
+2022-09-21 23:49:03	ToPNG: Workdir exists
+2022-09-21 23:49:03	LAUNCHER: Creating YML file at Test/docker-compose.yml
+ToPNG
+Deidentification
+2022-09-21 23:49:03	LAUCHER: deploying virtual containers of workflow Test
+java -jar Download.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75 2 1 cinves '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Test/catalogs/MyCat' f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true false 1
+2022-09-21 23:49:06	Test: executing 
+{ "catalogname": " MyCat/Test-1663804146252 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75", "processed": "true" }
+192.168.68.116:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+2022-09-21 23:49:06	stage_ToPNG: waiting
+2022-09-21 23:49:06	stage_Deidentification: waiting
+2022-09-21 23:49:06	stage_Deidentification: WORKING
+2022-09-21 23:49:06	stage_Deidentification: has 1 sources
+2022-09-21 23:49:06	Deidentificationpattern: waiting
+2022-09-21 23:49:06	Deidentificationpattern: running
+2022-09-21 23:49:06	Deidentificationpattern: executing load balancer
+2022-09-21 23:49:06	Deidentificationpattern: load balancer executed in RT = 585 miliseconds
+2022-09-21 23:49:06	Deidentification: waiting
+2022-09-21 23:49:06	Deidentification: running
+2022-09-21 23:49:06	Deidentification: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+2022-09-21 23:49:06	Deidentification: waiting
+2022-09-21 23:49:06	Deidentification: running
+python3 /code/process_dir.py --input /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//Test/catalogs/MyCat/lala --outfolder '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Test/stage_Deidentification/Deidentificationpattern/Deidentification/' --save dicom
+WARNING No specification, loading default base deid.dicom
+2022-09-21 23:49:07	Deidentification: processed 4096 bytes in ST=0.000000 RT = 1116 miliseconds
+2022-09-21 23:49:07	Deidentificationpattern: pattern executed in ST = 1702 miliseconds
+{ "catalogname": " MyCat/Test-1663804146252/stage_Deidentification-1663804147987 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"e273688fe7c79342b79c68cae14cebb3919625e69cb202d0405c99ee743e780e", "processed": "true" }
+192.168.68.116:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 2f31acaac79dfdaec9755fd2a7dd6d16fe3ba04c92de6def49917dd7e6bb6015 IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Test/stage_Deidentification' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-21 23:49:08	stage_Deidentification: data satage upload in ST = 343 miliseconds
+2022-09-21 23:49:08	stage_Deidentification: stage executed in ST = 2046 miliseconds
+2022-09-21 23:49:08	stage_ToPNG: WORKING
+2022-09-21 23:49:08	stage_ToPNG: has 1 sources
+2022-09-21 23:49:08	ToPNGpattern: waiting
+2022-09-21 23:49:08	ToPNGpattern: running
+2022-09-21 23:49:08	ToPNGpattern: executing load balancer
+2022-09-21 23:49:08	ToPNGpattern: load balancer executed in RT = 562 miliseconds
+2022-09-21 23:49:08	ToPNG: waiting
+2022-09-21 23:49:08	ToPNG: running
+2022-09-21 23:49:08	ToPNG: waiting
+2022-09-21 23:49:08	ToPNG: running
+python3 /code/dicom2rgb.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Test//stage_Deidentification/Deidentificationpattern/Deidentification/lala /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Test/stage_ToPNG/ToPNGpattern/ToPNG//lala
+2022-09-21 23:49:08	ToPNG: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+2022-09-21 23:49:12	ToPNG: processed 4096 bytes in ST=0.000000 RT = 3109 miliseconds
+2022-09-21 23:49:12	ToPNGpattern: pattern executed in ST = 3672 miliseconds
+{ "catalogname": " MyCat/Test-1663804146252/stage_ToPNG-1663804152004 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"e273688fe7c79342b79c68cae14cebb3919625e69cb202d0405c99ee743e780e", "processed": "true" }
+192.168.68.116:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 8ec5774e321a93dc24447f86c5b972721f70774e0dbce806545231f1599e346a IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/Test/stage_ToPNG' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:248)
+	at java.base/java.util.Objects.checkIndex(Objects.java:372)
+	at java.base/java.util.ArrayList.get(ArrayList.java:459)
+	at Communication.Communication.delivery(Communication.java:530)
+	at mx.cinvestav.tamps.integracion.gui.RobotUploaderWorker.run(RobotUploaderWorker.java:104)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotUploaderHelper.java:109)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-09-21 23:49:14	stage_ToPNG: data satage upload in ST = 2514 miliseconds
+2022-09-21 23:49:14	stage_ToPNG: stage executed in ST = 6187 miliseconds

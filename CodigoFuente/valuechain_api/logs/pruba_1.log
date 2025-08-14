@@ -1,0 +1,65 @@
+2023-08-21 14:51:45	PARSER: Configured single Anonimizacion
+2023-08-21 14:51:45	PARSER: Configured single ToRGB
+2023-08-21 14:51:45	PARSER: Configured single DetectorPulmon
+2023-08-21 14:51:45	PARSER: Configured pattern Anonimizacionpattern
+2023-08-21 14:51:45	PARSER: Configured pattern ToRGBpattern
+2023-08-21 14:51:45	PARSER: Configured pattern DetectorPulmonpattern
+2023-08-21 14:51:45	PARSER: Configured stage stage_Anonimizacion
+2023-08-21 14:51:45	PARSER: Configured stage stage_ToRGB
+2023-08-21 14:51:45	PARSER: Configured stage stage_DetectorPulmon
+2023-08-21 14:51:45	PARSER: Configured workflow pruba
+2023-08-21 14:51:45	LAUCHER: Coupling stages and building blocks
+2023-08-21 14:51:45	pruba: Workdir pruba
+2023-08-21 14:51:45	pruba: Workdir created
+2023-08-21 14:51:45	pruba: Stage stage_Anonimizacion added
+2023-08-21 14:51:45	stage_Anonimizacion: Workdir stage_Anonimizacion
+2023-08-21 14:51:45	stage_Anonimizacion: Workdir created
+2023-08-21 14:51:45	stage_Anonimizacion: Added sink stage_ToRGB
+2023-08-21 14:51:45	stage_Anonimizacion: Added building block Anonimizacionpattern
+2023-08-21 14:51:45	Anonimizacionpattern: Workdir Anonimizacionpattern
+2023-08-21 14:51:45	Anonimizacionpattern: Workdir created
+2023-08-21 14:51:45	Anonimizacion: Workdir Anonimizacion
+2023-08-21 14:51:45	Anonimizacion: Workdir created
+2023-08-21 14:51:45	pruba: Stage stage_ToRGB added
+2023-08-21 14:51:45	stage_ToRGB: Workdir stage_ToRGB
+2023-08-21 14:51:45	stage_ToRGB: Workdir created
+2023-08-21 14:51:45	stage_ToRGB: Added source stage_Anonimizacion
+2023-08-21 14:51:45	stage_ToRGB: Added sink stage_DetectorPulmon
+2023-08-21 14:51:45	stage_ToRGB: Added building block ToRGBpattern
+2023-08-21 14:51:45	ToRGBpattern: Workdir ToRGBpattern
+2023-08-21 14:51:45	ToRGBpattern: Workdir created
+2023-08-21 14:51:45	ToRGB: Workdir ToRGB
+2023-08-21 14:51:45	ToRGB: Workdir created
+2023-08-21 14:51:45	pruba: Stage stage_DetectorPulmon added
+2023-08-21 14:51:45	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2023-08-21 14:51:45	stage_DetectorPulmon: Workdir created
+2023-08-21 14:51:45	stage_DetectorPulmon: Added source stage_ToRGB
+2023-08-21 14:51:45	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2023-08-21 14:51:45	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2023-08-21 14:51:45	DetectorPulmonpattern: Workdir created
+2023-08-21 14:51:45	DetectorPulmon: Workdir DetectorPulmon
+2023-08-21 14:51:45	DetectorPulmon: Workdir created
+2023-08-21 14:51:45	LAUNCHER: Creating YML file at pruba/docker-compose.yml
+ToRGB
+DetectorPulmon
+Anonimizacion
+docker-compose --log-level ERROR -p /home/app/results/pruba -f /home/app/results/pruba/docker-compose.yml  up -d --build --scale DetectorPulmon=2  --scale ToRGB=2  --scale Anonimizacion=2  2> /dev/null
+2023-08-21 14:51:45	LAUCHER: deploying virtual containers of workflow pruba
+2023-08-21 14:51:48	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/app/results/pruba -f /home/app/results/pruba/docker-compose.yml  down
+
+
+/home/app/results/pruba/stages.json
+docker-compose --log-level ERROR -p /home/app/results/pruba -f /home/app/results/pruba/docker-compose.yml  ps -q
+docker inspect --format='{{.Name}}' d49f04f2daac6d3d8d48235f26ff5449aa7945b55f393583ba5ab656d3dce8c6
+docker inspect --format='{{.Name}}' f2821eb2860267862192520f5ae89a67bd25b7455858c65eb5e162c3d6be8fc7
+docker inspect --format='{{.Name}}' c3ad188e01d622270df6908be29f041f7cbe0a62d53250c61c1880874fdc4d62
+docker inspect --format='{{.Name}}' d23479a4e55f6eeea32b9f2f9bf7f810f69964f664d8ff595bd1d06d76f5dadf
+docker inspect --format='{{.Name}}' fad28efb9c60808bda856cdaf2d1025c8b149b7439a7fd764f13b93486433b42
+docker inspect --format='{{.Name}}' 9681743d2bdd4fc9cce103f47629c20b6d613b743d982793d1a7f97715702091
+docker inspect --format='{{.Name}}' 9dad76a98919600f98dd96ca2c0e237394453212564d1e621a37e528aaaa4364
+docker inspect --format='{{.Name}}' 81e3e1c5ec6f480e2e295c5e453aa9180525c8359cbbd7bd09e27727a340bb9a
+docker inspect --format='{{.Name}}' 925b3116020766ead0bbc03555a17060a9be33720afcc9b1fa6e87d3e90486ce
+docker inspect --format='{{.Name}}' 00afd44b66431a51b2203dd35042f19935989f5e9b2fa90c83e422295f216cc3
+python3 normas/main.py /home/app/cfg-files/pruba.cfg /home/app/results/pruba/stages.json /home/app/results/pruba/docker-compose.yml /home/app/results/pruba

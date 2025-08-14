@@ -1,0 +1,4 @@
+SVN Rev: Unversioned directory
+Generar campo: 29.670000 milisegundos
+nthreads: 4 nmsg: 4
+Dispersar(4): 93.198000 milisegundos

@@ -1,0 +1,46 @@
+2022-10-13 15:32:14	PARSER: Configured single Deidentification
+2022-10-13 15:32:14	PARSER: Configured single ToPNG
+2022-10-13 15:32:14	PARSER: Configured single DetectorPulmon
+2022-10-13 15:32:14	PARSER: Configured pattern Deidentificationpattern
+2022-10-13 15:32:14	PARSER: Configured pattern ToPNGpattern
+2022-10-13 15:32:14	PARSER: Configured pattern DetectorPulmonpattern
+2022-10-13 15:32:14	PARSER: Configured stage stage_Deidentification
+2022-10-13 15:32:14	PARSER: Configured stage stage_ToPNG
+2022-10-13 15:32:14	PARSER: Configured stage stage_DetectorPulmon
+2022-10-13 15:32:14	PARSER: Configured workflow DemoUAM
+2022-10-13 15:32:14	LAUCHER: Coupling stages and building blocks
+2022-10-13 15:32:14	DemoUAM: Workdir DemoUAM
+2022-10-13 15:32:14	DemoUAM: Workdir exists
+2022-10-13 15:32:14	DemoUAM: Stage stage_Deidentification added
+2022-10-13 15:32:14	stage_Deidentification: Workdir stage_Deidentification
+2022-10-13 15:32:14	stage_Deidentification: Workdir exists
+2022-10-13 15:32:14	stage_Deidentification: Added sink stage_ToPNG
+2022-10-13 15:32:14	stage_Deidentification: Added building block Deidentificationpattern
+2022-10-13 15:32:14	Deidentificationpattern: Workdir Deidentificationpattern
+2022-10-13 15:32:14	Deidentificationpattern: Workdir exists
+2022-10-13 15:32:14	Deidentification: Workdir Deidentification
+2022-10-13 15:32:14	Deidentification: Workdir exists
+2022-10-13 15:32:14	DemoUAM: Stage stage_ToPNG added
+2022-10-13 15:32:14	stage_ToPNG: Workdir stage_ToPNG
+2022-10-13 15:32:14	stage_ToPNG: Workdir exists
+2022-10-13 15:32:14	stage_ToPNG: Added source stage_Deidentification
+2022-10-13 15:32:14	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-10-13 15:32:14	stage_ToPNG: Added building block ToPNGpattern
+2022-10-13 15:32:14	ToPNGpattern: Workdir ToPNGpattern
+2022-10-13 15:32:14	ToPNGpattern: Workdir exists
+2022-10-13 15:32:14	ToPNG: Workdir ToPNG
+2022-10-13 15:32:14	ToPNG: Workdir exists
+2022-10-13 15:32:14	DemoUAM: Stage stage_DetectorPulmon added
+2022-10-13 15:32:14	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-10-13 15:32:14	stage_DetectorPulmon: Workdir exists
+2022-10-13 15:32:14	stage_DetectorPulmon: Added source stage_ToPNG
+2022-10-13 15:32:14	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-10-13 15:32:14	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-10-13 15:32:14	DetectorPulmonpattern: Workdir exists
+2022-10-13 15:32:14	DetectorPulmon: Workdir DetectorPulmon
+2022-10-13 15:32:14	DetectorPulmon: Workdir exists
+2022-10-13 15:32:14	LAUNCHER: Creating YML file at DemoUAM/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+Segmentation fault (core dumped)

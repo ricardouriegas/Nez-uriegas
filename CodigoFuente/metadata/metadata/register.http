@@ -1,0 +1,67 @@
+
+# Microservice de register
+# Nodes
+
+### all
+GET http://127.0.0.1:9000/register/nodes/ HTTP/1.1
+
+######################
+### getNodesActive
+GET http://127.0.0.1:47013/register/nodes_active HTTP/1.1
+######################
+
+### get
+GET http://127.0.0.1:9000/register/nodes/1/ HTTP/1.1
+
+### create
+
+@url = http://service_storage1/
+@capacity = 40000000000
+@memory = 2000000000
+
+POST http://127.0.0.1:9000/register/nodes/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "url": "{{url}}",
+    "capacity": "{{capacity}}",
+    "memory": "{{memory}}"
+}
+
+### delete
+DELETE http://127.0.0.1:9000/register/nodes/3/delete HTTP/1.1
+
+# files
+
+### all
+GET http://127.0.0.1:47013/register/files/ HTTP/1.1
+
+### get file
+@keyfile = 7d932dc3255b73104800509a62a445e030168589
+GET http://127.0.0.1:47013/register/files/0a5778db51fbd510a9396c9cf0db8737ae98e31d/ HTTP/1.1
+
+
+
+### create
+
+@id = 1
+@name = file1.bin
+@size = 50000
+@userId = 1
+
+POST http://127.0.0.1:9000/register/files/create HTTP/1.1
+Content-Type: application/json
+
+{
+    "id": "{{id}}",
+    "name": "{{name}}",
+    "size": "{{size}}",
+    "userId": "{{userId}}"
+}
+
+### delete
+DELETE http://127.0.0.1:9000/register/files/2/delete HTTP/1.1
+
+### delete
+DELETE http://127.0.0.1:9000/register/files/delete HTTP/1.1
+

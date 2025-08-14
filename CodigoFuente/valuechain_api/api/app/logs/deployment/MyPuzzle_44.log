@@ -1,0 +1,41 @@
+2021-08-20 21:13:02	PARSER: Configured single DicomCleaning
+2021-08-20 21:13:02	PARSER: Configured single DicomMeshing
+2021-08-20 21:13:02	PARSER: Configured pattern DicomCleaningpattern
+2021-08-20 21:13:02	PARSER: Configured pattern DicomMeshingpattern
+stage_DicomCleaning	xxx	stage_DicomMeshing
+2021-08-20 21:13:02	PARSER: Configured stage stage_DicomCleaning
+stage_DicomMeshing	xxx	
+2021-08-20 21:13:02	PARSER: Configured stage stage_DicomMeshing
+2021-08-20 21:13:02	PARSER: Configured workflow MyPuzzle
+2021-08-20 21:13:02	LAUCHER: Coupling stages and building blocks
+2021-08-20 21:13:02	MyPuzzle: Workdir MyPuzzle
+2021-08-20 21:13:02	MyPuzzle: Workdir exists
+entro
+2021-08-20 21:13:02	MyPuzzle: Stage stage_DicomCleaning added
+2021-08-20 21:13:02	stage_DicomCleaning: Workdir stage_DicomCleaning
+2021-08-20 21:13:02	stage_DicomCleaning: Workdir exists
+2021-08-20 21:13:02	stage_DicomCleaning: Added sink stage_DicomMeshing
+2021-08-20 21:13:02	stage_DicomCleaning: Added building block DicomCleaningpattern
+2021-08-20 21:13:02	DicomCleaningpattern: Workdir DicomCleaningpattern
+2021-08-20 21:13:02	DicomCleaningpattern: Workdir exists
+2021-08-20 21:13:02	DicomCleaning: Workdir DicomCleaning
+2021-08-20 21:13:02	DicomCleaning: Workdir exists
+2021-08-20 21:13:02	MyPuzzle: Stage stage_DicomMeshing added
+2021-08-20 21:13:02	stage_DicomMeshing: Workdir stage_DicomMeshing
+2021-08-20 21:13:02	stage_DicomMeshing: Workdir exists
+2021-08-20 21:13:02	stage_DicomMeshing: Added source stage_DicomCleaning
+2021-08-20 21:13:02	stage_DicomMeshing: Added building block DicomMeshingpattern
+2021-08-20 21:13:02	DicomMeshingpattern: Workdir DicomMeshingpattern
+2021-08-20 21:13:02	DicomMeshingpattern: Workdir exists
+2021-08-20 21:13:02	DicomMeshing: Workdir DicomMeshing
+2021-08-20 21:13:02	DicomMeshing: Workdir exists
+2021-08-20 21:13:02	LAUNCHER: Creating YML file at MyPuzzle/docker-compose.yml
+DicomMeshing
+DicomCleaning
+docker-compose --log-level ERROR -p /home/app/results/MyPuzzle -f /home/app/results/MyPuzzle/docker-compose.yml  up -d --build --scale DicomMeshing=16  --scale DicomCleaning=16  2> /dev/null
+2021-08-20 21:13:02	LAUCHER: deploying virtual containers of workflow MyPuzzle
+2021-08-20 21:13:03	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/app/results/MyPuzzle -f /home/app/results/MyPuzzle/docker-compose.yml  down
+
+

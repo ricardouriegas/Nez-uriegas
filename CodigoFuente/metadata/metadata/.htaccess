@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^register/files/?$ files.php?type=1 [NC,L]
+RewriteRule ^register/files/([a-z0-9]+)/?$ files.php?token=$1&type=2 [NC,L]
+RewriteRule ^register/files/create$ files.php?type=3 [NC,L]
+RewriteRule ^register/files/([0-9]+)/delete$ files.php?id=$1&type=4 [NC,L]
+RewriteRule ^register/files/delete$ files.php?type=5 [NC,L]
+
+RewriteRule ^register/nodes/?$ nodes.php?type=1 [NC,L]
+RewriteRule ^register/nodes/([0-9]+)/?$ nodes.php?id=$1&type=2 [NC,L]
+RewriteRule ^register/nodes/create$ nodes.php?type=3 [NC,L]
+RewriteRule ^register/nodes/([0-9]+)/delete?$ nodes.php?id=$1&type=4 [NC,L]
+
+# getNodesActive
+RewriteRule ^register/nodes_active?$ nodes.php?type=10 [NC,L]
+
+</IfModule>

@@ -1,0 +1,85 @@
+{% extends 'base.html' %} {% block title %} Image Builder {% endblock %} 
+{% block head %} {{ super() }} {% endblock %} 
+{%block content %}
+<!-- <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 position-relative"> -->
+    <!-- <div class="site-content"> -->
+
+        <div class="row titlebar pl-3">
+            <div class="d-flex p-2 justify-content-between align-items-center">
+            <h4>Image Builder</h4>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="d-flex">
+                    <div class="input-group-sm m-2 p-2 shadow-sm bg-light">
+                        <label for="context_path">Context folder: </label>
+                        <input type="file" id="context_path" class="form-control-file" webkitdirectory multiple
+                            required onchange="uploadFiles()"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            <!-- STRS -->
+            <div class="input-group-sm m-2 col-md-4 col-lg-4 p-2 shadow-sm bg-light">
+                <label for="tag">Tag:</label>
+                <input autocomplete="off" id="tag" type="text" placeholder="Tag:Version" class="form-control" 
+                    required pattern="[\w:(.|\-)]+" onchange="checkValidity(event)" oninput="setCustomValidity('')">
+            </div>
+            <div class="input-group-sm m-2 p-2 shadow-sm bg-light">
+                <label for="encoding">Encoding:</label>
+                <input autocomplete="off" id="encoding" type="text" placeholder="Encoding" class="form-control" 
+                    pattern="[\w]+$" onchange="checkValidity(event)" oninput="setCustomValidity('')">
+            </div>
+
+            <!-- NUMBERS -->
+            <div class="input-group-sm m-2 p-2 shadow-sm bg-light">
+                <label for="timeout">Timeout: </label>
+                <input autocomplete="off" id="timeout" type="number" placeholder="Time out" class="form-control"
+                    pattern="[0-9.]+$" onchange="checkValidity(event)" oninput="setCustomValidity('')">
+            </div>
+            </div>
+
+            <!-- BOOLS -->
+            <div class="">
+                <input id="quiet" type="checkbox">
+                <label for="quiet">Quiet?</label>
+            </div>
+            <div class="">
+                <input id="nocache" type="checkbox">
+                <label for="nocache">No Cache?</label>
+            </div>
+            <div class="">
+                <input id="rm" type="checkbox">
+                <label for="rm">Remove intermediate containers?</label>
+            </div>
+            <div class="">
+                <input id="pull" type="checkbox">
+                <label for="pull">Pull updates?</label>
+            </div>
+            <div class="">
+                <input id="forcerm" type="checkbox">
+                <label for="forcerm">Force remove intermediate containers?</label>
+            </div>
+            
+            <div class="">
+                <input id="squash" type="checkbox">
+                <label for="squash">Squash?</label>
+            </div>
+            <div class="">
+                <input id="use_config_proxy" type="checkbox">
+                <label for="use_config_proxy">Use config proxy?</label>
+            </div>
+        </div>
+
+        <div class="fixed-bottom bg-primary w-100 text-white page-footer d-flex flex-row justify-content-around align-items-center">
+            <button class="btn btn-sm btn-success m-1" onclick="createImage()">Create</button>
+        </div>
+    <!-- </div> -->
+
+<!-- </main> -->
+{% endblock %} 
+{% block footer %} {{ super() }} 
+<script src="{{url_for('static', filename='js/image_builder.js')}}"></script>
+{% endblock %}

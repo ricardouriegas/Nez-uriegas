@@ -1,0 +1,40 @@
+2022-08-19 02:24:44	PARSER: Configured single Deidentification
+2022-08-19 02:24:44	PARSER: Configured single ToPNG
+2022-08-19 02:24:44	PARSER: Configured pattern Deidentificationpattern
+2022-08-19 02:24:44	PARSER: Configured pattern ToPNGpattern
+2022-08-19 02:24:44	PARSER: Configured stage stage_Deidentification
+2022-08-19 02:24:44	PARSER: Configured stage stage_ToPNG
+2022-08-19 02:24:44	PARSER: Configured workflow TestStructure
+2022-08-19 02:24:44	LAUCHER: Coupling stages and building blocks
+2022-08-19 02:24:44	TestStructure: Workdir TestStructure
+2022-08-19 02:24:44	TestStructure: Workdir exists
+2022-08-19 02:24:44	TestStructure: Stage stage_Deidentification added
+2022-08-19 02:24:44	stage_Deidentification: Workdir stage_Deidentification
+2022-08-19 02:24:44	stage_Deidentification: Workdir exists
+2022-08-19 02:24:44	stage_Deidentification: Added sink stage_ToPNG
+2022-08-19 02:24:44	stage_Deidentification: Added building block Deidentificationpattern
+2022-08-19 02:24:44	Deidentificationpattern: Workdir Deidentificationpattern
+2022-08-19 02:24:44	Deidentificationpattern: Workdir exists
+2022-08-19 02:24:44	Deidentification: Workdir Deidentification
+2022-08-19 02:24:44	Deidentification: Workdir exists
+2022-08-19 02:24:44	TestStructure: Stage stage_ToPNG added
+2022-08-19 02:24:44	stage_ToPNG: Workdir stage_ToPNG
+2022-08-19 02:24:44	stage_ToPNG: Workdir exists
+2022-08-19 02:24:44	stage_ToPNG: Added source stage_Deidentification
+2022-08-19 02:24:44	stage_ToPNG: Added building block ToPNGpattern
+2022-08-19 02:24:44	ToPNGpattern: Workdir ToPNGpattern
+2022-08-19 02:24:44	ToPNGpattern: Workdir exists
+2022-08-19 02:24:44	ToPNG: Workdir ToPNG
+2022-08-19 02:24:44	ToPNG: Workdir exists
+2022-08-19 02:24:44	LAUNCHER: Creating YML file at TestStructure/docker-compose.yml
+ToPNG
+Deidentification
+2022-08-19 02:24:44	LAUCHER: deploying virtual containers of workflow TestStructure
+java -jar Download.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 1b0063418c5902e5a4eb850df0b62b1f9c575834bbcc2edfdd81573bdbca4d7f 2 1 cinves '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/catalogs/OtroCat' 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true false 1
+2022-08-19 02:24:49	TestStructure: executing 
+{ "catalogname": " OtroCat/TestStructure-1660875889643 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"1b0063418c5902e5a4eb850df0b62b1f9c575834bbcc2edfdd81573bdbca4d7f", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+No container found for lbDeidentificationpattern_1
+terminate called after throwing an instance of 'std::invalid_argument'
+  what():  parse error - unexpected end of input
+Aborted (core dumped)

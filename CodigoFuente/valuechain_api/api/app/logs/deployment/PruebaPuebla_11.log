@@ -1,0 +1,52 @@
+2022-08-23 21:06:24	PARSER: Configured single Deidentification
+2022-08-23 21:06:24	PARSER: Configured single ToPNG
+2022-08-23 21:06:24	PARSER: Configured single DetectorPulmon
+2022-08-23 21:06:24	PARSER: Configured pattern Deidentificationpattern
+2022-08-23 21:06:24	PARSER: Configured pattern ToPNGpattern
+2022-08-23 21:06:24	PARSER: Configured pattern DetectorPulmonpattern
+2022-08-23 21:06:24	PARSER: Configured stage stage_Deidentification
+2022-08-23 21:06:24	PARSER: Configured stage stage_ToPNG
+2022-08-23 21:06:24	PARSER: Configured stage stage_DetectorPulmon
+2022-08-23 21:06:24	PARSER: Configured workflow PruebaPuebla
+2022-08-23 21:06:24	LAUCHER: Coupling stages and building blocks
+2022-08-23 21:06:24	PruebaPuebla: Workdir PruebaPuebla
+2022-08-23 21:06:24	PruebaPuebla: Workdir exists
+2022-08-23 21:06:24	PruebaPuebla: Stage stage_Deidentification added
+2022-08-23 21:06:24	stage_Deidentification: Workdir stage_Deidentification
+2022-08-23 21:06:24	stage_Deidentification: Workdir exists
+2022-08-23 21:06:24	stage_Deidentification: Added sink stage_ToPNG
+2022-08-23 21:06:24	stage_Deidentification: Added building block Deidentificationpattern
+2022-08-23 21:06:24	Deidentificationpattern: Workdir Deidentificationpattern
+2022-08-23 21:06:24	Deidentificationpattern: Workdir exists
+2022-08-23 21:06:24	Deidentification: Workdir Deidentification
+2022-08-23 21:06:24	Deidentification: Workdir exists
+2022-08-23 21:06:24	PruebaPuebla: Stage stage_ToPNG added
+2022-08-23 21:06:24	stage_ToPNG: Workdir stage_ToPNG
+2022-08-23 21:06:24	stage_ToPNG: Workdir exists
+2022-08-23 21:06:24	stage_ToPNG: Added source stage_Deidentification
+2022-08-23 21:06:24	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-08-23 21:06:24	stage_ToPNG: Added building block ToPNGpattern
+2022-08-23 21:06:24	ToPNGpattern: Workdir ToPNGpattern
+2022-08-23 21:06:24	ToPNGpattern: Workdir exists
+2022-08-23 21:06:24	ToPNG: Workdir ToPNG
+2022-08-23 21:06:24	ToPNG: Workdir exists
+2022-08-23 21:06:24	PruebaPuebla: Stage stage_DetectorPulmon added
+2022-08-23 21:06:24	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-08-23 21:06:24	stage_DetectorPulmon: Workdir exists
+2022-08-23 21:06:24	stage_DetectorPulmon: Added source stage_ToPNG
+2022-08-23 21:06:24	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-08-23 21:06:24	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-08-23 21:06:24	DetectorPulmonpattern: Workdir exists
+2022-08-23 21:06:24	DetectorPulmon: Workdir DetectorPulmon
+2022-08-23 21:06:24	DetectorPulmon: Workdir exists
+2022-08-23 21:06:24	LAUNCHER: Creating YML file at PruebaPuebla/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaPuebla -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaPuebla/docker-compose.yml  up -d --build --scale ToPNG=2  --scale DetectorPulmon=2  --scale Deidentification=2  2> /dev/null
+2022-08-23 21:06:24	LAUCHER: deploying virtual containers of workflow PruebaPuebla
+2022-08-23 21:06:25	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaPuebla -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaPuebla/docker-compose.yml  down
+
+

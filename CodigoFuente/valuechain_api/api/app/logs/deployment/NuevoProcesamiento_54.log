@@ -1,0 +1,38 @@
+2021-08-30 21:32:02	PARSER: Configured single cleaning
+2021-08-30 21:32:02	PARSER: Configured single Meshin256
+2021-08-30 21:32:02	PARSER: Configured pattern cleaningpattern
+2021-08-30 21:32:02	PARSER: Configured pattern Meshin256pattern
+2021-08-30 21:32:02	PARSER: Configured stage stage_cleaning
+2021-08-30 21:32:02	PARSER: Configured stage stage_Meshin256
+2021-08-30 21:32:02	PARSER: Configured workflow NuevoProcesamiento
+2021-08-30 21:32:02	LAUCHER: Coupling stages and building blocks
+2021-08-30 21:32:02	NuevoProcesamiento: Workdir NuevoProcesamiento
+2021-08-30 21:32:02	NuevoProcesamiento: Workdir exists
+2021-08-30 21:32:02	NuevoProcesamiento: Stage stage_cleaning added
+2021-08-30 21:32:02	stage_cleaning: Workdir stage_cleaning
+2021-08-30 21:32:02	stage_cleaning: Workdir exists
+2021-08-30 21:32:02	stage_cleaning: Added sink stage_Meshin256
+2021-08-30 21:32:02	stage_cleaning: Added building block cleaningpattern
+2021-08-30 21:32:02	cleaningpattern: Workdir cleaningpattern
+2021-08-30 21:32:02	cleaningpattern: Workdir exists
+2021-08-30 21:32:02	cleaning: Workdir cleaning
+2021-08-30 21:32:02	cleaning: Workdir exists
+2021-08-30 21:32:02	NuevoProcesamiento: Stage stage_Meshin256 added
+2021-08-30 21:32:02	stage_Meshin256: Workdir stage_Meshin256
+2021-08-30 21:32:02	stage_Meshin256: Workdir exists
+2021-08-30 21:32:02	stage_Meshin256: Added source stage_cleaning
+2021-08-30 21:32:02	stage_Meshin256: Added building block Meshin256pattern
+2021-08-30 21:32:02	Meshin256pattern: Workdir Meshin256pattern
+2021-08-30 21:32:02	Meshin256pattern: Workdir exists
+2021-08-30 21:32:02	Meshin256: Workdir Meshin256
+2021-08-30 21:32:02	Meshin256: Workdir exists
+2021-08-30 21:32:02	LAUNCHER: Creating YML file at NuevoProcesamiento/docker-compose.yml
+Meshin256
+cleaning
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/NuevoProcesamiento -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/NuevoProcesamiento/docker-compose.yml  up -d --build --scale Meshin256=4  --scale cleaning=4  2> /dev/null
+2021-08-30 21:32:02	LAUCHER: deploying virtual containers of workflow NuevoProcesamiento
+2021-08-30 21:32:03	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/NuevoProcesamiento -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/NuevoProcesamiento/docker-compose.yml  down
+
+

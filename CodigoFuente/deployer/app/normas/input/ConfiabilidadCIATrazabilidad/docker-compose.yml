@@ -1,0 +1,46 @@
+version: '3'
+services:
+    meshing: 
+        image: meshing:inr
+        restart: always
+        expose:
+            - "5000/tcp"
+        volumes:
+            - "/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle:/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle"
+    CLEANING: 
+        image: cleaner:header
+        restart: always
+        expose:
+            - "5000/tcp"
+        volumes:
+            - "/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle:/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle"
+            - "/home/dsanchez/PuzzleMesh/deployer/app//results//MyPuzzle/catalogs/C1Test:/home/dsanchez/PuzzleMesh/deployer/app//results//MyPuzzle/catalogs/C1Test"
+    lbmeshingpattern: 
+        image: tc:balancer
+        restart: always
+        expose:
+            - "5000/tcp"
+        volumes:
+            - "/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle:/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle"
+            - "/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/stage_meshing:/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/stage_meshing"
+        links:
+            - meshing
+    lbCLEANINGpattern: 
+        image: tc:balancer
+        restart: always
+        expose:
+            - "5000/tcp"
+        volumes:
+            - "/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle:/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle"
+            - "/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/stage_CLEANING:/home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/stage_CLEANING"
+            - "/home/dsanchez/PuzzleMesh/deployer/app//results//MyPuzzle/catalogs/C1Test:/home/dsanchez/PuzzleMesh/deployer/app//results//MyPuzzle/catalogs/C1Test"
+        links:
+            - CLEANING
+    proxy:
+        image: microservice:base
+        links:
+             - meshing
+             - CLEANING
+             - lbmeshingpattern
+             - lbCLEANINGpattern
+

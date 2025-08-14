@@ -1,0 +1,44 @@
+2021-12-04 18:51:15	PARSER: Configured single CLEANING
+2021-12-04 18:51:15	PARSER: Configured single meshing
+2021-12-04 18:51:15	PARSER: Configured pattern CLEANINGpattern
+2021-12-04 18:51:15	PARSER: Configured pattern meshingpattern
+2021-12-04 18:51:15	PARSER: Configured stage stage_CLEANING
+2021-12-04 18:51:15	PARSER: Configured stage stage_meshing
+2021-12-04 18:51:15	PARSER: Configured workflow MyPuzzle
+2021-12-04 18:51:15	LAUCHER: Coupling stages and building blocks
+2021-12-04 18:51:15	MyPuzzle: Workdir MyPuzzle
+2021-12-04 18:51:15	MyPuzzle: Workdir exists
+2021-12-04 18:51:15	MyPuzzle: Stage stage_CLEANING added
+2021-12-04 18:51:15	stage_CLEANING: Workdir stage_CLEANING
+2021-12-04 18:51:15	stage_CLEANING: Workdir exists
+2021-12-04 18:51:15	stage_CLEANING: Added sink stage_meshing
+2021-12-04 18:51:15	stage_CLEANING: Added building block CLEANINGpattern
+2021-12-04 18:51:15	CLEANINGpattern: Workdir CLEANINGpattern
+2021-12-04 18:51:15	CLEANINGpattern: Workdir exists
+2021-12-04 18:51:15	CLEANING: Workdir CLEANING
+2021-12-04 18:51:15	CLEANING: Workdir exists
+2021-12-04 18:51:15	MyPuzzle: Stage stage_meshing added
+2021-12-04 18:51:15	stage_meshing: Workdir stage_meshing
+2021-12-04 18:51:15	stage_meshing: Workdir exists
+2021-12-04 18:51:15	stage_meshing: Added source stage_CLEANING
+2021-12-04 18:51:15	stage_meshing: Added building block meshingpattern
+2021-12-04 18:51:15	meshingpattern: Workdir meshingpattern
+2021-12-04 18:51:15	meshingpattern: Workdir exists
+2021-12-04 18:51:15	meshing: Workdir meshing
+2021-12-04 18:51:15	meshing: Workdir exists
+2021-12-04 18:51:15	LAUNCHER: Creating YML file at MyPuzzle/docker-compose.yml
+meshing
+CLEANING
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle -f /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/docker-compose.yml  up -d --build --scale meshing=2  --scale CLEANING=2  2> /dev/null
+Traceback (most recent call last):
+  File "representation/model_application.py", line 6, in <module>
+    import database.db_connector
+  File "/home/app/representation/database/db_connector.py", line 1, in <module>
+    import mysql.connector
+ModuleNotFoundError: No module named 'mysql'
+2021-12-04 18:51:15	LAUCHER: deploying virtual containers of workflow MyPuzzle
+2021-12-04 18:51:22	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle -f /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/docker-compose.yml  down
+
+

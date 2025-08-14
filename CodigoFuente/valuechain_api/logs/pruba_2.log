@@ -1,0 +1,65 @@
+2023-08-21 15:11:16	PARSER: Configured single Anonimizacion
+2023-08-21 15:11:16	PARSER: Configured single ToRGB
+2023-08-21 15:11:16	PARSER: Configured single DetectorPulmon
+2023-08-21 15:11:16	PARSER: Configured pattern Anonimizacionpattern
+2023-08-21 15:11:16	PARSER: Configured pattern ToRGBpattern
+2023-08-21 15:11:16	PARSER: Configured pattern DetectorPulmonpattern
+2023-08-21 15:11:16	PARSER: Configured stage stage_Anonimizacion
+2023-08-21 15:11:16	PARSER: Configured stage stage_ToRGB
+2023-08-21 15:11:16	PARSER: Configured stage stage_DetectorPulmon
+2023-08-21 15:11:16	PARSER: Configured workflow pruba
+2023-08-21 15:11:16	LAUCHER: Coupling stages and building blocks
+2023-08-21 15:11:16	pruba: Workdir pruba
+2023-08-21 15:11:16	pruba: Workdir exists
+2023-08-21 15:11:16	pruba: Stage stage_Anonimizacion added
+2023-08-21 15:11:16	stage_Anonimizacion: Workdir stage_Anonimizacion
+2023-08-21 15:11:16	stage_Anonimizacion: Workdir exists
+2023-08-21 15:11:16	stage_Anonimizacion: Added sink stage_ToRGB
+2023-08-21 15:11:16	stage_Anonimizacion: Added building block Anonimizacionpattern
+2023-08-21 15:11:16	Anonimizacionpattern: Workdir Anonimizacionpattern
+2023-08-21 15:11:16	Anonimizacionpattern: Workdir exists
+2023-08-21 15:11:16	Anonimizacion: Workdir Anonimizacion
+2023-08-21 15:11:16	Anonimizacion: Workdir exists
+2023-08-21 15:11:16	pruba: Stage stage_ToRGB added
+2023-08-21 15:11:16	stage_ToRGB: Workdir stage_ToRGB
+2023-08-21 15:11:16	stage_ToRGB: Workdir exists
+2023-08-21 15:11:16	stage_ToRGB: Added source stage_Anonimizacion
+2023-08-21 15:11:16	stage_ToRGB: Added sink stage_DetectorPulmon
+2023-08-21 15:11:16	stage_ToRGB: Added building block ToRGBpattern
+2023-08-21 15:11:16	ToRGBpattern: Workdir ToRGBpattern
+2023-08-21 15:11:16	ToRGBpattern: Workdir exists
+2023-08-21 15:11:16	ToRGB: Workdir ToRGB
+2023-08-21 15:11:16	ToRGB: Workdir exists
+2023-08-21 15:11:16	pruba: Stage stage_DetectorPulmon added
+2023-08-21 15:11:16	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2023-08-21 15:11:16	stage_DetectorPulmon: Workdir exists
+2023-08-21 15:11:16	stage_DetectorPulmon: Added source stage_ToRGB
+2023-08-21 15:11:16	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2023-08-21 15:11:16	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2023-08-21 15:11:16	DetectorPulmonpattern: Workdir exists
+2023-08-21 15:11:16	DetectorPulmon: Workdir DetectorPulmon
+2023-08-21 15:11:16	DetectorPulmon: Workdir exists
+2023-08-21 15:11:16	LAUNCHER: Creating YML file at pruba/docker-compose.yml
+ToRGB
+DetectorPulmon
+Anonimizacion
+docker-compose --log-level ERROR -p /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba -f /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba/docker-compose.yml  up -d --build --scale DetectorPulmon=2  --scale ToRGB=2  --scale Anonimizacion=2  2> /dev/null
+2023-08-21 15:11:16	LAUCHER: deploying virtual containers of workflow pruba
+2023-08-21 15:11:19	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba -f /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba/docker-compose.yml  down
+
+
+/home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba/stages.json
+docker-compose --log-level ERROR -p /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba -f /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba/docker-compose.yml  ps -q
+docker inspect --format='{{.Name}}' 9979564cdf7b28d89658266301c247903567cf242daaa16de81f89c63aa8011d
+docker inspect --format='{{.Name}}' 39525f3e44e852b42a5e7b59e1df07788860b13b007d6646d721da3cc374e0f3
+docker inspect --format='{{.Name}}' f9e6b570f631605e50714d9c38e050875593bc676e56f1628bda328b6b974ced
+docker inspect --format='{{.Name}}' a87324a964d348741f437fd9829af5d48ee77c4033aa5db4586f2dd8994eed30
+docker inspect --format='{{.Name}}' 2e319b79d02c25b0fe5eda97e6cfb3ae2d7caa998e9e8c68cc0908dde18c0b39
+docker inspect --format='{{.Name}}' 3674c2b98862863eee09088dfe3af1d3b2650ebfe3c04314b9e1de0087203c8a
+docker inspect --format='{{.Name}}' abdbeb462fe6fd2e54bda00bc0fc10e9c48718eb3c6f22b669872f5fd4598880
+docker inspect --format='{{.Name}}' 4f992fcd9e4d3b4d2cf4a0aa61fb2a6b46605168bd3a865a9e61f8a264e5b61f
+docker inspect --format='{{.Name}}' b36d7f8ab0c26915b26fe90d14748562f27583edd7fe59e37b92bb50dc46c07e
+docker inspect --format='{{.Name}}' cefec72436c0ea34ca12c695c2f24860ca66347ce4bc1720a608f28d60492b54
+python3 normas/main.py /home/app/cfg-files/pruba.cfg /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba/stages.json /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba/docker-compose.yml /home/domizzi/Documents/MuyalNezEntregable/CodigoFuente/deployer/app//results/pruba

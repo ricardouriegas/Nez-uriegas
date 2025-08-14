@@ -1,0 +1,38 @@
+2021-08-30 21:09:18	PARSER: Configured single cleaning
+2021-08-30 21:09:18	PARSER: Configured single Meshin256
+2021-08-30 21:09:18	PARSER: Configured pattern cleaningpattern
+2021-08-30 21:09:18	PARSER: Configured pattern Meshin256pattern
+2021-08-30 21:09:18	PARSER: Configured stage stage_cleaning
+2021-08-30 21:09:18	PARSER: Configured stage stage_Meshin256
+2021-08-30 21:09:18	PARSER: Configured workflow MyNewPuzzle
+2021-08-30 21:09:18	LAUCHER: Coupling stages and building blocks
+2021-08-30 21:09:18	MyNewPuzzle: Workdir MyNewPuzzle
+2021-08-30 21:09:18	MyNewPuzzle: Workdir created
+2021-08-30 21:09:18	MyNewPuzzle: Stage stage_cleaning added
+2021-08-30 21:09:18	stage_cleaning: Workdir stage_cleaning
+2021-08-30 21:09:18	stage_cleaning: Workdir created
+2021-08-30 21:09:18	stage_cleaning: Added sink stage_Meshin256
+2021-08-30 21:09:18	stage_cleaning: Added building block cleaningpattern
+2021-08-30 21:09:18	cleaningpattern: Workdir cleaningpattern
+2021-08-30 21:09:18	cleaningpattern: Workdir created
+2021-08-30 21:09:18	cleaning: Workdir cleaning
+2021-08-30 21:09:18	cleaning: Workdir created
+2021-08-30 21:09:18	MyNewPuzzle: Stage stage_Meshin256 added
+2021-08-30 21:09:18	stage_Meshin256: Workdir stage_Meshin256
+2021-08-30 21:09:18	stage_Meshin256: Workdir created
+2021-08-30 21:09:18	stage_Meshin256: Added source stage_cleaning
+2021-08-30 21:09:18	stage_Meshin256: Added building block Meshin256pattern
+2021-08-30 21:09:18	Meshin256pattern: Workdir Meshin256pattern
+2021-08-30 21:09:18	Meshin256pattern: Workdir created
+2021-08-30 21:09:18	Meshin256: Workdir Meshin256
+2021-08-30 21:09:18	Meshin256: Workdir created
+2021-08-30 21:09:18	LAUNCHER: Creating YML file at MyNewPuzzle/docker-compose.yml
+Meshin256
+cleaning
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/MyNewPuzzle -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/MyNewPuzzle/docker-compose.yml  up -d --build --scale Meshin256=4  --scale cleaning=4  2> /dev/null
+2021-08-30 21:09:18	LAUCHER: deploying virtual containers of workflow MyNewPuzzle
+2021-08-30 21:09:33	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/MyNewPuzzle -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/MyNewPuzzle/docker-compose.yml  down
+
+

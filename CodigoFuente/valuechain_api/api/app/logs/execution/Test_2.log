@@ -1,0 +1,10 @@
+2022-09-21 23:46:36	PARSER: Configured single Deidentification
+2022-09-21 23:46:36	PARSER: Configured single ToPNG
+2022-09-21 23:46:36	PARSER: Configured pattern Deidentificationpattern
+2022-09-21 23:46:36	PARSER: Configured pattern ToPNGpattern
+2022-09-21 23:46:36	PARSER: Configured stage stage_Deidentification
+2022-09-21 23:46:36	PARSER: Configured stage stage_ToPNG
+2022-09-21 23:46:36	PARSER: Configured workflow Test
+2022-09-21 23:46:36	LAUCHER: Coupling stages and building blocks
+2022-09-21 23:46:36	Test: Workdir Test
+2022-09-21 23:46:36	ERROR: Error creating directory /home/domizzi/Documents/PRONACES/puzzle/results//Test

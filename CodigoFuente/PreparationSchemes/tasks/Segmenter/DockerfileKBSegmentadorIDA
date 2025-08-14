@@ -1,0 +1,10 @@
+FROM ddomizzi/segmenter:ida
+
+# Se copian los binarios de las aplicaciones desarrolladas así como las bibliotecas que estas aplicaciones utilizan
+COPY ./KB-SegmentadorIDA/ /home/KB-SegmentadorIDA/
+# Se establece un directorio de trabajo para el contenedor virtual
+WORKDIR /home/KB-SegmentadorIDA/
+#Se compilan la aplicaciones
+RUN make clean
+RUN make
+

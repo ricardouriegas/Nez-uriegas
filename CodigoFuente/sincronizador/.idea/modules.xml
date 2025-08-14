@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/multipipeline/multipipeline.iml" filepath="$PROJECT_DIR$/multipipeline/multipipeline.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sincronizador.iml" filepath="$PROJECT_DIR$/sincronizador.iml" />
+    </modules>
+  </component>
+</project>

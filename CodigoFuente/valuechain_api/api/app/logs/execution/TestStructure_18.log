@@ -1,0 +1,84 @@
+2022-08-19 02:25:40	PARSER: Configured single Deidentification
+2022-08-19 02:25:40	PARSER: Configured single ToPNG
+2022-08-19 02:25:40	PARSER: Configured pattern Deidentificationpattern
+2022-08-19 02:25:40	PARSER: Configured pattern ToPNGpattern
+2022-08-19 02:25:40	PARSER: Configured stage stage_Deidentification
+2022-08-19 02:25:40	PARSER: Configured stage stage_ToPNG
+2022-08-19 02:25:40	PARSER: Configured workflow TestStructure
+2022-08-19 02:25:40	LAUCHER: Coupling stages and building blocks
+2022-08-19 02:25:40	TestStructure: Workdir TestStructure
+2022-08-19 02:25:40	TestStructure: Workdir exists
+2022-08-19 02:25:40	TestStructure: Stage stage_Deidentification added
+2022-08-19 02:25:40	stage_Deidentification: Workdir stage_Deidentification
+2022-08-19 02:25:40	stage_Deidentification: Workdir exists
+2022-08-19 02:25:40	stage_Deidentification: Added sink stage_ToPNG
+2022-08-19 02:25:40	stage_Deidentification: Added building block Deidentificationpattern
+2022-08-19 02:25:40	Deidentificationpattern: Workdir Deidentificationpattern
+2022-08-19 02:25:40	Deidentificationpattern: Workdir exists
+2022-08-19 02:25:40	Deidentification: Workdir Deidentification
+2022-08-19 02:25:40	Deidentification: Workdir exists
+2022-08-19 02:25:40	TestStructure: Stage stage_ToPNG added
+2022-08-19 02:25:40	stage_ToPNG: Workdir stage_ToPNG
+2022-08-19 02:25:40	stage_ToPNG: Workdir exists
+2022-08-19 02:25:40	stage_ToPNG: Added source stage_Deidentification
+2022-08-19 02:25:40	stage_ToPNG: Added building block ToPNGpattern
+2022-08-19 02:25:40	ToPNGpattern: Workdir ToPNGpattern
+2022-08-19 02:25:40	ToPNGpattern: Workdir exists
+2022-08-19 02:25:40	ToPNG: Workdir ToPNG
+2022-08-19 02:25:40	ToPNG: Workdir exists
+2022-08-19 02:25:40	LAUNCHER: Creating YML file at TestStructure/docker-compose.yml
+ToPNG
+Deidentification
+2022-08-19 02:25:40	LAUCHER: deploying virtual containers of workflow TestStructure
+java -jar Download.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 1b0063418c5902e5a4eb850df0b62b1f9c575834bbcc2edfdd81573bdbca4d7f 2 1 cinves '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/catalogs/OtroCat' 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true false 1
+2022-08-19 02:25:41	TestStructure: executing 
+{ "catalogname": " OtroCat/TestStructure-1660875941075 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"1b0063418c5902e5a4eb850df0b62b1f9c575834bbcc2edfdd81573bdbca4d7f", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+2022-08-19 02:25:41	stage_Deidentification: waiting
+2022-08-19 02:25:41	stage_ToPNG: waiting
+2022-08-19 02:25:41	stage_Deidentification: WORKING
+2022-08-19 02:25:41	stage_Deidentification: has 1 sources
+2022-08-19 02:25:41	Deidentificationpattern: waiting
+2022-08-19 02:25:41	Deidentificationpattern: running
+2022-08-19 02:25:41	Deidentificationpattern: executing load balancer
+2022-08-19 02:25:41	Deidentificationpattern: load balancer executed in RT = 681 miliseconds
+2022-08-19 02:25:41	Deidentification: waiting
+2022-08-19 02:25:41	Deidentification: running
+python3 /code/process_dir.py --input /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//TestStructure/catalogs/OtroCat/otrocat --outfolder '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_Deidentification/Deidentificationpattern/Deidentification/' --save dicom
+2022-08-19 02:25:41	Deidentification: waiting
+2022-08-19 02:25:41	Deidentification: running
+python3 /code/process_dir.py --input /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//TestStructure/catalogs/OtroCat/CT1 --outfolder '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_Deidentification/Deidentificationpattern/Deidentification/' --save dicom
+WARNING No specification, loading default base deid.dicom
+WARNING use detect() --> clean() before saving is possible.
+WARNING use detect() --> clean() before saving is possible.
+WARNING No specification, loading default base deid.dicom
+2022-08-19 02:25:42	Deidentification: processed 4096 bytes in ST=0.000000 RT = 1135 miliseconds
+2022-08-19 02:25:43	Deidentification: processed 4096 bytes in ST=0.000000 RT = 1462 miliseconds
+2022-08-19 02:25:43	Deidentificationpattern: pattern executed in ST = 2144 miliseconds
+{ "catalogname": " OtroCat/TestStructure-1660875941075/stage_Deidentification-1660875943269 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"3a4db7f0ef2f06478b8c195102051f5c6f60b07ba728afdcc7b049dbfb302dbe", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+java -jar Upload.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 886fd28941ce1c79650760deb6c3ef78f42e28471557c553bc2ed356c3fb964f IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_Deidentification' cinves true 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true true 4
+2022-08-19 02:25:55	stage_Deidentification: data satage upload in ST = 11920 miliseconds
+2022-08-19 02:25:55	stage_Deidentification: stage executed in ST = 14065 miliseconds
+2022-08-19 02:25:55	stage_ToPNG: WORKING
+2022-08-19 02:25:55	stage_ToPNG: has 1 sources
+2022-08-19 02:25:55	ToPNGpattern: waiting
+2022-08-19 02:25:55	ToPNGpattern: running
+2022-08-19 02:25:55	ToPNGpattern: executing load balancer
+2022-08-19 02:25:55	ToPNGpattern: load balancer executed in RT = 721 miliseconds
+2022-08-19 02:25:55	ToPNG: waiting
+2022-08-19 02:25:55	ToPNG: waiting
+2022-08-19 02:25:55	ToPNG: running
+2022-08-19 02:25:55	ToPNG: running
+python3 /code/dicom2rgb.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure//stage_Deidentification/Deidentificationpattern/Deidentification/otrocat /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_ToPNG/ToPNGpattern/ToPNG//otrocat
+python3 /code/dicom2rgb.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure//stage_Deidentification/Deidentificationpattern/Deidentification/CT1 /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_ToPNG/ToPNGpattern/ToPNG//CT1
+/usr/local/lib/python3.7/site-packages/pydicom/filereader.py:353: UserWarning: Expected explicit VR, but found implicit VR - using implicit VR for reading
+  warnings.warn(msg + f" - using {found_vr} VR for reading", UserWarning)
+2022-08-19 02:25:58	ToPNG: processed 4096 bytes in ST=0.000000 RT = 2330 miliseconds
+2022-08-19 02:26:01	ToPNG: processed 4096 bytes in ST=0.000000 RT = 5906 miliseconds
+2022-08-19 02:26:01	ToPNGpattern: pattern executed in ST = 6628 miliseconds
+{ "catalogname": " OtroCat/TestStructure-1660875941075/stage_ToPNG-1660875961818 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"3a4db7f0ef2f06478b8c195102051f5c6f60b07ba728afdcc7b049dbfb302dbe", "processed": "true" }
+10.10.2.93:20500//pub_sub/v1/catalogs/create?access_token=69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78
+java -jar Upload.jar 276f6c4fd4bbb53e1e3a2b0a9078185206225d7e2381e70fbc59ae02daef445f 515bb9a6f4f8f858f7e1dd3469b93461201ad4a1 10b353a2b20097c28ada3d1f6d1a0c6626325673bbbbc9c009f154e4fcc48820 IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/stage_ToPNG' cinves true 69a3dfaf1007f5a923149e389aa01288cc065a9e82cd86b381e652b1b6108e78 true true 4
+2022-08-19 02:26:13	stage_ToPNG: data satage upload in ST = 11625 miliseconds
+2022-08-19 02:26:13	stage_ToPNG: stage executed in ST = 18253 miliseconds

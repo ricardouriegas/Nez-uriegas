@@ -1,0 +1,41 @@
+2021-08-24 03:42:56	PARSER: Configured single Test
+2021-08-24 03:42:56	PARSER: Configured single Test2
+2021-08-24 03:42:56	PARSER: Configured pattern Testpattern
+2021-08-24 03:42:56	PARSER: Configured pattern Test2pattern
+stage_Test	xxx	stage_Test2
+2021-08-24 03:42:56	PARSER: Configured stage stage_Test
+stage_Test2	xxx	
+2021-08-24 03:42:56	PARSER: Configured stage stage_Test2
+2021-08-24 03:42:56	PARSER: Configured workflow lasttest
+2021-08-24 03:42:56	LAUCHER: Coupling stages and building blocks
+2021-08-24 03:42:56	lasttest: Workdir lasttest
+2021-08-24 03:42:56	lasttest: Workdir exists
+entro
+2021-08-24 03:42:56	lasttest: Stage stage_Test added
+2021-08-24 03:42:56	stage_Test: Workdir stage_Test
+2021-08-24 03:42:56	stage_Test: Workdir exists
+2021-08-24 03:42:56	stage_Test: Added sink stage_Test2
+2021-08-24 03:42:56	stage_Test: Added building block Testpattern
+2021-08-24 03:42:56	Testpattern: Workdir Testpattern
+2021-08-24 03:42:56	Testpattern: Workdir exists
+2021-08-24 03:42:56	Test: Workdir Test
+2021-08-24 03:42:56	Test: Workdir exists
+2021-08-24 03:42:56	lasttest: Stage stage_Test2 added
+2021-08-24 03:42:56	stage_Test2: Workdir stage_Test2
+2021-08-24 03:42:56	stage_Test2: Workdir exists
+2021-08-24 03:42:56	stage_Test2: Added source stage_Test
+2021-08-24 03:42:56	stage_Test2: Added building block Test2pattern
+2021-08-24 03:42:56	Test2pattern: Workdir Test2pattern
+2021-08-24 03:42:56	Test2pattern: Workdir exists
+2021-08-24 03:42:56	Test2: Workdir Test2
+2021-08-24 03:42:56	Test2: Workdir exists
+2021-08-24 03:42:56	LAUNCHER: Creating YML file at lasttest/docker-compose.yml
+Test2
+Test
+docker-compose --log-level ERROR -p /home/app/results/lasttest -f /home/app/results/lasttest/docker-compose.yml  up -d --build --scale Test2=4  --scale Test=4  2> /dev/null
+2021-08-24 03:42:56	LAUCHER: deploying virtual containers of workflow lasttest
+2021-08-24 03:42:58	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/app/results/lasttest -f /home/app/results/lasttest/docker-compose.yml  down
+
+

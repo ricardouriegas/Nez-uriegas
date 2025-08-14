@@ -1,0 +1,59 @@
+2021-12-06 01:55:28	PARSER: Configured single CLEANING
+2021-12-06 01:55:28	PARSER: Configured single meshing
+2021-12-06 01:55:28	PARSER: Configured pattern CLEANINGpattern
+2021-12-06 01:55:28	PARSER: Configured pattern meshingpattern
+2021-12-06 01:55:28	PARSER: Configured stage stage_CLEANING
+2021-12-06 01:55:28	PARSER: Configured stage stage_meshing
+2021-12-06 01:55:28	PARSER: Configured workflow MyPuzzle
+2021-12-06 01:55:28	LAUCHER: Coupling stages and building blocks
+2021-12-06 01:55:28	MyPuzzle: Workdir MyPuzzle
+2021-12-06 01:55:28	MyPuzzle: Workdir exists
+2021-12-06 01:55:28	MyPuzzle: Stage stage_CLEANING added
+2021-12-06 01:55:28	stage_CLEANING: Workdir stage_CLEANING
+2021-12-06 01:55:28	stage_CLEANING: Workdir exists
+2021-12-06 01:55:28	stage_CLEANING: Added sink stage_meshing
+2021-12-06 01:55:28	stage_CLEANING: Added building block CLEANINGpattern
+2021-12-06 01:55:28	CLEANINGpattern: Workdir CLEANINGpattern
+2021-12-06 01:55:28	CLEANINGpattern: Workdir exists
+2021-12-06 01:55:28	CLEANING: Workdir CLEANING
+2021-12-06 01:55:28	CLEANING: Workdir exists
+2021-12-06 01:55:28	MyPuzzle: Stage stage_meshing added
+2021-12-06 01:55:28	stage_meshing: Workdir stage_meshing
+2021-12-06 01:55:28	stage_meshing: Workdir exists
+2021-12-06 01:55:28	stage_meshing: Added source stage_CLEANING
+2021-12-06 01:55:28	stage_meshing: Added building block meshingpattern
+2021-12-06 01:55:28	meshingpattern: Workdir meshingpattern
+2021-12-06 01:55:28	meshingpattern: Workdir exists
+2021-12-06 01:55:28	meshing: Workdir meshing
+2021-12-06 01:55:28	meshing: Workdir exists
+2021-12-06 01:55:28	LAUNCHER: Creating YML file at MyPuzzle/docker-compose.yml
+meshing
+CLEANING
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle -f /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/docker-compose.yml  up -d --build --scale meshing=2  --scale CLEANING=2  2> /dev/null
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/mysql/connector/connection_cext.py", line 519, in cmd_query
+    query_attrs=self._query_attrs)
+_mysql_connector.MySQLInterfaceError: Duplicate entry 'abf94365cfa4' for key 'containers.PRIMARY'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "representation/model_application.py", line 1009, in <module>
+    storeValuesApp(app_name,app_description,containers_info,app_td_schema,json_structure,extras, dir)
+  File "representation/model_application.py", line 37, in storeValuesApp
+    storeValuesConts(id_container,id_long,name,status,volumes,platform,image,description,docker_port,host_port,entrypoint,td_schema_pub,td_schema_priv,image_p,volumes_p,status_p,utility_p,extras)
+  File "representation/model_application.py", line 77, in storeValuesConts
+    database.db_connector.insert_containers(id_container,id_long,name,status,image,volumes,entrypoint,platform,description,docker_port,host_port,td_schema_pub,td_schema_priv,image_p,volumes_p,status_p)
+  File "/home/app/representation/database/db_connector.py", line 16, in insert_containers
+    mycursor.execute(sql,val)
+  File "/usr/local/lib/python3.6/dist-packages/mysql/connector/cursor_cext.py", line 271, in execute
+    raw_as_string=self._raw_as_string)
+  File "/usr/local/lib/python3.6/dist-packages/mysql/connector/connection_cext.py", line 522, in cmd_query
+    sqlstate=exc.sqlstate)
+mysql.connector.errors.IntegrityError: 1062 (23000): Duplicate entry 'abf94365cfa4' for key 'containers.PRIMARY'
+2021-12-06 01:55:28	LAUCHER: deploying virtual containers of workflow MyPuzzle
+2021-12-06 01:55:29	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle -f /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/docker-compose.yml  down
+
+

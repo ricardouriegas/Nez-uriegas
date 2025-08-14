@@ -1,0 +1,39 @@
+2022-10-13 15:50:34	PARSER: Configured single Deidentification
+2022-10-13 15:50:34	PARSER: Configured single ToPNG
+2022-10-13 15:50:34	PARSER: Configured pattern Deidentificationpattern
+2022-10-13 15:50:34	PARSER: Configured pattern ToPNGpattern
+2022-10-13 15:50:34	PARSER: Configured stage stage_Deidentification
+2022-10-13 15:50:34	PARSER: Configured stage stage_ToPNG
+2022-10-13 15:50:34	PARSER: Configured workflow PruebaMerida2
+2022-10-13 15:50:34	LAUCHER: Coupling stages and building blocks
+2022-10-13 15:50:34	PruebaMerida2: Workdir PruebaMerida2
+2022-10-13 15:50:34	PruebaMerida2: Workdir created
+2022-10-13 15:50:34	PruebaMerida2: Stage stage_Deidentification added
+2022-10-13 15:50:34	stage_Deidentification: Workdir stage_Deidentification
+2022-10-13 15:50:34	stage_Deidentification: Workdir created
+2022-10-13 15:50:34	stage_Deidentification: Added sink stage_ToPNG
+2022-10-13 15:50:34	stage_Deidentification: Added building block Deidentificationpattern
+2022-10-13 15:50:34	Deidentificationpattern: Workdir Deidentificationpattern
+2022-10-13 15:50:34	Deidentificationpattern: Workdir created
+2022-10-13 15:50:34	Deidentification: Workdir Deidentification
+2022-10-13 15:50:34	Deidentification: Workdir created
+2022-10-13 15:50:34	PruebaMerida2: Stage stage_ToPNG added
+2022-10-13 15:50:34	stage_ToPNG: Workdir stage_ToPNG
+2022-10-13 15:50:34	stage_ToPNG: Workdir created
+2022-10-13 15:50:34	stage_ToPNG: Added source stage_Deidentification
+2022-10-13 15:50:34	stage_ToPNG: Added building block ToPNGpattern
+2022-10-13 15:50:34	ToPNGpattern: Workdir ToPNGpattern
+2022-10-13 15:50:34	ToPNGpattern: Workdir created
+2022-10-13 15:50:34	ToPNG: Workdir ToPNG
+2022-10-13 15:50:34	ToPNG: Workdir created
+2022-10-13 15:50:34	LAUNCHER: Creating YML file at PruebaMerida2/docker-compose.yml
+ToPNG
+Deidentification
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida2 -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida2/docker-compose.yml  up -d --build --scale ToPNG=2  --scale Deidentification=2  2> /dev/null
+2022-10-13 15:50:34	LAUCHER: deploying virtual containers of workflow PruebaMerida2
+2022-10-13 15:50:36	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida2 -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida2/docker-compose.yml  down
+
+
+/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida2/stages.json

@@ -1,0 +1,134 @@
+{% extends "base.html" %} {% block title %} Services creator {% endblock %} 
+{% block head %} {{ super() }} {% endblock %} 
+{% block content %}
+<div class="container-fluid">
+    <div class="row titlebar pl-3">
+        <div class="d-flex p-2 justify-content-between align-items-center">
+            <h4 class="m-2">Services Subscribed</h4>
+        </div>
+        <div class="options">
+            <div class="searchbar">
+                <a class="btn btn-sm btn-outline-success mr-1" href="/services/new" role="button">New Service</a>
+                <!-- <button type="button" class="btn btn-sm btn-outline-primary mr-1" id="publish">Publish Service</button> -->
+                <!-- <button type="button" class="btn btn-sm btn-outline-info mr-1" id="subscribe">Subscribe Service</button> -->
+                <!-- <input oninput="searchImages()" type="text" id="searchImagesText" placeholder="Search"> -->
+            </div>
+            <div class="view-format">
+                <!-- <span onclick="refreshImageTable()" data-feather="refresh-cw"></span> -->
+            </div>
+        </div>
+    </div>
+
+  <div id="answer"></div>
+  
+  <div id="divTable">
+    <table id="tableWorkflow" class="table table-hover" style="width:100%">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Stages</th>
+          <th scope="col">Subscribe</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="servicesBodyTable"></tbody>
+    </table>
+  </div>
+</div>
+  
+
+  <!-- Modal deleteWorkflow -->
+  <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Delete Workflow</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure?
+          <form  id="deleteWorkflow">
+            <input type="hidden" name="idWorkflow" id="idWorkflow" value=""> 
+          </form>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Run WF -->
+  <div class="modal fade" id="modalRun" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Run Workflow</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure?
+          <form  id="runWorkflow">
+            <input type="hidden" name="idWorkflowRun" id="idWorkflowRun">
+          </form>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-info" id="btnRun">Run</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Logs WF -->
+  <div class="modal fade" id="modalRead" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Show results</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- <a href="http://192.168.43.43:9092/" target="_blank">Visit Diagnosis a-Prevenir</a><br> -->
+          <!-- <a href="http://192.168.43.43:9083/" target="_blank">Visit Report a-Prevenir</a><br> -->
+          <h4>log</h4>
+          <div id="resLog"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         <!-- <button type="button" class="btn btn-danger" id="btnDelete">Delete</button>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal pub sub WF -->
+  <div class="modal fade" id="modalPubSub" tabindex="-1" role="dialog" aria-labelledby="modalPubSubLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalPubSubLabel">PubSub Service</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer"></div>
+      </div>
+    </div>
+  </div>
+
+  
+{% endblock %} 
+{% block footer %} {{ super() }}
+<script src="{{url_for('static', filename='js/services_list_subs.js')}}"></script>
+<script src="{{url_for('static', filename='libs/toastr/toastr.min.js')}}" type="text/javascript"></script>
+{% endblock %}

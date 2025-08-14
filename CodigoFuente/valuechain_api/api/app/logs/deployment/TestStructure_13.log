@@ -1,0 +1,38 @@
+2022-08-19 02:25:28	PARSER: Configured single Deidentification
+2022-08-19 02:25:28	PARSER: Configured single ToPNG
+2022-08-19 02:25:28	PARSER: Configured pattern Deidentificationpattern
+2022-08-19 02:25:28	PARSER: Configured pattern ToPNGpattern
+2022-08-19 02:25:28	PARSER: Configured stage stage_Deidentification
+2022-08-19 02:25:28	PARSER: Configured stage stage_ToPNG
+2022-08-19 02:25:28	PARSER: Configured workflow TestStructure
+2022-08-19 02:25:28	LAUCHER: Coupling stages and building blocks
+2022-08-19 02:25:28	TestStructure: Workdir TestStructure
+2022-08-19 02:25:28	TestStructure: Workdir exists
+2022-08-19 02:25:28	TestStructure: Stage stage_Deidentification added
+2022-08-19 02:25:28	stage_Deidentification: Workdir stage_Deidentification
+2022-08-19 02:25:28	stage_Deidentification: Workdir exists
+2022-08-19 02:25:28	stage_Deidentification: Added sink stage_ToPNG
+2022-08-19 02:25:28	stage_Deidentification: Added building block Deidentificationpattern
+2022-08-19 02:25:28	Deidentificationpattern: Workdir Deidentificationpattern
+2022-08-19 02:25:28	Deidentificationpattern: Workdir exists
+2022-08-19 02:25:28	Deidentification: Workdir Deidentification
+2022-08-19 02:25:28	Deidentification: Workdir exists
+2022-08-19 02:25:28	TestStructure: Stage stage_ToPNG added
+2022-08-19 02:25:28	stage_ToPNG: Workdir stage_ToPNG
+2022-08-19 02:25:28	stage_ToPNG: Workdir exists
+2022-08-19 02:25:28	stage_ToPNG: Added source stage_Deidentification
+2022-08-19 02:25:28	stage_ToPNG: Added building block ToPNGpattern
+2022-08-19 02:25:28	ToPNGpattern: Workdir ToPNGpattern
+2022-08-19 02:25:28	ToPNGpattern: Workdir exists
+2022-08-19 02:25:28	ToPNG: Workdir ToPNG
+2022-08-19 02:25:28	ToPNG: Workdir exists
+2022-08-19 02:25:28	LAUNCHER: Creating YML file at TestStructure/docker-compose.yml
+ToPNG
+Deidentification
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/docker-compose.yml  up -d --build --scale ToPNG=2  --scale Deidentification=2  2> /dev/null
+2022-08-19 02:25:28	LAUCHER: deploying virtual containers of workflow TestStructure
+2022-08-19 02:25:31	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/TestStructure/docker-compose.yml  down
+
+

@@ -1,0 +1,229 @@
+2022-09-29 17:18:29	PARSER: Configured single Deidentification
+2022-09-29 17:18:29	PARSER: Configured single ToPNG
+2022-09-29 17:18:29	PARSER: Configured single DetectorPulmon
+2022-09-29 17:18:29	PARSER: Configured pattern Deidentificationpattern
+2022-09-29 17:18:29	PARSER: Configured pattern ToPNGpattern
+2022-09-29 17:18:29	PARSER: Configured pattern DetectorPulmonpattern
+2022-09-29 17:18:29	PARSER: Configured stage stage_Deidentification
+2022-09-29 17:18:29	PARSER: Configured stage stage_ToPNG
+2022-09-29 17:18:29	PARSER: Configured stage stage_DetectorPulmon
+2022-09-29 17:18:29	PARSER: Configured workflow DemoJueves
+2022-09-29 17:18:29	LAUCHER: Coupling stages and building blocks
+2022-09-29 17:18:29	DemoJueves: Workdir DemoJueves
+2022-09-29 17:18:29	DemoJueves: Workdir exists
+2022-09-29 17:18:29	DemoJueves: Stage stage_Deidentification added
+2022-09-29 17:18:29	stage_Deidentification: Workdir stage_Deidentification
+2022-09-29 17:18:29	stage_Deidentification: Workdir exists
+2022-09-29 17:18:29	stage_Deidentification: Added sink stage_ToPNG
+2022-09-29 17:18:29	stage_Deidentification: Added building block Deidentificationpattern
+2022-09-29 17:18:29	Deidentificationpattern: Workdir Deidentificationpattern
+2022-09-29 17:18:29	Deidentificationpattern: Workdir exists
+2022-09-29 17:18:29	Deidentification: Workdir Deidentification
+2022-09-29 17:18:29	Deidentification: Workdir exists
+2022-09-29 17:18:29	DemoJueves: Stage stage_ToPNG added
+2022-09-29 17:18:29	stage_ToPNG: Workdir stage_ToPNG
+2022-09-29 17:18:29	stage_ToPNG: Workdir exists
+2022-09-29 17:18:29	stage_ToPNG: Added source stage_Deidentification
+2022-09-29 17:18:29	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-09-29 17:18:29	stage_ToPNG: Added building block ToPNGpattern
+2022-09-29 17:18:29	ToPNGpattern: Workdir ToPNGpattern
+2022-09-29 17:18:29	ToPNGpattern: Workdir exists
+2022-09-29 17:18:29	ToPNG: Workdir ToPNG
+2022-09-29 17:18:29	ToPNG: Workdir exists
+2022-09-29 17:18:29	DemoJueves: Stage stage_DetectorPulmon added
+2022-09-29 17:18:29	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-09-29 17:18:29	stage_DetectorPulmon: Workdir exists
+2022-09-29 17:18:29	stage_DetectorPulmon: Added source stage_ToPNG
+2022-09-29 17:18:29	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-09-29 17:18:29	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-09-29 17:18:29	DetectorPulmonpattern: Workdir exists
+2022-09-29 17:18:29	DetectorPulmon: Workdir DetectorPulmon
+2022-09-29 17:18:29	DetectorPulmon: Workdir exists
+2022-09-29 17:18:29	LAUNCHER: Creating YML file at DemoJueves/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+2022-09-29 17:18:29	LAUCHER: deploying virtual containers of workflow DemoJueves
+java -jar Download.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75 2 1 cinves '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/catalogs/MyCat' f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true false 1
+java.net.ConnectException: Connection timed out (Connection timed out)
+	at java.base/java.net.PlainSocketImpl.socketConnect(Native Method)
+	at java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)
+	at java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)
+	at java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)
+	at java.base/java.net.Socket.connect(Socket.java:609)
+	at java.base/java.net.Socket.connect(Socket.java:558)
+	at java.base/sun.net.NetworkClient.doConnect(NetworkClient.java:182)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:474)
+	at java.base/sun.net.www.http.HttpClient.openServer(HttpClient.java:569)
+	at java.base/sun.net.www.http.HttpClient.<init>(HttpClient.java:242)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:341)
+	at java.base/sun.net.www.http.HttpClient.New(HttpClient.java:362)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getNewHttpClient(HttpURLConnection.java:1253)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1187)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1081)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.connect(HttpURLConnection.java:1015)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1592)
+	at java.base/sun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1520)
+	at java.base/java.net.URL.openStream(URL.java:1165)
+	at Communication.Communication.downloadFile(Communication.java:1102)
+	at Communication.Communication.decrypFile(Communication.java:472)
+	at Communication.Communication.retrieve(Communication.java:590)
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:79)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+java.lang.NullPointerException
+	at mx.cinvestav.tamps.integracion.gui.RobotWorker.run(RobotWorker.java:49)
+	at mx.cinvestav.tamps.integracion.gui.Work.run(RobotHelper.java:99)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-09-29 17:20:41	DemoJueves: executing 
+{ "catalogname": " MyCat/DemoJueves-1664472041563 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75", "processed": "true" }
+192.168.0.111:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+2022-09-29 17:20:41	stage_ToPNG: waiting
+2022-09-29 17:20:41	stage_Deidentification: waiting
+2022-09-29 17:20:41	stage_DetectorPulmon: waiting
+2022-09-29 17:20:41	stage_Deidentification: WORKING
+2022-09-29 17:20:41	stage_Deidentification: has 1 sources
+2022-09-29 17:20:41	Deidentificationpattern: waiting
+2022-09-29 17:20:41	Deidentificationpattern: running
+2022-09-29 17:20:41	Deidentificationpattern: executing load balancer
+2022-09-29 17:20:42	Deidentificationpattern: load balancer executed in RT = 838 miliseconds
+2022-09-29 17:20:42	Deidentification: waiting
+2022-09-29 17:20:42	Deidentification: waiting
+2022-09-29 17:20:42	Deidentification: running
+2022-09-29 17:20:42	Deidentification: running
+2022-09-29 17:20:42	Deidentification: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+python3 /code/process_dir.py --input /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala --outfolder '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_Deidentification/Deidentificationpattern/Deidentification/' --save dicom
+WARNING No specification, loading default base deid.dicom
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-025.dcm, skipping.
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-140.dcm, skipping.
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-020.dcm, skipping.
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-134.dcm, skipping.
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-008.dcm, skipping.
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-139.dcm, skipping.
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-007.dcm, skipping.
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-033.dcm, skipping.
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-032.dcm, skipping.
+WARNING Cannot read input file /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala/1-143.dcm, skipping.
+2022-09-29 17:20:43	Deidentification: processed 4096 bytes in ST=0.000000 RT = 1381 miliseconds
+2022-09-29 17:20:43	Deidentificationpattern: pattern executed in ST = 2220 miliseconds
+{ "catalogname": " MyCat/DemoJueves-1664472041563/stage_Deidentification-1664472043837 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"4e70eccda1f82e368b6c6be750dc9483636e82d2a2cb5daefbd887f290532262", "processed": "true" }
+192.168.0.111:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 0f584e457aa2d272cef863c52d9d41defc7050495376c36053eb229319f0912a IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_Deidentification' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-29 17:20:44	stage_Deidentification: data satage upload in ST = 538 miliseconds
+2022-09-29 17:20:44	stage_Deidentification: stage executed in ST = 2759 miliseconds
+2022-09-29 17:20:44	stage_ToPNG: WORKING
+2022-09-29 17:20:44	stage_ToPNG: has 1 sources
+2022-09-29 17:20:44	ToPNGpattern: waiting
+2022-09-29 17:20:44	ToPNGpattern: running
+2022-09-29 17:20:44	ToPNGpattern: executing load balancer
+2022-09-29 17:20:45	ToPNGpattern: load balancer executed in RT = 855 miliseconds
+2022-09-29 17:20:45	ToPNG: waiting
+2022-09-29 17:20:45	ToPNG: waiting
+2022-09-29 17:20:45	ToPNG: running
+2022-09-29 17:20:45	ToPNG: running
+2022-09-29 17:20:45	ToPNG: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+2022-09-29 17:20:45	ToPNG: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+2022-09-29 17:20:45	ToPNGpattern: pattern executed in ST = 856 miliseconds
+{ "catalogname": " MyCat/DemoJueves-1664472041563/stage_ToPNG-1664472045232 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"4e70eccda1f82e368b6c6be750dc9483636e82d2a2cb5daefbd887f290532262", "processed": "true" }
+192.168.0.111:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 224430115e17d91a878e4623870f6e75e95c3c463004280220db1684fea13455 IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_ToPNG' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-29 17:20:45	stage_ToPNG: data satage upload in ST = 538 miliseconds
+2022-09-29 17:20:45	stage_ToPNG: stage executed in ST = 1394 miliseconds
+2022-09-29 17:20:45	stage_DetectorPulmon: WORKING
+2022-09-29 17:20:45	stage_DetectorPulmon: has 1 sources
+2022-09-29 17:20:45	DetectorPulmonpattern: waiting
+2022-09-29 17:20:45	DetectorPulmonpattern: running
+2022-09-29 17:20:45	DetectorPulmonpattern: executing load balancer
+2022-09-29 17:20:46	DetectorPulmonpattern: load balancer executed in RT = 843 miliseconds
+2022-09-29 17:20:46	DetectorPulmon: waiting
+2022-09-29 17:20:46	DetectorPulmon: waiting
+2022-09-29 17:20:46	DetectorPulmon: running
+2022-09-29 17:20:46	DetectorPulmon: running
+2022-09-29 17:20:46	DetectorPulmon: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+2022-09-29 17:20:46	DetectorPulmon: processed 0 bytes in ST=0.000000 RT = 0 miliseconds
+2022-09-29 17:20:46	DetectorPulmonpattern: pattern executed in ST = 844 miliseconds
+{ "catalogname": " MyCat/DemoJueves-1664472041563/stage_DetectorPulmon-1664472046615 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"4e70eccda1f82e368b6c6be750dc9483636e82d2a2cb5daefbd887f290532262", "processed": "true" }
+192.168.0.111:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 65fb34339cd6c7c913200a8a31bb5248bff38028b7a1bea882574f76fe68487a IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_DetectorPulmon' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-29 17:20:47	stage_DetectorPulmon: data satage upload in ST = 497 miliseconds
+2022-09-29 17:20:47	stage_DetectorPulmon: stage executed in ST = 1342 miliseconds

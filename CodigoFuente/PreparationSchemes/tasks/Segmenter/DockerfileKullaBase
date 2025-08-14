@@ -1,0 +1,22 @@
+# Genera una imagen de contenedor base que será utilizada 
+# para el modelo de programación KULLA
+# Creador: Hugo German Reyes Anastacio
+# Mail: hreyes@tamps.cinvestav.mx
+#Se indica la imagen base
+FROM ubuntu:16.04
+#Comandos de instalacón de las dependencias de kulla
+RUN apt-get update \ 
+#Se instala el compilador de c y algunas otras herramientas
+	&& apt-get install build-essential -y \ 
+	&& apt-get install make \ 
+#Se instala un editor de texto de consola para realizar modificaciones
+	&& apt-get install nano -y
+
+#Para construir esta imagen usar el comando
+# docker build -f DockerfileKullaBase -t kulla:base .
+#-->docker build: indica que se realizará una construcción de imagen de contenedor
+#-->-f: indica que se usará un archivo Dockerfile que tiene un nombre distinto al nombre por defecto "Dockerfile"
+#-->DockerfileKullaBase: es el nombre del archivo dockerfile que será usado para crear la imagen de contenedor
+#--> -t: indica que se le asignará un nombre a la imagen de contenedor
+#--> kulla:base Es el nombre que se le asignará a la imagen de contenedor
+#--> . Indica el fin del comando

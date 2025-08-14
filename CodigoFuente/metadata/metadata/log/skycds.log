@@ -1,0 +1,110 @@
+[13/Feb/2023:12:33:51] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (63ea828f7ecd34.11153431, 72294e34460580f6d176215a2fd3211b6c9608734133fd21e43b178834baa58a, d80ce7b606df65570e4b8ae2cd930b070cdbe547, null, 3, r, 0, 2023-02-13 18:33:51.519513).
+[13/Feb/2023:12:34:00] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (63ea82984175b8.80595997, 72294e34460580f6d176215a2fd3211b6c9608734133fd21e43b178834baa58a, 072af6d1039ae27197deade5fab4ce55b9a5b673, null, 3, r, 0, 2023-02-13 18:34:00.268381).
+[13/Feb/2023:12:34:19] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (63ea82abd1b690.32419382, 72294e34460580f6d176215a2fd3211b6c9608734133fd21e43b178834baa58a, af81a4aa9e2f2d4dba0daf9d39f8a26ae9b85efd, null, 3, r, 0, 2023-02-13 18:34:19.859106).
+[13/Feb/2023:12:59:47] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (63ea88a343d1f6.92848132, 329e5d8f7d031b7f9c5ae66d6f335cb5eea90e1133fb90647224f2be35a9b9de, be6cb4e16a7ef21df81c5672a326b7ea68349355, null, 1, r, 0, 2023-02-13 18:59:47.278098).
+[14/Feb/2023:14:43:26] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (63ebf26e04b0a2.91251984, badf6895d61dab5f49552d9ca167dcbb0dd52724f324f2070188d7245dc6ec90, 0b5718432eb440a3c285c15b43b352cd70e6141c, null, 1, r, 0, 2023-02-14 20:43:26.019357).
+[23/Feb/2023:17:46:24] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (63f7fad0d99637.87485188, 58922001e47d36c4ba38c3121428c9a505b5c8eea1075e4161c0dac415d27bdd, 1151b4cc369e7ea9bb260777420a1bc7a12a919c, null, 4, r, 0, 2023-02-23 23:46:24.8914).
+[23/Feb/2023:17:46:36] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (63f7fadc597a95.78395776, 58922001e47d36c4ba38c3121428c9a505b5c8eea1075e4161c0dac415d27bdd, 1151b4cc369e7ea9bb260777420a1bc7a12a919c, null, 4, r, 0, 2023-02-23 23:46:36.366745).
+[23/Feb/2023:17:46:45] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (63f7fae5f3bc31.79766421, 58922001e47d36c4ba38c3121428c9a505b5c8eea1075e4161c0dac415d27bdd, 25e1f31735a85ddcaa1f400798f279c5950b85cb, null, 2, r, 0, 2023-02-23 23:46:45.998481).
+[01/Aug/2023:03:46:11] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64c8c65316cf84.99572014, 05b252b310ff8ccecd5e86a0ee382f90f687910e21836143de202d9c9ef4228d, 05cfa2f2882210f7ce7ad246743187f8e25d2b0f, null, 3, r, 0, 2023-08-01 08:46:11.093601).
+[01/Aug/2023:03:46:25] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64c8c661a191d7.21472480, 05b252b310ff8ccecd5e86a0ee382f90f687910e21836143de202d9c9ef4228d, 2f675cdc3495de4ecc3d6d6310db6ea4e043570b, null, 4, r, 0, 2023-08-01 08:46:25.661972).
+[21/Aug/2023:09:56:52] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b34b21530.38271929, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 1061278c26b580f1ffdbcae8ed5c890b475f9e86, null, 2, r, 0, 2023-08-21 14:56:52.72961).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b3521cd25.19736822, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 16d55de46f99cd8f1c266ffd1fd823b82d5ec5ba, null, 3, r, 0, 2023-08-21 14:56:53.138597).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b353c2f55.08489611, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 3449cc64a243f97c4b8cff02be4e43b95ffada63, null, 4, r, 0, 2023-08-21 14:56:53.246659).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b3551ad28.62419605, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 3d0cec43ba5c0d160dbc22042b315183b3109432, null, 1, r, 0, 2023-08-21 14:56:53.334695).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b35670903.40380576, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 406f9ebfc5e9ba7af80342ce0fca024c091a693b, null, 3, r, 0, 2023-08-21 14:56:53.422152).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b357d00a9.42458544, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 5f0b7a131acd8d7be6d272f2a4ade067ddc93ed9, null, 5, r, 0, 2023-08-21 14:56:53.512235).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b35910ac4.69232386, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 62851fad83da54606ab27f4c886bbdadfc196c67, null, 5, r, 0, 2023-08-21 14:56:53.594303).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b35a74852.51706909, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 7bdc3d4e37e009985a8225737e6b1b5327b0ae4d, null, 5, r, 0, 2023-08-21 14:56:53.685315).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b35bf3d93.40006259, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 7e5b194120891e9c37539876b10ac273c3a99869, null, 1, r, 0, 2023-08-21 14:56:53.783642).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b35d35449.47433112, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 89db5c3d5a15ff8018a1a937cedb3bfe9f7cb5c0, null, 4, r, 0, 2023-08-21 14:56:53.865747).
+[21/Aug/2023:09:56:53] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b35e5c372.02404207, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 8a3cf821fd18e908825fee76ee1595ad093c5b1c, null, 4, r, 0, 2023-08-21 14:56:53.941285).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b36045f52.02653810, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 8f1d8a988d4e8b6a3b62c571dbae32e7e94575b8, null, 1, r, 0, 2023-08-21 14:56:54.018081).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b361553d3.53022653, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 9233d59e6dbf79f8762eace08f2e2c1357c9fcd2, null, 1, r, 0, 2023-08-21 14:56:54.087473).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b362957c4.42389892, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 93ba043f1e1510adc87c969a7695515b36afaaf1, null, 5, r, 0, 2023-08-21 14:56:54.169472).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b363d96a9.81168215, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 9870d141e27b376245edb704650784d163a24917, null, 1, r, 0, 2023-08-21 14:56:54.252417).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b3651a319.86159538, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 9af1c17974372f32ddeb4e6836a4cd800820e6fe, null, 4, r, 0, 2023-08-21 14:56:54.334554).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b366a9065.51037924, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, adbc0df7f508f3dd5cde8e8f740534fd3780f86d, null, 2, r, 0, 2023-08-21 14:56:54.436627).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b36827d83.14810062, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, b3ae73ddb495f5237dea7046b5c13de5f64c41a9, null, 2, r, 0, 2023-08-21 14:56:54.534736).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b36966056.44567855, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, cab0c5bfc9fefa74dd4ef6700f8baedccc213409, null, 3, r, 0, 2023-08-21 14:56:54.616119).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b36ab7859.98102698, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, d82a8bb57b50428df4ea3bd080295989080c99b6, null, 2, r, 0, 2023-08-21 14:56:54.702541).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b36be8a93.07843209, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, e6467ca97f406853a369545bc5c0ef89a0f433e7, null, 4, r, 0, 2023-08-21 14:56:54.780587).
+[21/Aug/2023:09:56:54] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b36d1dc87.97800152, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, eeb0047120d8150b5e45df537dd1ce6e0a967e32, null, 3, r, 0, 2023-08-21 14:56:54.859755).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b3719e261.01427022, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 0164434dfbef6a57cc77ba454ae15367e8149c34, null, 3, r, 0, 2023-08-21 14:56:55.106139).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b372e9394.92625051, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 09915a491081895c656cf1d3d29c86f122078fb8, null, 1, r, 0, 2023-08-21 14:56:55.190915).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b37421bd4.66113459, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 0d1d8b8e2f4ca8857783194ce25fd96c385ab698, null, 4, r, 0, 2023-08-21 14:56:55.270972).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b375a1265.02405184, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 17ab08f0708ecea6878c8d2989e7e83eb4448a5c, null, 1, r, 0, 2023-08-21 14:56:55.369153).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b376f4eb8.36084112, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 17d54f3b7fd23f16247fafdb42886a478d8ac2d7, null, 5, r, 0, 2023-08-21 14:56:55.456117).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b37876be4.30891364, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 18805c4b1db4d26f657cbd8c0f86de551cb7a07a, null, 4, r, 0, 2023-08-21 14:56:55.554978).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b379d6b51.15683141, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 1d3c7dd0bda177ecdcd26bd3363729d7610e1920, null, 2, r, 0, 2023-08-21 14:56:55.644951).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b37b026c6.84052381, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 2141f0178b3ca3178a00f8600eab4909e6033405, null, 3, r, 0, 2023-08-21 14:56:55.721644).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b37c81e07.39690376, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 3d9d2ebfd355924245f0c8d1653e7372e0ba630b, null, 1, r, 0, 2023-08-21 14:56:55.819883).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b37dd3cd0.49287641, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 4c8e9cd9ab4e5fcc089514920fc275923eb04d55, null, 2, r, 0, 2023-08-21 14:56:55.906305).
+[21/Aug/2023:09:56:55] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b37f000c1.68759929, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 5276212bb550f0dd1fb608f3d722e40721a6989a, null, 5, r, 0, 2023-08-21 14:56:55.983341).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b380cac80.53553735, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 6b7f48d6c50b27a7942661f532aaa773e49c886a, null, 3, r, 0, 2023-08-21 14:56:56.052064).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b381f7b02.44855086, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 8aa224dcd565a3ff76b3be7f3bf6cb89cb9683c5, null, 3, r, 0, 2023-08-21 14:56:56.129072).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b38329243.02164371, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 957903ad1ae32e523341e165da2f96137e7b4f99, null, 5, r, 0, 2023-08-21 14:56:56.207256).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b38468eb9.23529722, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 9c957185448f10f96846c20d121cd015fea38407, null, 2, r, 0, 2023-08-21 14:56:56.289126).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b38586165.17186266, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, 9f104cfee7e1c80df3324156c028667c9461c51e, null, 5, r, 0, 2023-08-21 14:56:56.362133).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b386b81c0.04663234, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, a82d87858aadd068d36aef9410d575bbd70f8961, null, 4, r, 0, 2023-08-21 14:56:56.4405).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b387ee1e5.58179387, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, b589d186a8dc2de7cfdd83890075ef2ef7c3bcd0, null, 3, r, 0, 2023-08-21 14:56:56.519888).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b38976585.43307714, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, c6ef93f551f85f7b1c1ca81d0a34dbde89a20519, null, 5, r, 0, 2023-08-21 14:56:56.620306).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b38aaabe2.59461217, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, ceed4bd514136f9e934e1bd499c524b15496de92, null, 2, r, 0, 2023-08-21 14:56:56.699193).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b38bdeb83.52519146, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, cf929b077fc1f12204e7bdf52525284ec8cda37e, null, 2, r, 0, 2023-08-21 14:56:56.778024).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b38d11c58.21186089, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, e18c0850f7300c629ed94aa671d75348d966dd04, null, 1, r, 0, 2023-08-21 14:56:56.856667).
+[21/Aug/2023:09:56:56] (pull) SQLSTATE[23502]: Not null violation: 7 ERROR:  null value in column "chunk_id" violates not-null constraint
+DETAIL:  Failing row contains (64e37b38e42515.32047445, 187687f60a315f9a7a75086a5d57264d25ceb0a82fcec7a73a1f68a80b5873d1, ebe8bd00c7f31665edd1fe898c016eb14a927a43, null, 4, r, 0, 2023-08-21 14:56:56.934594).

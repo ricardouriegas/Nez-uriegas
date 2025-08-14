@@ -1,0 +1,54 @@
+2022-10-13 15:37:52	PARSER: Configured single Deidentification
+2022-10-13 15:37:52	PARSER: Configured single ToPNG
+2022-10-13 15:37:52	PARSER: Configured single DetectorPulmon
+2022-10-13 15:37:52	PARSER: Configured stage stage_Deidentification
+2022-10-13 15:37:52	PARSER: Configured stage stage_ToPNG
+2022-10-13 15:37:52	PARSER: Configured stage stage_DetectorPulmon
+2022-10-13 15:37:52	PARSER: Configured workflow PruebaMerida1
+2022-10-13 15:37:52	LAUCHER: Coupling stages and building blocks
+2022-10-13 15:37:52	PruebaMerida1: Workdir PruebaMerida1
+2022-10-13 15:37:52	PruebaMerida1: Workdir created
+2022-10-13 15:37:52	PruebaMerida1: Stage stage_Deidentification added
+2022-10-13 15:37:52	stage_Deidentification: Workdir stage_Deidentification
+2022-10-13 15:37:52	stage_Deidentification: Workdir created
+2022-10-13 15:37:52	stage_Deidentification: Added sink stage_ToPNG
+2022-10-13 15:37:52	stage_Deidentification: Added building block Deidentification
+2022-10-13 15:37:52	Deidentification: Workdir Deidentification
+2022-10-13 15:37:52	Deidentification: Workdir created
+2022-10-13 15:37:52	PruebaMerida1: Stage stage_ToPNG added
+2022-10-13 15:37:52	stage_ToPNG: Workdir stage_ToPNG
+2022-10-13 15:37:52	stage_ToPNG: Workdir created
+2022-10-13 15:37:52	stage_ToPNG: Added source stage_Deidentification
+2022-10-13 15:37:52	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-10-13 15:37:52	stage_ToPNG: Added building block ToPNG
+2022-10-13 15:37:52	ToPNG: Workdir ToPNG
+2022-10-13 15:37:52	ToPNG: Workdir created
+2022-10-13 15:37:52	PruebaMerida1: Stage stage_DetectorPulmon added
+2022-10-13 15:37:52	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-10-13 15:37:52	stage_DetectorPulmon: Workdir created
+2022-10-13 15:37:52	stage_DetectorPulmon: Added source stage_ToPNG
+2022-10-13 15:37:52	stage_DetectorPulmon: Added building block DetectorPulmon
+2022-10-13 15:37:52	DetectorPulmon: Workdir DetectorPulmon
+2022-10-13 15:37:52	DetectorPulmon: Workdir created
+2022-10-13 15:37:52	LAUNCHER: Creating YML file at PruebaMerida1/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida1 -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida1/docker-compose.yml  up -d --build 2> /dev/null
+2022-10-13 15:37:52	LAUCHER: deploying virtual containers of workflow PruebaMerida1
+2022-10-13 15:37:54	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida1 -f /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida1/docker-compose.yml  down
+
+
+/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/PruebaMerida1/stages.json
+Traceback (most recent call last):
+  File "normas/main.py", line 38, in <module>
+    main(cfg_path, json_path, yml_path, output_path)
+  File "normas/main.py", line 14, in main
+    compliance.compliance(cfg, js, yml, output_path)
+  File "/home/app/normas/compliance.py", line 55, in compliance
+    reports.generate_checklist_report(COBIT, compliance, percentage, number_requirements, n_asisted_requirements, output_path)
+  File "/home/app/normas/reports.py", line 26, in generate_checklist_report
+    f.write( tabl.draw())
+UnicodeEncodeError: 'ascii' codec can't encode character '\xf3' in position 662: ordinal not in range(128)

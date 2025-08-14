@@ -1,0 +1,39 @@
+2021-08-26 15:08:46	PARSER: Configured single cleaning
+2021-08-26 15:08:46	PARSER: Configured single dicomtojpg
+2021-08-26 15:08:46	PARSER: Configured pattern cleaningpattern
+2021-08-26 15:08:46	PARSER: Configured pattern dicomtojpgpattern
+2021-08-26 15:08:46	PARSER: Configured stage stage_cleaning
+2021-08-26 15:08:46	PARSER: Configured stage stage_dicomtojpg
+2021-08-26 15:08:46	PARSER: Configured workflow DemoService
+Your PATH is: /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app/
+2021-08-26 15:08:46	LAUCHER: Coupling stages and building blocks
+2021-08-26 15:08:46	DemoService: Workdir DemoService
+2021-08-26 15:08:46	DemoService: Workdir created
+2021-08-26 15:08:46	DemoService: Stage stage_cleaning added
+2021-08-26 15:08:46	stage_cleaning: Workdir stage_cleaning
+2021-08-26 15:08:46	stage_cleaning: Workdir created
+2021-08-26 15:08:46	stage_cleaning: Added sink stage_dicomtojpg
+2021-08-26 15:08:46	stage_cleaning: Added building block cleaningpattern
+2021-08-26 15:08:46	cleaningpattern: Workdir cleaningpattern
+2021-08-26 15:08:46	cleaningpattern: Workdir created
+2021-08-26 15:08:46	cleaning: Workdir cleaning
+2021-08-26 15:08:46	cleaning: Workdir created
+2021-08-26 15:08:46	DemoService: Stage stage_dicomtojpg added
+2021-08-26 15:08:46	stage_dicomtojpg: Workdir stage_dicomtojpg
+2021-08-26 15:08:46	stage_dicomtojpg: Workdir created
+2021-08-26 15:08:46	stage_dicomtojpg: Added source stage_cleaning
+2021-08-26 15:08:46	stage_dicomtojpg: Added building block dicomtojpgpattern
+2021-08-26 15:08:46	dicomtojpgpattern: Workdir dicomtojpgpattern
+2021-08-26 15:08:46	dicomtojpgpattern: Workdir created
+2021-08-26 15:08:46	dicomtojpg: Workdir dicomtojpg
+2021-08-26 15:08:46	dicomtojpg: Workdir created
+2021-08-26 15:08:46	LAUNCHER: Creating YML file at DemoService/docker-compose.yml
+dicomtojpg
+cleaning
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/DemoService -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/DemoService/docker-compose.yml  up -d --build --scale dicomtojpg=4  --scale cleaning=4  2> /dev/null
+2021-08-26 15:08:46	LAUCHER: deploying virtual containers of workflow DemoService
+2021-08-26 15:08:58	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/DemoService -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/DemoService/docker-compose.yml  down
+
+

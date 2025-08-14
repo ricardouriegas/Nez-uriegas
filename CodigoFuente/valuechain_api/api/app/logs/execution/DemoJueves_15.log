@@ -1,0 +1,139 @@
+2022-09-30 14:09:56	PARSER: Configured single Deidentification
+2022-09-30 14:09:56	PARSER: Configured single ToPNG
+2022-09-30 14:09:56	PARSER: Configured single DetectorPulmon
+2022-09-30 14:09:56	PARSER: Configured pattern Deidentificationpattern
+2022-09-30 14:09:56	PARSER: Configured pattern ToPNGpattern
+2022-09-30 14:09:56	PARSER: Configured pattern DetectorPulmonpattern
+2022-09-30 14:09:56	PARSER: Configured stage stage_Deidentification
+2022-09-30 14:09:56	PARSER: Configured stage stage_ToPNG
+2022-09-30 14:09:56	PARSER: Configured stage stage_DetectorPulmon
+2022-09-30 14:09:56	PARSER: Configured workflow DemoJueves
+2022-09-30 14:09:56	LAUCHER: Coupling stages and building blocks
+2022-09-30 14:09:56	DemoJueves: Workdir DemoJueves
+2022-09-30 14:09:56	DemoJueves: Workdir exists
+2022-09-30 14:09:56	DemoJueves: Stage stage_Deidentification added
+2022-09-30 14:09:56	stage_Deidentification: Workdir stage_Deidentification
+2022-09-30 14:09:56	stage_Deidentification: Workdir exists
+2022-09-30 14:09:56	stage_Deidentification: Added sink stage_ToPNG
+2022-09-30 14:09:56	stage_Deidentification: Added building block Deidentificationpattern
+2022-09-30 14:09:56	Deidentificationpattern: Workdir Deidentificationpattern
+2022-09-30 14:09:56	Deidentificationpattern: Workdir exists
+2022-09-30 14:09:56	Deidentification: Workdir Deidentification
+2022-09-30 14:09:56	Deidentification: Workdir exists
+2022-09-30 14:09:56	DemoJueves: Stage stage_ToPNG added
+2022-09-30 14:09:56	stage_ToPNG: Workdir stage_ToPNG
+2022-09-30 14:09:56	stage_ToPNG: Workdir exists
+2022-09-30 14:09:56	stage_ToPNG: Added source stage_Deidentification
+2022-09-30 14:09:56	stage_ToPNG: Added sink stage_DetectorPulmon
+2022-09-30 14:09:56	stage_ToPNG: Added building block ToPNGpattern
+2022-09-30 14:09:56	ToPNGpattern: Workdir ToPNGpattern
+2022-09-30 14:09:56	ToPNGpattern: Workdir exists
+2022-09-30 14:09:56	ToPNG: Workdir ToPNG
+2022-09-30 14:09:56	ToPNG: Workdir exists
+2022-09-30 14:09:56	DemoJueves: Stage stage_DetectorPulmon added
+2022-09-30 14:09:56	stage_DetectorPulmon: Workdir stage_DetectorPulmon
+2022-09-30 14:09:56	stage_DetectorPulmon: Workdir exists
+2022-09-30 14:09:56	stage_DetectorPulmon: Added source stage_ToPNG
+2022-09-30 14:09:56	stage_DetectorPulmon: Added building block DetectorPulmonpattern
+2022-09-30 14:09:56	DetectorPulmonpattern: Workdir DetectorPulmonpattern
+2022-09-30 14:09:56	DetectorPulmonpattern: Workdir exists
+2022-09-30 14:09:56	DetectorPulmon: Workdir DetectorPulmon
+2022-09-30 14:09:56	DetectorPulmon: Workdir exists
+2022-09-30 14:09:56	LAUNCHER: Creating YML file at DemoJueves/docker-compose.yml
+DetectorPulmon
+ToPNG
+Deidentification
+2022-09-30 14:09:56	LAUCHER: deploying virtual containers of workflow DemoJueves
+java -jar Download.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75 2 1 cinves '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/catalogs/MyCat' f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true false 1
+2022-09-30 14:10:21	DemoJueves: executing 
+{ "catalogname": " MyCat/DemoJueves-1664547021186 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"b6c16b6341e636471f89b42f0b3600fcba5d6c62df2c72537c7a5b0a230cca75", "processed": "true" }
+192.168.0.111:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+2022-09-30 14:10:21	stage_Deidentification: waiting
+2022-09-30 14:10:21	stage_DetectorPulmon: waiting
+2022-09-30 14:10:21	stage_ToPNG: waiting
+2022-09-30 14:10:21	stage_Deidentification: WORKING
+2022-09-30 14:10:21	stage_Deidentification: has 1 sources
+2022-09-30 14:10:21	Deidentificationpattern: waiting
+2022-09-30 14:10:21	Deidentificationpattern: running
+2022-09-30 14:10:21	Deidentificationpattern: executing load balancer
+2022-09-30 14:10:21	Deidentificationpattern: load balancer executed in RT = 679 miliseconds
+2022-09-30 14:10:21	Deidentification: waiting
+2022-09-30 14:10:21	Deidentification: waiting
+2022-09-30 14:10:21	Deidentification: running
+2022-09-30 14:10:21	Deidentification: running
+python3 /code/process_dir.py --input /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/P1 --outfolder '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_Deidentification/Deidentificationpattern/Deidentification/' --save dicom
+python3 /code/process_dir.py --input /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results//DemoJueves/catalogs/MyCat/lala --outfolder '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_Deidentification/Deidentificationpattern/Deidentification/' --save dicom
+WARNING No specification, loading default base deid.dicom
+WARNING No specification, loading default base deid.dicom
+2022-09-30 14:10:23	Deidentification: processed 4096 bytes in ST=0.000000 RT = 1438 miliseconds
+2022-09-30 14:10:24	Deidentification: processed 4096 bytes in ST=0.000000 RT = 3055 miliseconds
+2022-09-30 14:10:24	Deidentificationpattern: pattern executed in ST = 3736 miliseconds
+{ "catalogname": " MyCat/DemoJueves-1664547021186/stage_Deidentification-1664547024974 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"35a7d4b418be9f3b9d33e48071aa13dafb3331e7d18789ae479d99fcbd9e2ec2", "processed": "true" }
+192.168.0.111:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 3b492f511e0f10fdb0674b41c486d3af026a8157444eed1ce4a2c2eb6cb27969 IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_Deidentification' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-30 14:10:25	stage_Deidentification: data satage upload in ST = 437 miliseconds
+2022-09-30 14:10:25	stage_Deidentification: stage executed in ST = 4174 miliseconds
+2022-09-30 14:10:25	stage_ToPNG: WORKING
+2022-09-30 14:10:25	stage_ToPNG: has 1 sources
+2022-09-30 14:10:25	ToPNGpattern: waiting
+2022-09-30 14:10:25	ToPNGpattern: running
+2022-09-30 14:10:25	ToPNGpattern: executing load balancer
+2022-09-30 14:10:26	ToPNGpattern: load balancer executed in RT = 600 miliseconds
+2022-09-30 14:10:26	ToPNG: waiting
+2022-09-30 14:10:26	ToPNG: waiting
+2022-09-30 14:10:26	ToPNG: running
+2022-09-30 14:10:26	ToPNG: running
+python3 /code/dicom2rgb.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves//stage_Deidentification/Deidentificationpattern/Deidentification/lala /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_ToPNG/ToPNGpattern/ToPNG//lala
+python3 /code/dicom2rgb.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves//stage_Deidentification/Deidentificationpattern/Deidentification/P1 /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_ToPNG/ToPNGpattern/ToPNG//P1
+2022-09-30 14:10:29	ToPNG: processed 4096 bytes in ST=0.000000 RT = 3401 miliseconds
+2022-09-30 14:10:36	ToPNG: processed 4096 bytes in ST=0.000000 RT = 10559 miliseconds
+2022-09-30 14:10:36	ToPNGpattern: pattern executed in ST = 11160 miliseconds
+{ "catalogname": " MyCat/DemoJueves-1664547021186/stage_ToPNG-1664547036573 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"35a7d4b418be9f3b9d33e48071aa13dafb3331e7d18789ae479d99fcbd9e2ec2", "processed": "true" }
+192.168.0.111:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 cbe56b8f29e484e21de6fbccad1613e79bdae3356998c2f2e24012c38679d238 IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_ToPNG' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-30 14:21:53	stage_ToPNG: data satage upload in ST = 57875 miliseconds
+2022-09-30 14:21:53	stage_ToPNG: stage executed in ST = 69037 miliseconds
+2022-09-30 14:21:53	stage_DetectorPulmon: WORKING
+2022-09-30 14:21:53	stage_DetectorPulmon: has 1 sources
+2022-09-30 14:21:53	DetectorPulmonpattern: waiting
+2022-09-30 14:21:53	DetectorPulmonpattern: running
+2022-09-30 14:21:53	DetectorPulmonpattern: executing load balancer
+2022-09-30 14:21:53	DetectorPulmonpattern: load balancer executed in RT = 575 miliseconds
+2022-09-30 14:21:53	DetectorPulmon: waiting
+2022-09-30 14:21:53	DetectorPulmon: running
+2022-09-30 14:21:53	DetectorPulmon: waiting
+2022-09-30 14:21:53	DetectorPulmon: running
+python3 /code/detectorPulmones.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves//stage_ToPNG/ToPNGpattern/ToPNG/lala /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_DetectorPulmon/DetectorPulmonpattern/DetectorPulmon//lala
+python3 /code/detectorPulmones.py /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves//stage_ToPNG/ToPNGpattern/ToPNG/P1 /home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_DetectorPulmon/DetectorPulmonpattern/DetectorPulmon//P1
+2022-09-30 14:21:54.798350: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2022-09-30 14:21:54.798390: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-09-30 14:21:54.798350: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2022-09-30 14:21:54.798385: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2022-09-30 14:21:56.799537: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-30 14:21:56.799537: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2022-09-30 14:21:56.802154: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2022-09-30 14:21:56.802187: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+2022-09-30 14:21:56.802212: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] no NVIDIA GPU device is present: /dev/nvidia0 does not exist
+2022-09-30 14:21:56.802166: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcuda.so.1'; dlerror: libcuda.so.1: cannot open shared object file: No such file or directory
+2022-09-30 14:21:56.802202: W tensorflow/stream_executor/cuda/cuda_driver.cc:326] failed call to cuInit: UNKNOWN ERROR (303)
+2022-09-30 14:21:56.802231: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:163] no NVIDIA GPU device is present: /dev/nvidia0 does not exist
+WARNING:tensorflow:From /code/models/research/object_detection/utils/model_util.py:57: Tensor.experimental_ref (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use ref() instead.
+WARNING:tensorflow:From /code/models/research/object_detection/utils/model_util.py:57: Tensor.experimental_ref (from tensorflow.python.framework.ops) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use ref() instead.
+/code/detectorPulmones.py:240: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  plt.figure(figsize=(15,10))
+/code/detectorPulmones.py:240: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  plt.figure(figsize=(15,10))
+2022-09-30 14:22:54	DetectorPulmon: processed 4096 bytes in ST=0.000000 RT = 60425 miliseconds
+2022-09-30 14:25:50	DetectorPulmon: processed 4096 bytes in ST=0.000000 RT = 236736 miliseconds
+2022-09-30 14:25:50	DetectorPulmonpattern: pattern executed in ST = 237312 miliseconds
+{ "catalogname": " MyCat/DemoJueves-1664547021186/stage_DetectorPulmon-1664547950422 ", "dispersemode": "IDA", "encryption":"true", "fathers_token":"35a7d4b418be9f3b9d33e48071aa13dafb3331e7d18789ae479d99fcbd9e2ec2", "processed": "true" }
+192.168.0.111:20500//pub_sub/v1/catalogs/create?access_token=f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188
+java -jar Upload.jar 6a9ac2be1e48146a675229bec3f2b1a409a1643bcb714a801d00ff7faebf00d4 fbf9acf7898c61c27ca88169a056fecf6f89ae94 64f2ce2d7a570593b06f81153922dcb7eae58bcc12d94e0345c6c86a69b6e00a IDA bob 2 '/home/domizzi/Documents/PRONACES/puzzle/deployer/app//results/DemoJueves/stage_DetectorPulmon' cinves true f1177aa780511b8a417ceeb59fd886431d2cc4dc6526a29761cc93e697885188 true true 4
+2022-09-30 14:25:50	stage_DetectorPulmon: data satage upload in ST = 440 miliseconds
+2022-09-30 14:25:50	stage_DetectorPulmon: stage executed in ST = 237753 miliseconds

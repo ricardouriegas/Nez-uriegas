@@ -1,0 +1,57 @@
+2021-11-23 00:59:55	PARSER: Configured single CLEANING
+2021-11-23 00:59:55	PARSER: Configured single meshing
+2021-11-23 00:59:55	PARSER: Configured pattern CLEANINGpattern
+2021-11-23 00:59:55	PARSER: Configured pattern meshingpattern
+2021-11-23 00:59:55	PARSER: Configured stage stage_CLEANING
+2021-11-23 00:59:55	PARSER: Configured stage stage_meshing
+2021-11-23 00:59:55	PARSER: Configured workflow MyPuzzle
+2021-11-23 00:59:55	LAUCHER: Coupling stages and building blocks
+2021-11-23 00:59:55	MyPuzzle: Workdir MyPuzzle
+2021-11-23 00:59:55	MyPuzzle: Workdir exists
+2021-11-23 00:59:55	MyPuzzle: Stage stage_CLEANING added
+2021-11-23 00:59:55	stage_CLEANING: Workdir stage_CLEANING
+2021-11-23 00:59:55	stage_CLEANING: Workdir exists
+2021-11-23 00:59:55	stage_CLEANING: Added sink stage_meshing
+2021-11-23 00:59:55	stage_CLEANING: Added building block CLEANINGpattern
+2021-11-23 00:59:55	CLEANINGpattern: Workdir CLEANINGpattern
+2021-11-23 00:59:55	CLEANINGpattern: Workdir exists
+2021-11-23 00:59:55	CLEANING: Workdir CLEANING
+2021-11-23 00:59:55	CLEANING: Workdir exists
+2021-11-23 00:59:55	MyPuzzle: Stage stage_meshing added
+2021-11-23 00:59:55	stage_meshing: Workdir stage_meshing
+2021-11-23 00:59:55	stage_meshing: Workdir exists
+2021-11-23 00:59:55	stage_meshing: Added source stage_CLEANING
+2021-11-23 00:59:55	stage_meshing: Added building block meshingpattern
+2021-11-23 00:59:55	meshingpattern: Workdir meshingpattern
+2021-11-23 00:59:55	meshingpattern: Workdir exists
+2021-11-23 00:59:55	meshing: Workdir meshing
+2021-11-23 00:59:55	meshing: Workdir exists
+2021-11-23 00:59:55	LAUNCHER: Creating YML file at MyPuzzle/docker-compose.yml
+meshing
+CLEANING
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle -f /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/docker-compose.yml  up -d --build --scale meshing=2  --scale CLEANING=2  2> /dev/null
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.6/dist-packages/mysql/connector/connection_cext.py", line 520, in cmd_query
+    query_attrs=self._query_attrs)
+_mysql_connector.MySQLInterfaceError: Field 'id_app' doesn't have a default value
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "representation/model_application.py", line 1008, in <module>
+    storeValuesApp(app_name,app_description,containers_info,app_td_schema,json_structure,extras, dir)
+  File "representation/model_application.py", line 43, in storeValuesApp
+    database.db_connector.insert_app(app_name,app_description,containers_id,app_td_schema)
+  File "/home/app/representation/database/db_connector.py", line 30, in insert_app
+    mycursor.execute(sql,val)
+  File "/usr/local/lib/python3.6/dist-packages/mysql/connector/cursor_cext.py", line 272, in execute
+    raw_as_string=self._raw_as_string)
+  File "/usr/local/lib/python3.6/dist-packages/mysql/connector/connection_cext.py", line 523, in cmd_query
+    sqlstate=exc.sqlstate)
+mysql.connector.errors.DatabaseError: 1364 (HY000): Field 'id_app' doesn't have a default value
+2021-11-23 00:59:55	LAUCHER: deploying virtual containers of workflow MyPuzzle
+2021-11-23 00:59:56	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle -f /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/docker-compose.yml  down
+
+

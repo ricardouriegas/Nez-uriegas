@@ -1,0 +1,38 @@
+2021-11-23 01:23:23	PARSER: Configured single CLEANING
+2021-11-23 01:23:23	PARSER: Configured single meshing
+2021-11-23 01:23:23	PARSER: Configured pattern CLEANINGpattern
+2021-11-23 01:23:23	PARSER: Configured pattern meshingpattern
+2021-11-23 01:23:23	PARSER: Configured stage stage_CLEANING
+2021-11-23 01:23:23	PARSER: Configured stage stage_meshing
+2021-11-23 01:23:23	PARSER: Configured workflow MyPuzzle
+2021-11-23 01:23:23	LAUCHER: Coupling stages and building blocks
+2021-11-23 01:23:23	MyPuzzle: Workdir MyPuzzle
+2021-11-23 01:23:23	MyPuzzle: Workdir exists
+2021-11-23 01:23:23	MyPuzzle: Stage stage_CLEANING added
+2021-11-23 01:23:23	stage_CLEANING: Workdir stage_CLEANING
+2021-11-23 01:23:23	stage_CLEANING: Workdir exists
+2021-11-23 01:23:23	stage_CLEANING: Added sink stage_meshing
+2021-11-23 01:23:23	stage_CLEANING: Added building block CLEANINGpattern
+2021-11-23 01:23:23	CLEANINGpattern: Workdir CLEANINGpattern
+2021-11-23 01:23:23	CLEANINGpattern: Workdir exists
+2021-11-23 01:23:23	CLEANING: Workdir CLEANING
+2021-11-23 01:23:23	CLEANING: Workdir exists
+2021-11-23 01:23:23	MyPuzzle: Stage stage_meshing added
+2021-11-23 01:23:23	stage_meshing: Workdir stage_meshing
+2021-11-23 01:23:23	stage_meshing: Workdir exists
+2021-11-23 01:23:23	stage_meshing: Added source stage_CLEANING
+2021-11-23 01:23:23	stage_meshing: Added building block meshingpattern
+2021-11-23 01:23:23	meshingpattern: Workdir meshingpattern
+2021-11-23 01:23:23	meshingpattern: Workdir exists
+2021-11-23 01:23:23	meshing: Workdir meshing
+2021-11-23 01:23:23	meshing: Workdir exists
+2021-11-23 01:23:23	LAUNCHER: Creating YML file at MyPuzzle/docker-compose.yml
+meshing
+CLEANING
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle -f /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/docker-compose.yml  up -d --build --scale meshing=2  --scale CLEANING=2  2> /dev/null
+2021-11-23 01:23:23	LAUCHER: deploying virtual containers of workflow MyPuzzle
+2021-11-23 01:23:24	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle -f /home/dsanchez/PuzzleMesh/deployer/app//results/MyPuzzle/docker-compose.yml  down
+
+

@@ -1,0 +1,18 @@
+[21/Aug/2023:14:56:58] (API) SQLSTATE[23503]: Foreign key violation: 7 ERROR:  insert or update on table "executions" violates foreign key constraint "executions_final_status_fkey"
+DETAIL:  Key (final_status)=(0) is not present in table "deployments_status".
+[21/Aug/2023:14:56:58] (API) 2023-08-21 14:56:58
+[21/Aug/2023:14:56:58] (API) 0
+[21/Aug/2023:14:56:58] (API) UPDATE executions SET final_status = :st, executed = :ex where id = :id;
+			
+[21/Aug/2023:15:03:15] (API) SQLSTATE[23503]: Foreign key violation: 7 ERROR:  insert or update on table "executions" violates foreign key constraint "executions_final_status_fkey"
+DETAIL:  Key (final_status)=(0) is not present in table "deployments_status".
+[21/Aug/2023:15:03:15] (API) 2023-08-21 15:03:15
+[21/Aug/2023:15:03:15] (API) 0
+[21/Aug/2023:15:03:15] (API) UPDATE executions SET final_status = :st, executed = :ex where id = :id;
+			
+[21/Aug/2023:15:06:58] (API) SQLSTATE[23503]: Foreign key violation: 7 ERROR:  insert or update on table "executions" violates foreign key constraint "executions_final_status_fkey"
+DETAIL:  Key (final_status)=(0) is not present in table "deployments_status".
+[21/Aug/2023:15:06:58] (API) 2023-08-21 15:06:58
+[21/Aug/2023:15:06:58] (API) 0
+[21/Aug/2023:15:06:58] (API) UPDATE executions SET final_status = :st, executed = :ex where id = :id;
+			

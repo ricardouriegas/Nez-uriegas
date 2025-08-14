@@ -1,0 +1,5 @@
+FROM postgres:12
+
+ADD ./schema-sql/multi_07mar2018.sql /docker-entrypoint-initdb.d/1-multi.sql
+
+VOLUME psql-metadata:/var/lib/postgresql/data

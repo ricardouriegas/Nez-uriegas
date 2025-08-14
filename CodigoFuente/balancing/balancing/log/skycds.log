@@ -1,0 +1,73 @@
+[12/Feb/2018:22:45:07] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "topics" does not exist
+LINE 1: SELECT * FROM topics WHERE id = $1;
+                      ^
+[12/Feb/2018:22:45:12] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "topics" does not exist
+LINE 1: SELECT * FROM topics WHERE id = $1;
+                      ^
+[12/Feb/2018:22:45:15] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "topics" does not exist
+LINE 1: SELECT * FROM topics WHERE id = $1;
+                      ^
+[12/Feb/2018:23:17:21] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "nodes" does not exist
+LINE 1: SELECT * FROM nodes;
+                      ^
+[12/Feb/2018:23:17:37] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "nodes" does not exist
+LINE 1: SELECT * FROM nodes;
+                      ^
+[12/Feb/2018:23:18:19] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "nodes" does not exist
+LINE 1: SELECT * FROM nodes;
+                      ^
+[12/Feb/2018:23:21:05] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "nodes" does not exist
+LINE 1: SELECT * FROM nodes;
+                      ^
+[12/Feb/2018:23:25:03] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "nodes" does not exist
+LINE 1: SELECT * FROM nodes;
+                      ^
+[12/Feb/2018:23:26:36] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "nodes" does not exist
+LINE 1: INSERT INTO nodes(url, capacity, memory) VALUES($1, $2, $3);
+                    ^
+[13/Feb/2018:11:03:47] (api) SQLSTATE[08006] [7] timeout expired
+[13/Feb/2018:11:04:33] (api) SQLSTATE[08006] [7] timeout expired
+[13/Feb/2018:11:05:10] (api) SQLSTATE[08006] [7] server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+[13/Feb/2018:11:05:11] (api) SQLSTATE[08006] [7] server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+[13/Feb/2018:11:05:12] (api) SQLSTATE[08006] [7] server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+[13/Feb/2018:11:05:13] (api) SQLSTATE[08006] [7] server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+[13/Feb/2018:11:06:16] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "nodes" does not exist
+LINE 1: INSERT INTO nodes(url, capacity, memory) VALUES($1, $2, $3);
+                    ^
+[13/Feb/2018:11:06:34] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "nodes" does not exist
+LINE 1: SELECT * FROM nodes;
+                      ^
+[14/Feb/2018:04:48:48] (api) SQLSTATE[08006] [7] server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+[14/Feb/2018:04:49:33] (api) SQLSTATE[08006] [7] server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+[15/Feb/2018:14:48:37] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "users" does not exist
+LINE 1: SELECT * FROM users;
+                      ^
+[15/Feb/2018:15:57:37] (nodes) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "node" does not exist
+LINE 1: DELETE FROM node WHERE id = $1;
+                    ^
+[15/Feb/2018:15:57:47] (nodes) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "node" does not exist
+LINE 1: DELETE FROM node WHERE id = $1;
+                    ^
+[15/Feb/2018:16:24:59] (files) SQLSTATE[42601]: Syntax error: 7 ERROR:  syntax error at or near "returnig"
+LINE 1: ...ERT INTO files(id, name, size) VALUES($1, $2, $3) returnig i...
+                                                             ^
+[15/Feb/2018:16:30:24] (files) SQLSTATE[08P01]: <<Unknown error>>: 7 ERROR:  bind message supplies 1 parameters, but prepared statement "pdo_stmt_00000001" requires 0
+[15/Feb/2018:16:30:45] (files) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "files_pkey"
+DETAIL:  Key (id)=(2) already exists.
+[15/Feb/2018:16:30:54] (files) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "files_pkey"
+DETAIL:  Key (id)=(3) already exists.
+[15/Feb/2018:16:31:14] (files) SQLSTATE[08P01]: <<Unknown error>>: 7 ERROR:  bind message supplies 1 parameters, but prepared statement "pdo_stmt_00000001" requires 0
+[15/Feb/2018:16:31:57] (files) SQLSTATE[08P01]: <<Unknown error>>: 7 ERROR:  bind message supplies 1 parameters, but prepared statement "pdo_stmt_00000001" requires 0
+[15/Feb/2018:16:32:16] (files) SQLSTATE[08P01]: <<Unknown error>>: 7 ERROR:  bind message supplies 1 parameters, but prepared statement "pdo_stmt_00000001" requires 0

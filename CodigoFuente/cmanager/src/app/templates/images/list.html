@@ -1,0 +1,105 @@
+{% extends 'base.html' %} {% block title %} Images {% endblock %} 
+{% block head %} {{ super() }} 
+<link rel="stylesheet" href="{{url_for('static', filename='css/images.css')}}">
+{% endblock %} 
+{% block content %}
+<div class="container-fluid">
+        <div class="row titlebar pl-3">
+            <div class="d-flex p-2 justify-content-between align-items-center">
+                <h4 class="m-2">Image List</h4>
+            </div>
+            <div class="options">
+                <div class="searchbar">
+                    <input oninput="searchImages()" type="text" id="searchImagesText" placeholder="Search">
+                </div>
+                <div class="view-format">
+                    <span onclick="refreshImageTable()" data-feather="refresh-cw"></span>
+                </div>
+            </div>
+        </div>
+        
+            <div class="data-content">
+                <div id="imagesPanel" class="row">
+                    <div id="imagesGrid" class="images-grid images">
+                        <div class="card-columns"></div>
+                    </div>
+                    <div id="imagesList" class="images-list images">
+                        <div class="list-group">
+                            <table class="table table-bordered table-stripped table-responsive-sm table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <!-- <th scope="col">DEL</th> -->
+                                        <!-- <th class="col-5" scope="col">Image ID</th> -->
+                                        <th scope="col">Image Tags</th>
+                                        <th scope="col">Created</th>
+                                        <th scope="col">Size</th>
+                                        <th scope="col">Options</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="images-table">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div id="tabs" class="my-0 px-1 d-flex justify-content-between align-items-center">
+                    <h4>Repository</h4>
+                    <div class="options">
+                        <div class="form-group mx-3 mt-3">
+                            <select class="form-control" id="registrySearchType" onchange="searchOn()" autocomplete="off">
+                                <option value="registry">Private Repository</option>
+                                <option value="dockerhub">Search on dockerhub</option>
+                            </select>
+                        </div>
+                        <div class="searchbar">
+                            <input oninput="searchRegistry()" type="text" id="searchRegistryText" placeholder="Search" autocomplete="off">
+                        </div>
+                        <div class="view-format">
+                            <span onclick="refresh()" data-feather="refresh-cw"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="repositories">
+                    <div id="rep-1-tab">
+                        <!-- TODO: ADD PULL FROM REGISTRY(DOCKERHUB) AND PUSH TO LOCAL REGISTRY ACTION -->
+                        <!-- CONTENT EXAMPLE, CHANGE WITH JS-->
+                        <table class="table table-bordered table-stripped table-responsive-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Tags</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="rep-1-table">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="rep-dockerhub">
+                        <table class="table table-bordered table-stripped table-responsive-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Stars</th>
+                                    <th scope="col">Official</th>
+                                    <th scope="col">Automated</th>
+                                    <th scope="col">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dockerhubRepsTable">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+</div>
+
+{% endblock %} 
+{% block footer %} {{ super() }} 
+<script src="{{url_for('static', filename='js/images.js')}}"></script>
+{% endblock %}

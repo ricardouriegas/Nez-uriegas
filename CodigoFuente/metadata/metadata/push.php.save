@@ -1,0 +1,164 @@
+<?php 
+
+require_once 'functions.php';
+require_once "Node.php";
+require_once 'DbHandler.php';
+require_once 'uf.php';
+//require "random.php";
+require_once "models/Curl.php";
+
+/**
+ * Validar que los datos no esten vacios
+ */
+if(isset($_GET['tokenuser']) && isset($_GET['keyresource']) && isset($_GET['namefile']) && isset($_GET['sizefile']) && isset($_GET['dispersemode']) && isset( $_GET["isciphered"]) ){
+
+		push($_GET['tokenuser'],$_GET['keyresource'],$_GET['namefile'],$_GET['sizefile'], $_GET["dispersemode"], $_GET["isciphered"]);
+}else{
+	push($argv[1],$argv[2],$argv[3],$argv[4], $argv[5], $argv[6]);
+}
+/**
+ * *
+ * @param  [String] $tokenuser   	 [token del usuario]
+ * @param  [String] $keyresource 	 [c6315fae8d30575901a44a0e8cfde3375be50e433 llave del recurso catálogo o grupo]
+ * @param  [String] $namefile    	 [nombre del archivo]
+ * @param  [String] $sizefile    	 [peso del archivo]
+ * @param  [String] $dispersemode    [algoritmo de dispersion (IDA, RAID5, SINGLE )]
+ */
+function push($tokenuser,$keyresource,$namefile,$sizefile, $dispersemode, $isciphered){
+	//obtener la clave principal del usuario
+	$url = 'http://'.AUTH_HOST.'/auth/v1/users?token='.$tokenuser;
+	$curl = new Curl();
+	$response1 = $curl->get($url);
+	//$res['url'] = $url;
+	//$res['response'] = $response;
+	print_r($response1);
+	if ($response1['code']==200 && isset($response1['data']['data']['tokenuser'])) {
+		$user = $response1['data']['data']['tokenuser'];
+		//print_r($response1);
+		//$url = 'http://'.$_ENV['GEOPORTAL'].'/resources/manager/get_services.php?tokenOrg=' . $response1['data']['data']['tokenorg'];
+		//echo $url;
+		//$services = $curl->get($url);
+		//$gateway = $services['data']['gateway']['ip'] . ":" .$services['data']['gateway']['port'];
+		//$gateway = "192.168.1.73" . ":" .$services['data']['gateway']['port'];
+		//valida el resource
+		$url = 'http://'.PUB_SUB_HOST.'/subscription/v1/catalogs/'.$keyresource;
+		//$url = 'http://'.$gateway.'/pub_sub/v1/catalogs/'.$keyresource.'?access_token='.$tokenuser;
+		//echo $url;
+		$response = $curl->get($url);
+		//print_r($response);
+		if ($response['code']==200) {
+			$chunks = 1;
+			switch($dispersemode) {
+				case "IDA":
+					$chunks = 3;
+					break;
+				case "RAID5":
+					$chunks = 5;
+					break;
+				case "SINGLE":
+					$chunks = 1;
+					break;
+				case "RAID0":
+					$chunks = 0;
+					break;
+				case "SIDA":
+					$chunks = 4;
+					break;
+				default:
+					exit();
+			}
+			$table = array();
+			$db = new DbHandler();
+			$table = $db->getNodesActive();
+			
+			foreach ($table as $row) {
+				$contenedores[] = $row->url;
+			}
+			$upload_script= "upload.php"; 
+			$keyfile = $db->generateToken();
+			
+
+			header('Content-type: application/json; charset=utf-8');
+			
+			$data = array();
+			switch($dispersemode) {
+				case "IDA":
+				case "SIDA":
+				case "RAID0":
+				case "RAID5":
+					$reg=$db->registerFile($keyfile, $namefile, $sizefile, $chunks, $isciphered);
+					// upload with chunks
+					//$nodes = uploadChunks($user['keyuser'], $keyfile, $namefile, $sizefile);
+					$nodes = uploadChunks($tokenuser, $keyfile, $namefile, $sizefile);
+					
+					foreach($nodes as $row){
+						$data[] = array("ruta" => $row);
+					}
+					break;
+
+				case "SINGLE":
+					$reg=$db->registerFile($keyfile, $namefile, $sizefile, $chunks, $isciphered);
+					// upload
+					//$nodes = upload($user['keyuser'], 0.2, $keyfile, $namefile, 1, $sizefile);	
+					$nodes = upload($tokenuser, 0.2, $keyfile, $namefile, 1, $sizefile);
+					//print_r($nodes);	
+					$data[] = array("ruta" => $nodes['url']);
+					
+					break;			
+			}
+			if ($isciphered==true) {
+				$servers3 = emplazador(1, $contenedores, NODES_REQUIRED_PUSH);
+				while(count($servers3[0]) == 0){
+					$servers3 = emplazador(1, $contenedores, NODES_REQUIRED_PUSH);
+				}
+				$temp = $servers3[0] . $upload_script . "?file=abekeys/" . $keyfile;
+				$down_link = $servers3[0] . "abekeys/" . $keyfile;
+
+				$db->saveAbekeys($keyfile, $down_link);
+				
+				$keys = array();
+				//print_r($servers3);	
+				$keys[] = array("ruta" => $temp);
+			} else {
+				$keys = array();
+			}
+			
+			//array("status" => 200, "message" => $data, "key" => $keys )
+			$res = array("status" => 200, "message" => $data, "key" => $keys );
+			//$res['status'] = 200;
+			//$res['message'] = $data;
+			//$res['key'] = $keys;
+			//$res['nodes'] = $nodes;
+			//$res['tokenuser'] = $tokenuser;
+			//$res['keyfile'] = $keyfile;
+			//$res['namefile'] = $namefile;
+			//$res['sizefile'] = $sizefile;
+			echo json_encode($res);
+		}else{
+			echo json_encode(array("status" => 404, "message" => "Not Found" ));
+			exit();
+		}
+	}else{
+		$res['status'] = 403;
+		$res['message'] = 'Forbiden';
+		//$res['response1'] = $response1;
+		//$res['tokenuser'] = $tokenuser;
+		echo json_encode($res);
+		exit();
+	}
+	
+}
+
+function emplazador($esferas, $contenedores, $total_contenedores) {
+	$indice_contenedores = rand (0, $total_contenedores - 1);
+	$resultado_contenedores = array();
+
+	for ($i = 0; $i < $esferas; $i++) {
+		$resultado_contenedores[] = $contenedores[$indice_contenedores++];
+		if($indice_contenedores >= $total_contenedores) {
+			$indice_contenedores = 0;
+		}
+	}
+	return $resultado_contenedores;
+}
+?>

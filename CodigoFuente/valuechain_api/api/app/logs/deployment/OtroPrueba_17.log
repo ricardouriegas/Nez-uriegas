@@ -1,0 +1,72 @@
+2022-06-08 15:06:30	PARSER: Configured single CLEANING
+2022-06-08 15:06:30	PARSER: Configured single meshing
+2022-06-08 15:06:30	PARSER: Configured single topng
+2022-06-08 15:06:30	PARSER: Configured single detector
+2022-06-08 15:06:30	PARSER: Configured pattern CLEANINGpattern
+2022-06-08 15:06:30	PARSER: Configured pattern meshingpattern
+2022-06-08 15:06:30	PARSER: Configured pattern topngpattern
+2022-06-08 15:06:30	PARSER: Configured pattern detectorpattern
+2022-06-08 15:06:30	PARSER: Configured stage stage_CLEANING
+2022-06-08 15:06:30	PARSER: Configured stage stage_meshing
+2022-06-08 15:06:30	PARSER: Configured stage stage_topng
+2022-06-08 15:06:30	PARSER: Configured stage stage_detector
+2022-06-08 15:06:30	PARSER: Configured workflow OtroPrueba
+2022-06-08 15:06:30	LAUCHER: Coupling stages and building blocks
+2022-06-08 15:06:30	OtroPrueba: Workdir OtroPrueba
+2022-06-08 15:06:30	OtroPrueba: Workdir created
+2022-06-08 15:06:30	OtroPrueba: Stage stage_CLEANING added
+2022-06-08 15:06:30	stage_CLEANING: Workdir stage_CLEANING
+2022-06-08 15:06:30	stage_CLEANING: Workdir created
+2022-06-08 15:06:30	stage_CLEANING: Added sink stage_meshing
+2022-06-08 15:06:30	stage_CLEANING: Added sink stage_topng
+2022-06-08 15:06:30	stage_CLEANING: Added building block CLEANINGpattern
+2022-06-08 15:06:30	CLEANINGpattern: Workdir CLEANINGpattern
+2022-06-08 15:06:30	CLEANINGpattern: Workdir created
+2022-06-08 15:06:30	CLEANING: Workdir CLEANING
+2022-06-08 15:06:30	CLEANING: Workdir created
+2022-06-08 15:06:30	OtroPrueba: Stage stage_meshing added
+2022-06-08 15:06:30	stage_meshing: Workdir stage_meshing
+2022-06-08 15:06:30	stage_meshing: Workdir created
+2022-06-08 15:06:30	stage_meshing: Added source stage_CLEANING
+2022-06-08 15:06:30	stage_meshing: Added building block meshingpattern
+2022-06-08 15:06:30	meshingpattern: Workdir meshingpattern
+2022-06-08 15:06:30	meshingpattern: Workdir created
+2022-06-08 15:06:30	meshing: Workdir meshing
+2022-06-08 15:06:30	meshing: Workdir created
+2022-06-08 15:06:30	OtroPrueba: Stage stage_topng added
+2022-06-08 15:06:30	stage_topng: Workdir stage_topng
+2022-06-08 15:06:30	stage_topng: Workdir created
+2022-06-08 15:06:30	stage_topng: Added source stage_CLEANING
+2022-06-08 15:06:30	stage_topng: Added sink stage_detector
+2022-06-08 15:06:30	stage_topng: Added building block topngpattern
+2022-06-08 15:06:30	topngpattern: Workdir topngpattern
+2022-06-08 15:06:30	topngpattern: Workdir created
+2022-06-08 15:06:30	topng: Workdir topng
+2022-06-08 15:06:30	topng: Workdir created
+2022-06-08 15:06:30	OtroPrueba: Stage stage_detector added
+2022-06-08 15:06:30	stage_detector: Workdir stage_detector
+2022-06-08 15:06:30	stage_detector: Workdir created
+2022-06-08 15:06:30	stage_detector: Added source stage_topng
+2022-06-08 15:06:30	stage_detector: Added building block detectorpattern
+2022-06-08 15:06:30	detectorpattern: Workdir detectorpattern
+2022-06-08 15:06:30	detectorpattern: Workdir created
+2022-06-08 15:06:30	detector: Workdir detector
+2022-06-08 15:06:30	detector: Workdir created
+2022-06-08 15:06:30	LAUNCHER: Creating YML file at OtroPrueba/docker-compose.yml
+detector
+topng
+meshing
+CLEANING
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/OtroPrueba -f /home/dsanchez/PuzzleMesh/deployer/app//results/OtroPrueba/docker-compose.yml  up -d --build --scale topng=2  --scale detector=2  --scale meshing=2  --scale CLEANING=2  2> /dev/null
+Traceback (most recent call last):
+  File "representation/model_application.py", line 6, in <module>
+    import database.db_connector
+  File "/home/app/representation/database/db_connector.py", line 1, in <module>
+    import mysql.connector
+ModuleNotFoundError: No module named 'mysql'
+2022-06-08 15:06:30	LAUCHER: deploying virtual containers of workflow OtroPrueba
+2022-06-08 15:06:45	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/dsanchez/PuzzleMesh/deployer/app//results/OtroPrueba -f /home/dsanchez/PuzzleMesh/deployer/app//results/OtroPrueba/docker-compose.yml  down
+
+

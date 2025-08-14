@@ -1,0 +1,3 @@
+FROM ddomizzi/apache:php
+
+COPY ./storage2/ /var/www/html/

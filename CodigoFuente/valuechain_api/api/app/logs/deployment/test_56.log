@@ -1,0 +1,38 @@
+2021-08-30 21:38:51	PARSER: Configured single cleaning
+2021-08-30 21:38:51	PARSER: Configured single dicomtojpg
+2021-08-30 21:38:51	PARSER: Configured pattern cleaningpattern
+2021-08-30 21:38:51	PARSER: Configured pattern dicomtojpgpattern
+2021-08-30 21:38:51	PARSER: Configured stage stage_cleaning
+2021-08-30 21:38:51	PARSER: Configured stage stage_dicomtojpg
+2021-08-30 21:38:51	PARSER: Configured workflow test
+2021-08-30 21:38:51	LAUCHER: Coupling stages and building blocks
+2021-08-30 21:38:51	test: Workdir test
+2021-08-30 21:38:51	test: Workdir created
+2021-08-30 21:38:51	test: Stage stage_cleaning added
+2021-08-30 21:38:51	stage_cleaning: Workdir stage_cleaning
+2021-08-30 21:38:51	stage_cleaning: Workdir created
+2021-08-30 21:38:51	stage_cleaning: Added sink stage_dicomtojpg
+2021-08-30 21:38:51	stage_cleaning: Added building block cleaningpattern
+2021-08-30 21:38:51	cleaningpattern: Workdir cleaningpattern
+2021-08-30 21:38:51	cleaningpattern: Workdir created
+2021-08-30 21:38:51	cleaning: Workdir cleaning
+2021-08-30 21:38:51	cleaning: Workdir created
+2021-08-30 21:38:51	test: Stage stage_dicomtojpg added
+2021-08-30 21:38:51	stage_dicomtojpg: Workdir stage_dicomtojpg
+2021-08-30 21:38:51	stage_dicomtojpg: Workdir created
+2021-08-30 21:38:51	stage_dicomtojpg: Added source stage_cleaning
+2021-08-30 21:38:51	stage_dicomtojpg: Added building block dicomtojpgpattern
+2021-08-30 21:38:51	dicomtojpgpattern: Workdir dicomtojpgpattern
+2021-08-30 21:38:51	dicomtojpgpattern: Workdir created
+2021-08-30 21:38:51	dicomtojpg: Workdir dicomtojpg
+2021-08-30 21:38:51	dicomtojpg: Workdir created
+2021-08-30 21:38:51	LAUNCHER: Creating YML file at test/docker-compose.yml
+dicomtojpg
+cleaning
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/test -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/test/docker-compose.yml  up -d --build --scale dicomtojpg=4  --scale cleaning=4  2> /dev/null
+2021-08-30 21:38:51	LAUCHER: deploying virtual containers of workflow test
+2021-08-30 21:39:05	LAUCHER: to shutdown the containers execute  
+
+docker-compose --log-level ERROR -p /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/test -f /home/domizzi/Documents/GitHub/PuzzleMesh/deployer/app//results/test/docker-compose.yml  down
+
+
