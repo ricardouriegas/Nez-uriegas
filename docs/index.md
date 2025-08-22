@@ -41,4 +41,3 @@ Nez services run on container technology to simplify deployment. Install the fol
 - [Docker v20.10.23](https://docs.docker.com/engine/install/ubuntu/)  
 - [Docker Compose v2.15.1](https://docs.docker.com/compose/install/)  
 - [Java 17 or higher](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)  
-- A Linux distribution is required to use the `install.sh` script  
