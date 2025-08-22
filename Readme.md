@@ -4,6 +4,13 @@ This repository contains the code, datasets, and evaluation artifacts associated
 
 **"Nez: A design-driven skeleton model to build AI-based and analytic systems deployed on the computing continuum"**
 
+
+## ⚠️ Repository Status
+
+This repository is **under construction** and is being **constantly updated**.  
+Expect frequent changes in features, scripts, and documentation.
+
+
 ---
 
 ## 📖 Overview
