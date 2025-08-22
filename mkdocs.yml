@@ -50,3 +50,8 @@ nav:
     - Overview: concepts/overview.md
     - Architecture: concepts/architecture.md
     - Features: concepts/features.md
+
+watch:
+  - mkdocs.yml
+  - Readme.md
+  - docs/
