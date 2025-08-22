@@ -1,0 +1,52 @@
+site_name: Nez Documentation
+site_url: https://coco-arcos.github.io/nez/
+repo_url: https://github.com/CoCo-ARCOS/Nez
+
+
+theme:
+  name: material
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - navigation.path
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - navigation.tabs.sticky
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+  font:
+    text: Open Sans
+    code: Roboto Mono
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - primary: indigo
+  palette: 
+
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  language: en
+
+nav:
+  - Home: 
+    - Introduction: index.md
+    - Deployment example: example_deployment.md
+  - Concepts:
+    - Nez: concepts/index.md
+    - Overview: concepts/overview.md
+    - Architecture: concepts/architecture.md
+    - Features: concepts/features.md

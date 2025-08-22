@@ -1,81 +1,4 @@
-# Nez: A Design-Driven Skeleton Model for AI-Based and Analytic Systems on the Computing Continuum
-
-This repository contains the code, datasets, and evaluation artifacts associated with the paper:
-
-**"Nez: A design-driven skeleton model to build AI-based and analytic systems deployed on the computing continuum"**
-
-
-## ⚠️ Repository Status
-
-This repository is **under construction** and is being **constantly updated**.  
-Expect frequent changes in features, scripts, and documentation.
-
-
----
-
-## 📖 Overview
-
-**Nez** is a design-driven skeleton model that enables the construction of AI-based and analytic systems that run seamlessly across the **computing continuum** (from edge to cloud to HPC).
-
-### Key Features
-- Automatic integration of AI applications with **security, fault-tolerance, and data management tools**.  
-- A **self-similar construction model** based on generic and portable structures.  
-- Simplified development of secure, efficient, and resilient AI pipelines.  
-
----
-
-## 🏥 Case Study
-
-Nez was evaluated in a real-world healthcare scenario at a Mexican hospital, where it was used to build systems for:
-- **3D mesh tomography representation**  
-- **Lung cancer diagnosis**  
-- **ECG analysis reports**  
-
-All systems were deployed for **continuous, secure delivery** of digital products to physicians.
-
----
-
-## Services and Containers
-
-The following services are defined in the ```docker-compose.yml``` file:
-
-### Core Services 
-- ```valuechain```: Graphical interface for building AI-based systems  
-- ```value-chain-api```: API for system construction  
-- ```deployer```: Deployment service with validation mechanisms  
-- ```value-chain-api-db```: Database for system construction  
-- ```container-manager```: Container manager  
-
-### Data Management 
-- ```apigateway```: API Gateway  
-- ```auth```: User authentication  
-- ```db_auth```: User database  
-- ```frontend```: Catalog management interface  
-- ```db_pub_sub```: Pub/Sub service  
-- ```pub_sub```: Pub/Sub database  
-- ```db_metadata```: Metadata service  
-- ```metadata```: Metadata database  
-
-### Storage & Load Balancing
-- ```storage1, storage2, storage3, storage4, storage5```: Storage services  
-- ```balancing```: Load balancing service  
-
-### Data Preparation & Recovery 
-- ```sincronizador```  data uploading client
-- ```PreparationSchemes```  NRFs manager
-
----
-
-## Software Prerequisites
-
-Nez services run on container technology to simplify deployment. Install the following dependencies:
-
-- [Docker v20.10.23](https://docs.docker.com/engine/install/ubuntu/)  
-- [Docker Compose v2.15.1](https://docs.docker.com/compose/install/)  
-- [Java 17 or higher](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)  
-- A Linux distribution is required to use the `install.sh` script  
-
-# Installation and Configuration
+# Deployment example
 
 To simplify the installation and deployment of **Nez** services, this project includes an `install.sh` script that automates the setup on a single machine. On a Linux terminal, run:
 
@@ -176,17 +99,17 @@ curl --header "Content-Type: application/json" --request POST --data '{"name":"D
    * **Email**: test@test.com  
    * **Password**: TestUser123.  
 
-   ![login](./docs/examples/login.png)
+   ![login](./examples/login.png)
 
 2. In the side menu, navigate to ```Systems > Create a system```. This screen will show the skeletons that were previously configured and registered. Click the ```Add``` button.
 
-   ![addservices](./docs/examples/addservices.png)
+   ![addservices](./examples/addservices.png)
 
 3. In **Step 2**, select the non-functional requirements you want to add to your data using Chimalli.  
 4. In **Step 3**, choose the Painal data catalog to be processed.  
-   ![catalogs](./docs/examples/catalogs.png)  
+   ![catalogs](./examples/catalogs.png)  
 5. In **Step 4**, define the execution order of your skeletons.  
-   ![dag](./docs/examples/dag.png)  
+   ![dag](./examples/dag.png)  
 
 6. Click ```Save``` and provide a name for your solution. You will be redirected to the deployment screen, where you can select the deployment method:  
    - **Compose**: Deploy the solution on a single machine.  
@@ -195,21 +118,3 @@ curl --header "Content-Type: application/json" --request POST --data '{"name":"D
 
    ```bash
    docker ps
-
-
-## Contact
-
-Dante Domizzi Sánchez Gallegos ([Dante D. Sánchez Gallegos](https://orcid.org/0000-0003-0944-9341)) [dantsanc@pa.uc3m.es]
-
-
-## License
-Shield: [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
-
-This work is under a 
-[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
-
-[![CC BY-SA 4.0][cc-by-sa-image]][cc-by-sa]
-
-[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
-[cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
-[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
