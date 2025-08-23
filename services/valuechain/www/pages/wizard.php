@@ -37,7 +37,7 @@ $_SESSION['actual_url'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     <?php 
     include_once(VISTAS .  "/indexelements/navbar.php");
     //<!-- Right navbar links -->
-    include_once(VISTAS . "/indexelements/notifications.php");
+    //include_once(VISTAS . "/indexelements/notifications.php");
     ?>
     
     

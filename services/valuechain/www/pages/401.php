@@ -31,7 +31,7 @@ if(empty($_SESSION['idUser'])){
     <?php 
     include_once(VISTAS .  "/indexelements/navbar.php");
     //<!-- Right navbar links -->
-    include_once(VISTAS . "/indexelements/notifications.php");
+    //include_once(VISTAS . "/indexelements/notifications.php");
     ?>
     
     

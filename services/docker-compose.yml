@@ -58,10 +58,10 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./deployer/app:/home/app"
-      - "/home/domizzi/Documents/GitHub/MuyalNezEntregable/CodigoFuente/deployer/app/:/home/domizzi/Documents/GitHub/MuyalNezEntregable/CodigoFuente/deployer/app/"
+      - "/home/domizzi/Documents/GitHub/Nez/services/deployer/app/:/home/domizzi/Documents/GitHub/Nez/services/deployer/app/"
     environment:
       FLASK_ENV: development
-      HOST_PATH: /home/domizzi/Documents/GitHub/MuyalNezEntregable/CodigoFuente/deployer/app/
+      HOST_PATH: /home/domizzi/Documents/GitHub/Nez/services/deployer/app/
   value-chain-api-db: #Base de datos del servicio de construcción
     #build: ./valuechain_api/api/db
     image: ddomizzi/dbnez:v1
@@ -223,7 +223,7 @@ services:
       DB_PORT: 5432
       PUB_SUB_HOST: pub_sub
       AUTH_HOST: auth
-      URL: "http://10.118.28.109:20505"
+      URL: "http://192.168.1.227:20505"
     volumes:
       - ./metadata/metadata/:/var/www/html/
     restart: always

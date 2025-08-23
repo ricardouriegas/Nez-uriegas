@@ -63,7 +63,7 @@ $data = $blackBoxModel->readBlackBoxe();
     <?php 
     include_once("../views/indexelements/navbar.php");
     //<!-- Right navbar links -->
-    include_once("../views/indexelements/notifications.php");
+    //include_once("../views/indexelements/notifications.php");
     ?>
     
     

@@ -105,8 +105,8 @@ curl --header "Content-Type: application/json" --request POST --data '{"name":"D
 
    ![addservices](./examples/addservices.png)
 
-3. In **Step 2**, select the non-functional requirements you want to add to your data using Chimalli.  
-4. In **Step 3**, choose the Painal data catalog to be processed.  
+3. In **Step 2**, select the non-functional requirements you want to add to your data.  
+4. In **Step 3**, choose the CDN data catalog to be processed.  
    ![catalogs](./examples/catalogs.png)  
 5. In **Step 4**, define the execution order of your skeletons.  
    ![dag](./examples/dag.png)  

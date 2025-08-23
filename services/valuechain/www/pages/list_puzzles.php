@@ -43,7 +43,7 @@ include_once(VISTAS .  "/indexelements/head.php");
       <?php
       include_once(VISTAS .  "/indexelements/navbar.php");
       //<!-- Right navbar links -->
-      include_once(VISTAS . "/indexelements/notifications.php");
+      //include_once(VISTAS . "/indexelements/notifications.php");
       ?>
 
 

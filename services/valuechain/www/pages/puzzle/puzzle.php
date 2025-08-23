@@ -81,7 +81,7 @@ include_once(VISTAS .  "/indexelements/head.php");
       <?php
       include_once(VISTAS .  "/indexelements/navbar.php");
       //<!-- Right navbar links -->
-      include_once(VISTAS . "/indexelements/notifications.php");
+      //include_once(VISTAS . "/indexelements/notifications.php");
       ?>
 
 
@@ -314,7 +314,7 @@ include_once(VISTAS .  "/indexelements/head.php");
         </div>
         <form id="frmDeployStructure">
           <div class="modal-body">
-            <p>Please choose the platform to deploy your puzzle.</p>
+            <p>Please choose the platform to deploy your service.</p>
             <div class="form-group">
               <select class="custom-select rounded-0" id="slPlatform">
                 <?php foreach ($platforms as $p) : ?>
@@ -379,7 +379,7 @@ include_once(VISTAS .  "/indexelements/head.php");
         </div>
         <form id="frmexecuteStructure">
           <div class="modal-body">
-            <p>Do you want to start processing the puzzle source?</p>
+            <p>Do you want to start processing the service's source?</p>
             <input type="hidden" value="<?php echo $_GET["id"]; ?>" id="txtID"></input>
             <input type="hidden" value="<?php echo $workflow_metadata["data"]["name"]; ?>" id="txtPuzzleName"></input>
           </div>

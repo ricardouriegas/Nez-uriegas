@@ -17,8 +17,9 @@ $user = isset($_SESSION['id']) ? $_SESSION['id'] : -1;
 
 $_SESSION['actual_url'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
+header("Location: /pages/wizard.php");
+die();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +38,7 @@ $_SESSION['actual_url'] = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
     <?php 
     include_once(VISTAS .  "/indexelements/navbar.php");
     //<!-- Right navbar links -->
-    include_once(VISTAS . "/indexelements/notifications.php");
+    //include_once(VISTAS . "/indexelements/notifications.php");
     ?>
     
     

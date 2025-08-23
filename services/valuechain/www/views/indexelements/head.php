@@ -23,4 +23,5 @@
   <!-- quill -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
 
+  <link rel="icon" type="image/png" sizes="512x512" href="/views/icons/nez2-logo-512.png">
 </head>

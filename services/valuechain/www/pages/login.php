@@ -25,7 +25,8 @@ $title = "Log in | Nez";
   <!-- /.login-logo -->
   <div class="card card-outline card-primary">
     <div class="card-header text-center">
-      <a class="h1"><b>Puzzle</b>MESH</a>
+      <!-- <a class="h1"><b>Nez</b></a> -->
+      <img src="/views/icons/nez2-logo-512.png" alt="Nez Logo"  style="opacity: .8; width: 300px; height: 100px;">
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
