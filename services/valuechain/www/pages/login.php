@@ -11,7 +11,7 @@ if(!empty($_SESSION['idUser'])){
 }
 
 
-$title = "Log in | PuzzleMesh";
+$title = "Log in | Nez";
 
 ?>
 

@@ -31,7 +31,7 @@ $data = $blackBoxModel->readBlackBoxe();
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PuzzleMesh creator</title>
+  <title>Nez creator</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -82,12 +82,12 @@ $data = $blackBoxModel->readBlackBoxe();
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">PuzzleMesh editor</h1>
+            <h1 class="m-0">Nez editor</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">PuzzleMesh editor</li>
+              <li class="breadcrumb-item active">Nez editor</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -105,7 +105,7 @@ $data = $blackBoxModel->readBlackBoxe();
           <div class="col-lg-3">
               <form class="form-inline" id="frmCreatePuzzle">
                 <div class="form-group mx-sm-3 mb-2">
-                  <label for="puzzleName" class="sr-only">Puzzle name</label>
+                  <label for="puzzleName" class="sr-only">Service name</label>
                   <input type="text" class="form-control" id="puzzleName" placeholder="Puzzle name">
                 </div>
                 <button type="submit"  class="btn btn-primary mb-2">Create</button>
