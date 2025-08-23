@@ -189,13 +189,27 @@ curl --header "Content-Type: application/json" --request POST --data '{"name":"D
    ![dag](./docs/examples/dag.png)  
 
 6. Click ```Save``` and provide a name for your solution. You will be redirected to the deployment screen, where you can select the deployment method:  
-   - **Compose**: Deploy the solution on a single machine.  
+   - **Compose**: Deploy the solution on a single machine. 
+
+    ![deploy](./docs/examples/deploy.png)  
 
    If you receive an error message during deployment, click the ```Deploy``` button again. You can verify that the containers were deployed by running the following command in a terminal:  
 
    ```bash
    docker ps
+   ```
 
+7. Once your services is deployed. Click on ```Execute``` to start the processing of data with your service.
+
+    ![execute](./docs/examples/execute.png)
+
+8. This will start the processing of data. When completed, you can see the resultant files by clicking on ```See results``` button. This will redirect you to the Nez file manager. 
+
+    ![seeresults](./docs/examples/seeresults.png)
+
+9. You can physically see your results by opening a file explorer and navigating to: ```services/deployer/app/results```. Here you can find the workspace of the services deployed.
+
+    ![seeresults](./docs/examples/workspace.png)
 
 ## Contact
 
