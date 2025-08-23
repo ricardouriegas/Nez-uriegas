@@ -223,7 +223,7 @@ services:
       DB_PORT: 5432
       PUB_SUB_HOST: pub_sub
       AUTH_HOST: auth
-      URL: "http://192.168.1.227:20505"
+      URL: "http://127.0.0.1:20505"
     volumes:
       - ./metadata/metadata/:/var/www/html/
     restart: always
