@@ -52,17 +52,18 @@ printf "\n\n\nCONFIGURANDO SERVICIO DE ALMACENAMIENTO\n"
 
 for i in 1 2 3 4 5
 do
-    docker compose exec storage$i sh -c "chmod -R 777 /var/www/html/c"
-    docker compose exec storage$i sh -c "chmod -R 777 /var/www/html/abekeys"
+    docker compose exec storage$i sh -c "mkdir -p /var/www/html/c && chown -R www-data /var/www/html/c"
+    docker compose exec storage$i sh -c "mkdir -p /var/www/html/abekeys && chown -R www-data /var/www/html/abekeys"
 done
 
-docker compose exec apigateway sh -c "chmod -R 777 /var/www/html/log/"
-docker compose exec auth sh -c "chmod -R 777 /var/www/html/log/"
-docker compose exec metadata sh -c "chmod -R 777 /var/www/html/log/"
-docker compose exec pub_sub sh -c "chmod -R 777 /var/www/html/log/"
-docker compose exec value-chain-api sh -c "chmod -R 777 /var/www/html/geb/cfg-files"
-docker compose exec value-chain-api sh -c "chmod -R 777 /var/www/html/logs"
-docker compose exec frontend sh -c "chmod -R 777 /var/www/html/painal/downloads"
+docker compose exec apigateway sh -c "mkdir -p /var/www/html/log/ && chown -R www-data /var/www/html/log/"
+docker compose exec auth sh -c "mkdir -p /var/www/html/log/ &&  chown -R www-data /var/www/html/log/"
+docker compose exec metadata sh -c "mkdir -p /var/www/html/log/ &&  chown -R www-data /var/www/html/log/"
+docker compose exec pub_sub sh -c "mkdir -p /var/www/html/log/ && chown -R www-data /var/www/html/log/"
+docker compose exec value-chain-api sh -c "mkdir -p /var/www/html/logs/ &&  chown -R www-data /var/www/html/geb/cfg-files"
+docker compose exec value-chain-api sh -c "mkdir -p /var/www/html/logs/ &&  chown -R www-data /var/www/html/logs"
+docker compose exec value-chain-api sh -c "mkdir -p /var/www/html/logs/deployment &&  chown -R www-data /var/www/html/logs/deployment"
+docker compose exec frontend sh -c "mkdir -p /var/www/html/painal/downloads &&  chown -R www-data /var/www/html/painal/downloads"
 
 curl http://$my_ip:20505/configNodes.php?deleteNodes=true
 
