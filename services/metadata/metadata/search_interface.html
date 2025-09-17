@@ -1,1310 +1,262 @@
-<!DOCTYPE html><!DOCTYPE html><!DOCTYPE html><!DOCTYPE html><!DOCTYPE html>
-
-<html lang="en">
-
-<head><html lang="en">
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><html lang="en">
-
-    <title>FAIR Catalog Search</title>
-
-    <style>    <meta charset="UTF-8">
-
-        body {
-
-            font-family: Arial, sans-serif;    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><html lang="en"><html>
-
-            max-width: 1200px;
-
-            margin: 0 auto;    <title>FAIR Catalog Search</title>
-
-            padding: 20px;
-
-            background-color: #f5f5f5;    <style>    <meta charset="UTF-8">
-
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FAIR Catalog Search Interface</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); overflow: hidden; margin-top: 20px; margin-bottom: 20px; }
+        .header { background: linear-gradient(90deg, #2c3e50, #3498db); color: white; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 2.5rem; font-weight: 300; }
+        .header p { margin: 10px 0 0 0; opacity: 0.9; font-size: 1.1rem; }
+        .search-section { padding: 30px; background: #f8f9fa; border-bottom: 1px solid #dee2e6; }
+        .search-row { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+        .search-input { flex: 1; min-width: 300px; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .search-input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); }
+        .btn { padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-primary:hover { background: #2980b9; transform: translateY(-2px); }
+        .btn-secondary { background: #95a5a6; color: white; }
+        .btn-secondary:hover { background: #7f8c8d; }
+        .filters-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .filter-group { display: flex; flex-direction: column; }
+        .filter-group label { font-weight: 600; margin-bottom: 5px; color: #2c3e50; }
+        .filter-select, .filter-input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .fair-principles { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #3498db; }
+        .fair-principles h4 { margin: 0 0 10px 0; color: #2c3e50; }
+        .fair-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .fair-tag { background: #3498db; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .results-section { padding: 30px; }
+        .results-header { display: flex; justify-content: between; align-items: center; margin-bottom: 20px; }
+        .results-stats { background: #e8f5e9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #27ae60; }
+        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
+        .catalog-card { background: white; border: 1px solid #dee2e6; border-radius: 12px; padding: 20px; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .catalog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .catalog-header { display: flex; justify-content: between; align-items: start; margin-bottom: 15px; }
+        .catalog-title { font-size: 1.2rem; font-weight: 600; color: #2c3e50; margin: 0; line-height: 1.3; }
+        .catalog-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .badge-encrypted { background: #e74c3c; color: white; }
+        .badge-public { background: #27ae60; color: white; }
+        .badge-private { background: #f39c12; color: white; }
+        .badge-processed { background: #9b59b6; color: white; }
+        .catalog-meta { margin: 15px 0; }
+        .meta-row { display: flex; justify-content: between; padding: 5px 0; border-bottom: 1px solid #ecf0f1; }
+        .meta-label { font-weight: 600; color: #7f8c8d; }
+        .meta-value { color: #2c3e50; font-family: 'Courier New', monospace; font-size: 0.9rem; }
+        .catalog-actions { margin-top: 15px; display: flex; gap: 10px; }
+        .btn-sm { padding: 8px 15px; font-size: 12px; }
+        .btn-outline { background: transparent; border: 1px solid #3498db; color: #3498db; }
+        .btn-outline:hover { background: #3498db; color: white; }
+        .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c; }
+        .loading { text-align: center; padding: 40px; color: #3498db; font-style: italic; font-size: 1.1rem; }
+        .no-results { text-align: center; padding: 40px; color: #7f8c8d; }
+        .sort-indicator { margin-left: 5px; opacity: 0.7; }
+        @media (max-width: 768px) {
+            .search-row { flex-direction: column; }
+            .filters-row { grid-template-columns: 1fr; }
+            .catalog-grid { grid-template-columns: 1fr; }
         }
-
-                body {
-
-        .search-container {
-
-            background: white;            font-family: Arial, sans-serif;    <meta name="viewport" content="width=device-width, initial-scale=1.0"><head><head>
-
-            padding: 30px;
-
-            border-radius: 10px;            max-width: 1200px;
-
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-
-            margin-bottom: 30px;            margin: 0 auto;    <title>FAIR Catalog Search</title>
-
-        }
-
-                    padding: 20px;
-
-        .search-form {
-
-            display: grid;            background-color: #f5f5f5;    <style>    <meta charset="UTF-8">    <title>FAIR Catalog Search Interface</title>
-
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
-            gap: 20px;        }
-
-            margin-bottom: 20px;
-
-        }        .search-container {        body {
-
-        
-
-        .form-group {            background: white;
-
-            display: flex;
-
-            flex-direction: column;            padding: 30px;            font-family: Arial, sans-serif;    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <style>
-
-        }
-
-                    border-radius: 10px;
-
-        label {
-
-            margin-bottom: 5px;            box-shadow: 0 2px 10px rgba(0,0,0,0.1);            max-width: 1200px;
-
-            font-weight: bold;
-
-            color: #333;            margin-bottom: 30px;
-
-        }
-
-                }            margin: 0 auto;    <title>FAIR Catalog Search</title>        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
-
-        input[type="text"], input[type="date"], select {
-
-            padding: 10px;        .search-form {
-
-            border: 2px solid #ddd;
-
-            border-radius: 5px;            display: grid;            padding: 20px;
-
-            font-size: 16px;
-
-        }            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
-        
-
-        .search-buttons {            gap: 20px;            background-color: #f5f5f5;    <style>        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); overflow: hidden; margin-top: 20px; margin-bottom: 20px; }
-
-            display: flex;
-
-            gap: 10px;            margin-bottom: 20px;
-
-            justify-content: center;
-
-            margin-top: 20px;        }        }
-
-        }
-
-                .form-group {
-
-        button {
-
-            padding: 12px 24px;            display: flex;        .search-container {        body {        .header { background: linear-gradient(90deg, #2c3e50, #3498db); color: white; padding: 30px; text-align: center; }
-
-            border: none;
-
-            border-radius: 5px;            flex-direction: column;
-
-            font-size: 16px;
-
-            cursor: pointer;        }            background: white;
-
-            transition: background-color 0.3s;
-
-        }        label {
-
-        
-
-        .search-btn {            margin-bottom: 5px;            padding: 30px;            font-family: Arial, sans-serif;        .header h1 { margin: 0; font-size: 2.5rem; font-weight: 300; }
-
-            background-color: #007bff;
-
-            color: white;            font-weight: bold;
-
-        }
-
-                    color: #333;            border-radius: 10px;
-
-        .search-btn:hover {
-
-            background-color: #0056b3;        }
-
-        }
-
-                input[type="text"], input[type="date"], select {            box-shadow: 0 2px 10px rgba(0,0,0,0.1);            max-width: 1200px;        .header p { margin: 10px 0 0 0; opacity: 0.9; font-size: 1.1rem; }
-
-        .clear-btn {
-
-            background-color: #6c757d;            padding: 10px;
-
-            color: white;
-
-        }            border: 2px solid #ddd;            margin-bottom: 30px;
-
-        
-
-        .clear-btn:hover {            border-radius: 5px;
-
-            background-color: #545b62;
-
-        }            font-size: 16px;        }            margin: 0 auto;        .search-section { padding: 30px; background: #f8f9fa; border-bottom: 1px solid #dee2e6; }
-
-        
-
-        .results-container {        }
-
-            background: white;
-
-            border-radius: 10px;        .search-buttons {        .search-form {
-
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-
-            overflow: hidden;            display: flex;
-
-        }
-
-                    gap: 10px;            display: grid;            padding: 20px;        .search-row { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
-
-        .results-header {
-
-            background-color: #28a745;            justify-content: center;
-
-            color: white;
-
-            padding: 15px 20px;            margin-top: 20px;            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
-            font-size: 18px;
-
-            font-weight: bold;        }
-
-        }
-
-                button {            gap: 20px;            background-color: #f5f5f5;        .search-input { flex: 1; min-width: 300px; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
-
-        .results-content {
-
-            padding: 20px;            padding: 12px 24px;
-
-            min-height: 200px;
-
-        }            border: none;            margin-bottom: 20px;
-
-        
-
-        .result-item {            border-radius: 5px;
-
-            border: 1px solid #ddd;
-
-            border-radius: 5px;            font-size: 16px;        }        }        .search-input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); }
-
-            margin-bottom: 15px;
-
-            padding: 15px;            cursor: pointer;
-
-            background-color: #f8f9fa;
-
-        }            transition: background-color 0.3s;        .form-group {
-
-        
-
-        .result-title {        }
-
-            font-weight: bold;
-
-            color: #007bff;        .search-btn {            display: flex;        .search-container {        .btn { padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s; }
-
-            margin-bottom: 5px;
-
-        }            background-color: #007bff;
-
-        
-
-        .result-meta {            color: white;            flex-direction: column;
-
-            color: #666;
-
-            font-size: 14px;        }
-
-            margin-bottom: 8px;
-
-        }        .search-btn:hover {        }            background: white;        .btn-primary { background: #3498db; color: white; }
-
-        
-
-        .result-description {            background-color: #0056b3;
-
-            color: #333;
-
-        }        }        label {
-
-        
-
-        .loading {        .clear-btn {
-
-            text-align: center;
-
-            padding: 40px;            background-color: #6c757d;            margin-bottom: 5px;            padding: 30px;        .btn-primary:hover { background: #2980b9; transform: translateY(-2px); }
-
-            color: #666;
-
-        }            color: white;
-
-        
-
-        .error {        }            font-weight: bold;
-
-            background-color: #f8d7da;
-
-            color: #721c24;        .clear-btn:hover {
-
-            padding: 15px;
-
-            border-radius: 5px;            background-color: #545b62;            color: #333;            border-radius: 10px;        .btn-secondary { background: #95a5a6; color: white; }
-
-            border: 1px solid #f5c6cb;
-
-        }        }
-
     </style>
-
-</head>        .results-container {        }
-
+</head>
 <body>
-
-    <div class="search-container">            background: white;
-
-        <h1>FAIR-Compliant Catalog Search</h1>
-
-        <form id="searchForm" class="search-form">            border-radius: 10px;        input[type="text"], input[type="date"], select {            box-shadow: 0 2px 10px rgba(0,0,0,0.1);        .btn-secondary:hover { background: #7f8c8d; }
-
-            <div class="form-group">
-
-                <label for="searchTerm">Search Term:</label>            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-
-                <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter search keywords">
-
-            </div>            overflow: hidden;            padding: 10px;
-
-            
-
-            <div class="form-group">        }
-
-                <label for="category">Category:</label>
-
-                <select id="category" name="category">        .results-header {            border: 2px solid #ddd;            margin-bottom: 30px;        .filters-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-
-                    <option value="">All Categories</option>
-
-                    <option value="dataset">Dataset</option>            background-color: #28a745;
-
-                    <option value="publication">Publication</option>
-
-                    <option value="software">Software</option>            color: white;            border-radius: 5px;
-
-                    <option value="service">Service</option>
-
-                </select>            padding: 15px 20px;
-
-            </div>
-
-                        font-size: 18px;            font-size: 16px;        }        .filter-group { display: flex; flex-direction: column; }
-
-            <div class="form-group">
-
-                <label for="dateFrom">Date From:</label>            font-weight: bold;
-
-                <input type="date" id="dateFrom" name="dateFrom">
-
-            </div>        }        }
-
-            
-
-            <div class="form-group">        .results-content {
-
-                <label for="dateTo">Date To:</label>
-
-                <input type="date" id="dateTo" name="dateTo">            padding: 20px;        .search-buttons {        .search-form {        .filter-group label { font-weight: 600; margin-bottom: 5px; color: #2c3e50; }
-
-            </div>
-
-        </form>            min-height: 200px;
-
+    <div class="container">
+        <!-- <div class="header">
+            <h1>� FAIR Catalog Discovery</h1>
+            <p>Findable • Accessible • Interoperable • Reusable</p>
+        </div> -->
         
-
-        <div class="search-buttons">        }            display: flex;
-
-            <button type="button" class="search-btn" onclick="performSearch()">Search Catalogs</button>
-
-            <button type="button" class="clear-btn" onclick="clearForm()">Clear</button>        .result-item {
-
+        <div class="search-section">
+            <div class="search-row">
+                <input type="text" id="searchInput" class="search-input" 
+                       placeholder="Search catalogs by name, token, description... (or leave empty to search by date range only)" value="">
+                <button onclick="performSearch()" class="btn btn-primary">Search Catalogs</button>
+                <button onclick="searchAllCatalogs()" class="btn btn-secondary">Search All</button>
+                <button onclick="clearSearch()" class="btn btn-secondary">Clear</button>
+            </div>
+            
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label for="sortBy">Sort By</label>
+                    <select id="sortBy" class="filter-select" onchange="applySortAndFilter()">
+                        <option value="created_at_desc">Created Date (Newest)</option>
+                        <option value="created_at_asc">Created Date (Oldest)</option>
+                        <option value="namecatalog_asc">Name (A-Z)</option>
+                        <option value="namecatalog_desc">Name (Z-A)</option>
+                        <option value="dispersemode_asc">Disperse Mode</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="filterPrivacy">Privacy Level</label>
+                    <select id="filterPrivacy" class="filter-select" onchange="applySortAndFilter()">
+                        <option value="all">All Catalogs</option>
+                        <option value="public">Public Only</option>
+                        <option value="private">Private Only</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="filterEncryption">Encryption</label>
+                    <select id="filterEncryption" class="filter-select" onchange="applySortAndFilter()">
+                        <option value="all">All Types</option>
+                        <option value="encrypted">Encrypted Only</option>
+                        <option value="unencrypted">Unencrypted Only</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="filterProcessed">Processing Status</label>
+                    <select id="filterProcessed" class="filter-select" onchange="applySortAndFilter()">
+                        <option value="all">All Statuses</option>
+                        <option value="processed">Processed</option>
+                        <option value="unprocessed">Unprocessed</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateFrom">Created From</label>
+                    <input type="date" id="dateFrom" class="filter-input" onchange="applySortAndFilter()">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateTo">Created To</label>
+                    <input type="date" id="dateTo" class="filter-input" onchange="applySortAndFilter()">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="userId">User ID (Optional)</label>
+                    <input type="text" id="userId" class="filter-input" 
+                           placeholder="Enter user ID for access control">
+                </div>
+            </div>
+            
+            <div class="fair-principles">
+                <h4>FAIR Data Principles Applied</h4>
+                <div class="fair-tags">
+                    <span class="fair-tag">F: Searchable Metadata</span>
+                    <span class="fair-tag">A: Access Control Aware</span>
+                    <span class="fair-tag">I: Standardized Formats</span>
+                    <span class="fair-tag">R: Rich Descriptions</span>
+                </div>
+            </div>
         </div>
-
-    </div>            border: 1px solid #ddd;            gap: 10px;            display: grid;        .filter-select, .filter-input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
-
-
-
-    <div class="results-container">            border-radius: 5px;
-
-        <div class="results-header">
-
-            Search Results            margin-bottom: 15px;            justify-content: center;
-
+        
+        <div class="results-section">
+            <div id="resultsStats" class="results-stats" style="display: none;"></div>
+            <div id="results" class="results"></div>
         </div>
-
-        <div class="results-content" id="resultsContent">            padding: 15px;
-
-            <p style="text-align: center; color: #666; margin-top: 50px;">
-
-                Enter search criteria above and click "Search Catalogs" to find FAIR-compliant resources.            background-color: #f8f9fa;            margin-top: 20px;            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));        .fair-principles { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #3498db; }
-
-            </p>
-
-        </div>        }
-
     </div>
 
-        .result-title {        }
-
     <script>
-
-        function performSearch() {            font-weight: bold;
-
-            const form = document.getElementById('searchForm');
-
-            const formData = new FormData(form);            color: #007bff;        button {            gap: 20px;        .fair-principles h4 { margin: 0 0 10px 0; color: #2c3e50; }
-
-            const resultsContent = document.getElementById('resultsContent');
-
-                        margin-bottom: 5px;
-
-            resultsContent.innerHTML = '<div class="loading">Searching catalogs...</div>';
-
-                    }            padding: 12px 24px;
-
-            const params = new URLSearchParams();
-
-            for (let [key, value] of formData.entries()) {        .result-meta {
-
-                if (value.trim() !== '') {
-
-                    params.append(key, value);            color: #666;            border: none;            margin-bottom: 20px;        .fair-tags { display: flex; gap: 10px; flex-wrap: wrap; }
-
-                }
-
-            }            font-size: 14px;
-
-            
-
-            fetch('search_catalogs_fair.php?' + params.toString())            margin-bottom: 8px;            border-radius: 5px;
-
-                .then(response => response.json())
-
-                .then(data => {        }
-
-                    displayResults(data);
-
-                })        .result-description {            font-size: 16px;        }        .fair-tag { background: #3498db; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-
-                .catch(error => {
-
-                    console.error('Search error:', error);            color: #333;
-
-                    resultsContent.innerHTML = '<div class="error">Error performing search. Please try again.</div>';
-
-                });        }            cursor: pointer;
-
-        }
-
-                .loading {
-
-        function displayResults(data) {
-
-            const resultsContent = document.getElementById('resultsContent');            text-align: center;            transition: background-color 0.3s;        .form-group {        .results-section { padding: 30px; }
-
-            
-
-            if (data.error) {            padding: 40px;
-
-                resultsContent.innerHTML = `<div class="error">${data.error}</div>`;
-
-                return;            color: #666;        }
-
-            }
-
-                    }
-
-            if (!data.results || data.results.length === 0) {
-
-                resultsContent.innerHTML = '<p style="text-align: center; color: #666;">No results found. Try adjusting your search criteria.</p>';        .error {        .search-btn {            display: flex;        .results-header { display: flex; justify-content: between; align-items: center; margin-bottom: 20px; }
-
-                return;
-
-            }            background-color: #f8d7da;
-
-            
-
-            let html = `<p style="margin-bottom: 20px; color: #28a745; font-weight: bold;">Found ${data.results.length} result(s)</p>`;            color: #721c24;            background-color: #007bff;
-
-            
-
-            data.results.forEach(result => {            padding: 15px;
-
-                html += `
-
-                    <div class="result-item">            border-radius: 5px;            color: white;            flex-direction: column;        .results-stats { background: #e8f5e9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #27ae60; }
-
-                        <div class="result-title">${escapeHtml(result.title || 'Untitled')}</div>
-
-                        <div class="result-meta">            border: 1px solid #f5c6cb;
-
-                            <strong>Type:</strong> ${escapeHtml(result.type || 'Unknown')} | 
-
-                            <strong>Date:</strong> ${escapeHtml(result.date || 'Not specified')} |        }        }
-
-                            <strong>Catalog:</strong> ${escapeHtml(result.catalog || 'Default')}
-
-                        </div>    </style>
-
-                        <div class="result-description">${escapeHtml(result.description || 'No description available.')}</div>
-
-                    </div></head>        .search-btn:hover {        }        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
-
-                `;
-
-            });<body>
-
-            
-
-            resultsContent.innerHTML = html;    <div class="search-container">            background-color: #0056b3;
-
-        }
-
-                <h1>FAIR-Compliant Catalog Search</h1>
-
-        function clearForm() {
-
-            document.getElementById('searchForm').reset();        <form id="searchForm" class="search-form">        }        label {        .catalog-card { background: white; border: 1px solid #dee2e6; border-radius: 12px; padding: 20px; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-
-            document.getElementById('resultsContent').innerHTML = `
-
-                <p style="text-align: center; color: #666; margin-top: 50px;">            <div class="form-group">
-
-                    Enter search criteria above and click "Search Catalogs" to find FAIR-compliant resources.
-
-                </p>                <label for="searchTerm">Search Term:</label>        .clear-btn {
-
-            `;
-
-        }                <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter search keywords">
-
+        let allCatalogs = [];
+        let filteredCatalogs = [];
         
-
-        function escapeHtml(text) {            </div>            background-color: #6c757d;            margin-bottom: 5px;        .catalog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-
-            const div = document.createElement('div');
-
-            div.textContent = text;            
-
-            return div.innerHTML;
-
-        }            <div class="form-group">            color: white;
-
+        const searchInput = document.getElementById('searchInput');
+        const resultsDiv = document.getElementById('results');
+        const resultsStats = document.getElementById('resultsStats');
         
-
-        document.addEventListener('DOMContentLoaded', function() {                <label for="category">Category:</label>
-
-            const inputs = document.querySelectorAll('input, select');
-
-            inputs.forEach(input => {                <select id="category" name="category">        }            font-weight: bold;        .catalog-header { display: flex; justify-content: between; align-items: start; margin-bottom: 15px; }
-
-                input.addEventListener('keypress', function(e) {
-
-                    if (e.key === 'Enter') {                    <option value="">All Categories</option>
-
-                        performSearch();
-
-                    }                    <option value="dataset">Dataset</option>        .clear-btn:hover {
-
-                });
-
-            });                    <option value="publication">Publication</option>
-
-        });
-
-    </script>                    <option value="software">Software</option>            background-color: #545b62;            color: #333;        .catalog-title { font-size: 1.2rem; font-weight: 600; color: #2c3e50; margin: 0; line-height: 1.3; }
-
-</body>
-
-</html>                    <option value="service">Service</option>
-
-                </select>        }
-
-            </div>
-
-                    .results-container {        }        .catalog-badges { display: flex; gap: 8px; flex-wrap: wrap; }
-
-            <div class="form-group">
-
-                <label for="dateFrom">Date From:</label>            background: white;
-
-                <input type="date" id="dateFrom" name="dateFrom">
-
-            </div>            border-radius: 10px;        input[type="text"], input[type="date"], select {        .badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
-
-            
-
-            <div class="form-group">            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-
-                <label for="dateTo">Date To:</label>
-
-                <input type="date" id="dateTo" name="dateTo">            overflow: hidden;            padding: 10px;        .badge-encrypted { background: #e74c3c; color: white; }
-
-            </div>
-
-        </form>        }
-
-        
-
-        <div class="search-buttons">        .results-header {            border: 2px solid #ddd;        .badge-public { background: #27ae60; color: white; }
-
-            <button type="button" class="search-btn" onclick="performSearch()">Search Catalogs</button>
-
-            <button type="button" class="clear-btn" onclick="clearForm()">Clear</button>            background-color: #28a745;
-
-        </div>
-
-    </div>            color: white;            border-radius: 5px;        .badge-private { background: #f39c12; color: white; }
-
-
-
-    <div class="results-container">            padding: 15px 20px;
-
-        <div class="results-header">
-
-            Search Results            font-size: 18px;            font-size: 16px;        .badge-processed { background: #9b59b6; color: white; }
-
-        </div>
-
-        <div class="results-content" id="resultsContent">            font-weight: bold;
-
-            <p style="text-align: center; color: #666; margin-top: 50px;">
-
-                Enter search criteria above and click "Search Catalogs" to find FAIR-compliant resources.        }        }        .catalog-meta { margin: 15px 0; }
-
-            </p>
-
-        </div>        .results-content {
-
-    </div>
-
-            padding: 20px;        .search-buttons {        .meta-row { display: flex; justify-content: between; padding: 5px 0; border-bottom: 1px solid #ecf0f1; }
-
-    <script>
-
-        function performSearch() {            min-height: 200px;
-
-            const form = document.getElementById('searchForm');
-
-            const formData = new FormData(form);        }            display: flex;        .meta-label { font-weight: 600; color: #7f8c8d; }
-
-            const resultsContent = document.getElementById('resultsContent');
-
-                    .result-item {
-
-            // Show loading state
-
-            resultsContent.innerHTML = '<div class="loading">Searching catalogs...</div>';            border: 1px solid #ddd;            gap: 10px;        .meta-value { color: #2c3e50; font-family: 'Courier New', monospace; font-size: 0.9rem; }
-
-            
-
-            // Build URL parameters            border-radius: 5px;
-
-            const params = new URLSearchParams();
-
-            for (let [key, value] of formData.entries()) {            margin-bottom: 15px;            justify-content: center;        .catalog-actions { margin-top: 15px; display: flex; gap: 10px; }
-
-                if (value.trim() !== '') {
-
-                    params.append(key, value);            padding: 15px;
-
-                }
-
-            }            background-color: #f8f9fa;            margin-top: 20px;        .btn-sm { padding: 8px 15px; font-size: 12px; }
-
-            
-
-            // Make request to search API        }
-
-            fetch('search_catalogs_fair.php?' + params.toString())
-
-                .then(response => response.json())        .result-title {        }        .btn-outline { background: transparent; border: 1px solid #3498db; color: #3498db; }
-
-                .then(data => {
-
-                    displayResults(data);            font-weight: bold;
-
-                })
-
-                .catch(error => {            color: #007bff;        button {        .btn-outline:hover { background: #3498db; color: white; }
-
-                    console.error('Search error:', error);
-
-                    resultsContent.innerHTML = '<div class="error">Error performing search. Please try again.</div>';            margin-bottom: 5px;
-
-                });
-
-        }        }            padding: 12px 24px;        .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c; }
-
-        
-
-        function displayResults(data) {        .result-meta {
-
-            const resultsContent = document.getElementById('resultsContent');
-
-                        color: #666;            border: none;        .loading { text-align: center; padding: 40px; color: #3498db; font-style: italic; font-size: 1.1rem; }
-
-            if (data.error) {
-
-                resultsContent.innerHTML = `<div class="error">${data.error}</div>`;            font-size: 14px;
-
-                return;
-
-            }            margin-bottom: 8px;            border-radius: 5px;        .no-results { text-align: center; padding: 40px; color: #7f8c8d; }
-
-            
-
-            if (!data.results || data.results.length === 0) {        }
-
-                resultsContent.innerHTML = '<p style="text-align: center; color: #666;">No results found. Try adjusting your search criteria.</p>';
-
-                return;        .result-description {            font-size: 16px;        .sort-indicator { margin-left: 5px; opacity: 0.7; }
-
-            }
-
-                        color: #333;
-
-            let html = `<p style="margin-bottom: 20px; color: #28a745; font-weight: bold;">Found ${data.results.length} result(s)</p>`;
-
-                    }            cursor: pointer;        @media (max-width: 768px) {
-
-            data.results.forEach(result => {
-
-                html += `        .loading {
-
-                    <div class="result-item">
-
-                        <div class="result-title">${escapeHtml(result.title || 'Untitled')}</div>            text-align: center;            transition: background-color 0.3s;            .search-row { flex-direction: column; }
-
-                        <div class="result-meta">
-
-                            <strong>Type:</strong> ${escapeHtml(result.type || 'Unknown')} |             padding: 40px;
-
-                            <strong>Date:</strong> ${escapeHtml(result.date || 'Not specified')} |
-
-                            <strong>Catalog:</strong> ${escapeHtml(result.catalog || 'Default')}            color: #666;        }            .filters-row { grid-template-columns: 1fr; }
-
-                        </div>
-
-                        <div class="result-description">${escapeHtml(result.description || 'No description available.')}</div>        }
-
-                    </div>
-
-                `;        .error {        .search-btn {            .catalog-grid { grid-template-columns: 1fr; }
-
-            });
-
-                        background-color: #f8d7da;
-
-            resultsContent.innerHTML = html;
-
-        }            color: #721c24;            background-color: #007bff;        }
-
-        
-
-        function clearForm() {            padding: 15px;
-
-            document.getElementById('searchForm').reset();
-
-            document.getElementById('resultsContent').innerHTML = `            border-radius: 5px;            color: white;    </style>
-
-                <p style="text-align: center; color: #666; margin-top: 50px;">
-
-                    Enter search criteria above and click "Search Catalogs" to find FAIR-compliant resources.            border: 1px solid #f5c6cb;
-
-                </p>
-
-            `;        }        }</head>
-
-        }
-
-            </style>
-
-        function escapeHtml(text) {
-
-            const div = document.createElement('div');</head>        .search-btn:hover {<body>
-
-            div.textContent = text;
-
-            return div.innerHTML;<body>
-
-        }
-
-            <div class="search-container">            background-color: #0056b3;    <div class="container">
-
-        // Add event listeners for Enter key
-
-        document.addEventListener('DOMContentLoaded', function() {        <h1>FAIR-Compliant Catalog Search</h1>
-
-            const inputs = document.querySelectorAll('input, select');
-
-            inputs.forEach(input => {        <form id="searchForm" class="search-form">        }        <!-- <div class="header">
-
-                input.addEventListener('keypress', function(e) {
-
-                    if (e.key === 'Enter') {            <div class="form-group">
-
-                        performSearch();
-
-                    }                <label for="searchTerm">Search Term:</label>        .clear-btn {            <h1>� FAIR Catalog Discovery</h1>
-
-                });
-
-            });                <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter search keywords">
-
-        });
-
-    </script>            </div>            background-color: #6c757d;            <p>Findable • Accessible • Interoperable • Reusable</p>
-
-</body>
-
-</html>            
-
-            <div class="form-group">            color: white;        </div> -->
-
-                <label for="category">Category:</label>
-
-                <select id="category" name="category">        }        
-
-                    <option value="">All Categories</option>
-
-                    <option value="dataset">Dataset</option>        .clear-btn:hover {        <div class="search-section">
-
-                    <option value="publication">Publication</option>
-
-                    <option value="software">Software</option>            background-color: #545b62;            <div class="search-row">
-
-                    <option value="service">Service</option>
-
-                </select>        }                <input type="text" id="searchInput" class="search-input" 
-
-            </div>
-
-                    .results-container {                       placeholder="Search catalogs by name, token, description... (or leave empty to search by date range only)" value="">
-
-            <div class="form-group">
-
-                <label for="dateFrom">Date From:</label>            background: white;                <button onclick="performSearch()" class="btn btn-primary">Search Catalogs</button>
-
-                <input type="date" id="dateFrom" name="dateFrom">
-
-            </div>            border-radius: 10px;                <button onclick="searchAllCatalogs()" class="btn btn-secondary">Search All</button>
-
-            
-
-            <div class="form-group">            box-shadow: 0 2px 10px rgba(0,0,0,0.1);                <button onclick="clearSearch()" class="btn btn-secondary">Clear</button>
-
-                <label for="dateTo">Date To:</label>
-
-                <input type="date" id="dateTo" name="dateTo">            overflow: hidden;            </div>
-
-            </div>
-
-        </form>        }            
-
-        
-
-        <div class="search-buttons">        .results-header {            <div class="filters-row">
-
-            <button type="button" class="search-btn" onclick="performSearch()">Search Catalogs</button>
-
-            <button type="button" class="clear-btn" onclick="clearForm()">Clear</button>            background-color: #28a745;                <div class="filter-group">
-
-        </div>
-
-    </div>            color: white;                    <label for="sortBy">Sort By</label>
-
-
-
-    <div class="results-container">            padding: 15px 20px;                    <select id="sortBy" class="filter-select" onchange="applySortAndFilter()">
-
-        <div class="results-header">
-
-            Search Results            font-size: 18px;                        <option value="created_at_desc">Created Date (Newest)</option>
-
-        </div>
-
-        <div class="results-content" id="resultsContent">            font-weight: bold;                        <option value="created_at_asc">Created Date (Oldest)</option>
-
-            <p style="text-align: center; color: #666; margin-top: 50px;">
-
-                Enter search criteria above and click "Search Catalogs" to find FAIR-compliant resources.        }                        <option value="namecatalog_asc">Name (A-Z)</option>
-
-            </p>
-
-        </div>        .results-content {                        <option value="namecatalog_desc">Name (Z-A)</option>
-
-    </div>
-
-            padding: 20px;                        <option value="dispersemode_asc">Disperse Mode</option>
-
-    <script>
-
-        function performSearch() {            min-height: 200px;                    </select>
-
-            const form = document.getElementById('searchForm');
-
-            const formData = new FormData(form);        }                </div>
-
-            const resultsContent = document.getElementById('resultsContent');
-
-                    .result-item {                
-
-            // Show loading state
-
-            resultsContent.innerHTML = '<div class="loading">Searching catalogs...</div>';            border: 1px solid #ddd;                <div class="filter-group">
-
-            
-
-            // Build URL parameters            border-radius: 5px;                    <label for="filterPrivacy">Privacy Level</label>
-
-            const params = new URLSearchParams();
-
-            for (let [key, value] of formData.entries()) {            margin-bottom: 15px;                    <select id="filterPrivacy" class="filter-select" onchange="applySortAndFilter()">
-
-                if (value.trim() !== '') {
-
-                    params.append(key, value);            padding: 15px;                        <option value="all">All Catalogs</option>
-
-                }
-
-            }            background-color: #f8f9fa;                        <option value="public">Public Only</option>
-
-            
-
-            // Make request to search API        }                        <option value="private">Private Only</option>
-
-            fetch('search_catalogs_fair.php?' + params.toString())
-
-                .then(response => response.json())        .result-title {                    </select>
-
-                .then(data => {
-
-                    displayResults(data);            font-weight: bold;                </div>
-
-                })
-
-                .catch(error => {            color: #007bff;                
-
-                    console.error('Search error:', error);
-
-                    resultsContent.innerHTML = '<div class="error">Error performing search. Please try again.</div>';            margin-bottom: 5px;                <div class="filter-group">
-
-                });
-
-        }        }                    <label for="filterEncryption">Encryption</label>
-
-        
-
-        function displayResults(data) {        .result-meta {                    <select id="filterEncryption" class="filter-select" onchange="applySortAndFilter()">
-
-            const resultsContent = document.getElementById('resultsContent');
-
-                        color: #666;                        <option value="all">All Types</option>
-
-            if (data.error) {
-
-                resultsContent.innerHTML = `<div class="error">${data.error}</div>`;            font-size: 14px;                        <option value="encrypted">Encrypted Only</option>
-
-                return;
-
-            }            margin-bottom: 8px;                        <option value="unencrypted">Unencrypted Only</option>
-
-            
-
-            if (!data.results || data.results.length === 0) {        }                    </select>
-
-                resultsContent.innerHTML = '<p style="text-align: center; color: #666;">No results found. Try adjusting your search criteria.</p>';
-
-                return;        .result-description {                </div>
-
-            }
-
-                        color: #333;                
-
-            let html = `<p style="margin-bottom: 20px; color: #28a745; font-weight: bold;">Found ${data.results.length} result(s)</p>`;
-
-                    }                <div class="filter-group">
-
-            data.results.forEach(result => {
-
-                html += `        .loading {                    <label for="filterProcessed">Processing Status</label>
-
-                    <div class="result-item">
-
-                        <div class="result-title">${escapeHtml(result.title || 'Untitled')}</div>            text-align: center;                    <select id="filterProcessed" class="filter-select" onchange="applySortAndFilter()">
-
-                        <div class="result-meta">
-
-                            <strong>Type:</strong> ${escapeHtml(result.type || 'Unknown')} |             padding: 40px;                        <option value="all">All Statuses</option>
-
-                            <strong>Date:</strong> ${escapeHtml(result.date || 'Not specified')} |
-
-                            <strong>Catalog:</strong> ${escapeHtml(result.catalog || 'Default')}            color: #666;                        <option value="processed">Processed</option>
-
-                        </div>
-
-                        <div class="result-description">${escapeHtml(result.description || 'No description available.')}</div>        }                        <option value="unprocessed">Unprocessed</option>
-
-                    </div>
-
-                `;        .error {                    </select>
-
-            });
-
-                        background-color: #f8d7da;                </div>
-
-            resultsContent.innerHTML = html;
-
-        }            color: #721c24;                
-
-        
-
-        function clearForm() {            padding: 15px;                <div class="filter-group">
-
-            document.getElementById('searchForm').reset();
-
-            document.getElementById('resultsContent').innerHTML = `            border-radius: 5px;                    <label for="dateFrom">Created From</label>
-
-                <p style="text-align: center; color: #666; margin-top: 50px;">
-
-                    Enter search criteria above and click "Search Catalogs" to find FAIR-compliant resources.            border: 1px solid #f5c6cb;                    <input type="date" id="dateFrom" class="filter-input" onchange="applySortAndFilter()">
-
-                </p>
-
-            `;        }                </div>
-
-        }
-
-            </style>                
-
-        function escapeHtml(text) {
-
-            const div = document.createElement('div');</head>                <div class="filter-group">
-
-            div.textContent = text;
-
-            return div.innerHTML;<body>                    <label for="dateTo">Created To</label>
-
-        }
-
-            <div class="search-container">                    <input type="date" id="dateTo" class="filter-input" onchange="applySortAndFilter()">
-
-        // Add event listeners for Enter key
-
-        document.addEventListener('DOMContentLoaded', function() {        <h1>FAIR-Compliant Catalog Search</h1>                </div>
-
-            const inputs = document.querySelectorAll('input, select');
-
-            inputs.forEach(input => {        <form id="searchForm" class="search-form">                
-
-                input.addEventListener('keypress', function(e) {
-
-                    if (e.key === 'Enter') {            <div class="form-group">                <div class="filter-group">
-
-                        performSearch();
-
-                    }                <label for="searchTerm">Search Term:</label>                    <label for="userId">User ID (Optional)</label>
-
-                });
-
-            });                <input type="text" id="searchTerm" name="searchTerm" placeholder="Enter search keywords">                    <input type="text" id="userId" class="filter-input" 
-
-        });
-
-    </script>            </div>                           placeholder="Enter user ID for access control">
-
-</body>
-
-</html>                            </div>
-
-            <div class="form-group">            </div>
-
-                <label for="category">Category:</label>            
-
-                <select id="category" name="category">            <div class="fair-principles">
-
-                    <option value="">All Categories</option>                <h4>FAIR Data Principles Applied</h4>
-
-                    <option value="dataset">Dataset</option>                <div class="fair-tags">
-
-                    <option value="publication">Publication</option>                    <span class="fair-tag">F: Searchable Metadata</span>
-
-                    <option value="software">Software</option>                    <span class="fair-tag">A: Access Control Aware</span>
-
-                    <option value="service">Service</option>                    <span class="fair-tag">I: Standardized Formats</span>
-
-                </select>                    <span class="fair-tag">R: Rich Descriptions</span>
-
-            </div>                </div>
-
-                        </div>
-
-            <div class="form-group">        </div>
-
-                <label for="dateFrom">Date From:</label>        
-
-                <input type="date" id="dateFrom" name="dateFrom">        <div class="results-section">
-
-            </div>            <div id="resultsStats" class="results-stats" style="display: none;"></div>
-
-                        <div id="results" class="results"></div>
-
-            <div class="form-group">        </div>
-
-                <label for="dateTo">Date To:</label>    </div>
-
-                <input type="date" id="dateTo" name="dateTo">
-
-            </div>    <script>
-
-        </form>        let allCatalogs = [];
-
-                let filteredCatalogs = [];
-
-        <div class="search-buttons">        
-
-            <button type="button" class="search-btn" onclick="performSearch()">Search Catalogs</button>        const searchInput = document.getElementById('searchInput');
-
-            <button type="button" class="clear-btn" onclick="clearForm()">Clear</button>        const resultsDiv = document.getElementById('results');
-
-        </div>        const resultsStats = document.getElementById('resultsStats');
-
-    </div>        
-
         // Search on Enter key
-
-    <div class="results-container">        searchInput.addEventListener('keypress', function(e) {
-
-        <div class="results-header">            if (e.key === 'Enter') {
-
-            Search Results                performSearch();
-
-        </div>            }
-
-        <div class="results-content" id="resultsContent">        });
-
-            <p style="text-align: center; color: #666; margin-top: 50px;">        
-
-                Enter search criteria above and click "Search Catalogs" to find FAIR-compliant resources.        // Real-time search as user types (debounced)
-
-            </p>        let searchTimeout;
-
-        </div>        searchInput.addEventListener('input', function(e) {
-
-    </div>            clearTimeout(searchTimeout);
-
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // Real-time search as user types (debounced)
+        let searchTimeout;
+        searchInput.addEventListener('input', function(e) {
+            clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
-
-    <script>                if (e.target.value.length >= 2) {
-
-        function performSearch() {                    performSearch();
-
-            const form = document.getElementById('searchForm');                }
-
-            const formData = new FormData(form);            }, 500);
-
-            const resultsContent = document.getElementById('resultsContent');        });
-
-                    
-
-            // Show loading state        function performSearch() {
-
-            resultsContent.innerHTML = '<div class="loading">Searching catalogs...</div>';            const searchTerm = searchInput.value.trim();
-
-                        const userId = document.getElementById('userId').value.trim();
-
-            // Build URL parameters            const dateFrom = document.getElementById('dateFrom').value;
-
-            const params = new URLSearchParams();            const dateTo = document.getElementById('dateTo').value;
-
-            for (let [key, value] of formData.entries()) {            
-
-                if (value.trim() !== '') {            // Allow search with either a search term OR date filters
-
-                    params.append(key, value);            if (!searchTerm && !dateFrom && !dateTo) {
-
-                }                resultsDiv.innerHTML = '<div class="error">Please enter a search term OR select a date range to find catalogs</div>';
-
-            }                return;
-
-                        }
-
-            // Make request to search API            
-
-            fetch('search_catalogs_fair.php?' + params.toString())            resultsDiv.innerHTML = '<div class="loading">Searching FAIR catalog repository...</div>';
-
-                .then(response => response.json())            resultsStats.style.display = 'none';
-
-                .then(data => {            
-
-                    displayResults(data);            // Build URL with parameters for FAIR catalog search
-
-                })            // Use wildcard search if no specific term provided but dates are given
-
-                .catch(error => {            const searchQuery = searchTerm || '*';
-
-                    console.error('Search error:', error);            let url = `http://localhost:20505/search_catalogs_fair.php?q=${encodeURIComponent(searchQuery)}`;
-
-                    resultsContent.innerHTML = '<div class="error">Error performing search. Please try again.</div>';            
-
-                });            if (userId) {
-
-        }                url += `&user_id=${encodeURIComponent(userId)}`;
-
+                if (e.target.value.length >= 2) {
+                    performSearch();
+                }
+            }, 500);
+        });
+        
+        function performSearch() {
+            const searchTerm = searchInput.value.trim();
+            const userId = document.getElementById('userId').value.trim();
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            
+            // Allow search with either a search term OR date filters
+            if (!searchTerm && !dateFrom && !dateTo) {
+                resultsDiv.innerHTML = '<div class="error">Please enter a search term OR select a date range to find catalogs</div>';
+                return;
+            }
+            
+            resultsDiv.innerHTML = '<div class="loading">Searching FAIR catalog repository...</div>';
+            resultsStats.style.display = 'none';
+            
+            // Build URL with parameters for FAIR catalog search
+            // Use wildcard search if no specific term provided but dates are given
+            const searchQuery = searchTerm || '*';
+            let url = `search_catalogs_fair.php?q=${encodeURIComponent(searchQuery)}`;
+            
+            if (userId) {
+                url += `&user_id=${encodeURIComponent(userId)}`;
+            }
+            
+            // Add filter parameters
+            const privacyFilter = document.getElementById('filterPrivacy').value;
+            const encryptionFilter = document.getElementById('filterEncryption').value;
+            const processedFilter = document.getElementById('filterProcessed').value;
+            
+            if (privacyFilter !== 'all') {
+                url += `&privacy=${encodeURIComponent(privacyFilter)}`;
+            }
+            if (encryptionFilter !== 'all') {
+                url += `&encryption=${encodeURIComponent(encryptionFilter)}`;
+            }
+            if (processedFilter !== 'all') {
+                url += `&processed=${encodeURIComponent(processedFilter)}`;
+            }
+            if (dateFrom) {
+                url += `&date_from=${encodeURIComponent(dateFrom)}`;
+            }
+            if (dateTo) {
+                url += `&date_to=${encodeURIComponent(dateTo)}`;
+            }
+            
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
                     }
-
-        function displayResults(data) {            
-
-            const resultsContent = document.getElementById('resultsContent');            // Add filter parameters
-
-                        const privacyFilter = document.getElementById('filterPrivacy').value;
-
-            if (data.error) {            const encryptionFilter = document.getElementById('filterEncryption').value;
-
-                resultsContent.innerHTML = `<div class="error">${data.error}</div>`;            const processedFilter = document.getElementById('filterProcessed').value;
-
-                return;            
-
-            }            if (privacyFilter !== 'all') {
-
-                            url += `&privacy=${encodeURIComponent(privacyFilter)}`;
-
-            if (!data.results || data.results.length === 0) {            }
-
-                resultsContent.innerHTML = '<p style="text-align: center; color: #666;">No results found. Try adjusting your search criteria.</p>';            if (encryptionFilter !== 'all') {
-
-                return;                url += `&encryption=${encodeURIComponent(encryptionFilter)}`;
-
-            }            }
-
-                        if (processedFilter !== 'all') {
-
-            let html = `<p style="margin-bottom: 20px; color: #28a745; font-weight: bold;">Found ${data.results.length} result(s)</p>`;                url += `&processed=${encodeURIComponent(processedFilter)}`;
-
-                        }
-
-            data.results.forEach(result => {            if (dateFrom) {
-
-                html += `                url += `&date_from=${encodeURIComponent(dateFrom)}`;
-
-                    <div class="result-item">            }
-
-                        <div class="result-title">${escapeHtml(result.title || 'Untitled')}</div>            if (dateTo) {
-
-                        <div class="result-meta">                url += `&date_to=${encodeURIComponent(dateTo)}`;
-
-                            <strong>Type:</strong> ${escapeHtml(result.type || 'Unknown')} |             }
-
-                            <strong>Date:</strong> ${escapeHtml(result.date || 'Not specified')} |            
-
-                            <strong>Catalog:</strong> ${escapeHtml(result.catalog || 'Default')}            fetch(url)
-
-                        </div>                .then(response => {
-
-                        <div class="result-description">${escapeHtml(result.description || 'No description available.')}</div>                    if (!response.ok) {
-
-                    </div>                        throw new Error(`HTTP ${response.status}`);
-
-                `;                    }
-
-            });                    return response.json();
-
-                            })
-
-            resultsContent.innerHTML = html;                .then(data => {
-
-        }                    if (data.success && data.fair_compliant) {
-
-                                // Store catalogs data from FAIR API
-
-        function clearForm() {                        allCatalogs = data.results.catalogs || [];
-
-            document.getElementById('searchForm').reset();                        applySortAndFilter();
-
-            document.getElementById('resultsContent').innerHTML = `                        displaySearchStats(data.search_metadata, data.repository_statistics);
-
-                <p style="text-align: center; color: #666; margin-top: 50px;">                    } else {
-
-                    Enter search criteria above and click "Search Catalogs" to find FAIR-compliant resources.                        resultsDiv.innerHTML = `<div class="error">Error: ${data.error}</div>`;
-
-                </p>                    }
-
-            `;                })
-
-        }                .catch(error => {
-
-                            resultsDiv.innerHTML = `<div class="error">Search failed: ${error.message}<br><small>Make sure the metadata service is running on port 20505</small></div>`;
-
-        function escapeHtml(text) {                });
-
-            const div = document.createElement('div');        }
-
-            div.textContent = text;        
-
-            return div.innerHTML;        function applySortAndFilter() {
-
-        }            // Apply filters
-
-                    const privacyFilter = document.getElementById('filterPrivacy').value;
-
-        // Add event listeners for Enter key            const encryptionFilter = document.getElementById('filterEncryption').value;
-
-        document.addEventListener('DOMContentLoaded', function() {            const processedFilter = document.getElementById('filterProcessed').value;
-
-            const inputs = document.querySelectorAll('input, select');            
-
-            inputs.forEach(input => {            filteredCatalogs = allCatalogs.filter(catalog => {
-
-                input.addEventListener('keypress', function(e) {                // Privacy filter
-
-                    if (e.key === 'Enter') {                if (privacyFilter === 'public' && catalog.isprivate) return false;
-
-                        performSearch();                if (privacyFilter === 'private' && !catalog.isprivate) return false;
-
-                    }                
-
-                });                // Encryption filter
-
-            });                if (encryptionFilter === 'encrypted' && !catalog.encryption) return false;
-
-        });                if (encryptionFilter === 'unencrypted' && catalog.encryption) return false;
-
-    </script>                
-
-</body>                // Processed filter
-
-</html>                if (processedFilter === 'processed' && !catalog.processed) return false;
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success && data.fair_compliant) {
+                        // Store catalogs data from FAIR API
+                        allCatalogs = data.results.catalogs || [];
+                        applySortAndFilter();
+                        displaySearchStats(data.search_metadata, data.repository_statistics);
+                    } else {
+                        resultsDiv.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                    }
+                })
+                .catch(error => {
+                    resultsDiv.innerHTML = `<div class="error">Search failed: ${error.message}<br><small>Make sure the metadata service is running on port 20505</small></div>`;
+                });
+        }
+        
+        function applySortAndFilter() {
+            // Apply filters
+            const privacyFilter = document.getElementById('filterPrivacy').value;
+            const encryptionFilter = document.getElementById('filterEncryption').value;
+            const processedFilter = document.getElementById('filterProcessed').value;
+            
+            filteredCatalogs = allCatalogs.filter(catalog => {
+                // Privacy filter
+                if (privacyFilter === 'public' && catalog.isprivate) return false;
+                if (privacyFilter === 'private' && !catalog.isprivate) return false;
+                
+                // Encryption filter
+                if (encryptionFilter === 'encrypted' && !catalog.encryption) return false;
+                if (encryptionFilter === 'unencrypted' && catalog.encryption) return false;
+                
+                // Processed filter
+                if (processedFilter === 'processed' && !catalog.processed) return false;
                 if (processedFilter === 'unprocessed' && catalog.processed) return false;
                 
                 return true;
