@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FAIR Catalog Search Interface</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); overflow: hidden; margin-top: 20px; margin-bottom: 20px; }
+        .header { background: linear-gradient(90deg, #2c3e50, #3498db); color: white; padding: 30px; text-align: center; }
+        .header h1 { margin: 0; font-size: 2.5rem; font-weight: 300; }
+        .header p { margin: 10px 0 0 0; opacity: 0.9; font-size: 1.1rem; }
+        .search-section { padding: 30px; background: #f8f9fa; border-bottom: 1px solid #dee2e6; }
+        .search-row { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; align-items: center; }
+        .search-input { flex: 1; min-width: 300px; padding: 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .search-input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); }
+        .btn { padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-primary:hover { background: #2980b9; transform: translateY(-2px); }
+        .btn-secondary { background: #95a5a6; color: white; }
+        .btn-secondary:hover { background: #7f8c8d; }
+        .filters-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .filter-group { display: flex; flex-direction: column; }
+        .filter-group label { font-weight: 600; margin-bottom: 5px; color: #2c3e50; }
+        .filter-select, .filter-input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .fair-principles { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #3498db; }
+        .fair-principles h4 { margin: 0 0 10px 0; color: #2c3e50; }
+        .fair-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .fair-tag { background: #3498db; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .results-section { padding: 30px; }
+        .results-header { display: flex; justify-content: between; align-items: center; margin-bottom: 20px; }
+        .results-stats { background: #e8f5e9; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #27ae60; }
+        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 20px; }
+        .catalog-card { background: white; border: 1px solid #dee2e6; border-radius: 12px; padding: 20px; transition: all 0.3s; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .catalog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .catalog-header { display: flex; justify-content: between; align-items: start; margin-bottom: 15px; }
+        .catalog-title { font-size: 1.2rem; font-weight: 600; color: #2c3e50; margin: 0; line-height: 1.3; }
+        .catalog-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .badge-encrypted { background: #e74c3c; color: white; }
+        .badge-public { background: #27ae60; color: white; }
+        .badge-private { background: #f39c12; color: white; }
+        .badge-processed { background: #9b59b6; color: white; }
+        .catalog-meta { margin: 15px 0; }
+        .meta-row { display: flex; justify-content: between; padding: 5px 0; border-bottom: 1px solid #ecf0f1; }
+        .meta-label { font-weight: 600; color: #7f8c8d; }
+        .meta-value { color: #2c3e50; font-family: 'Courier New', monospace; font-size: 0.9rem; }
+        .catalog-actions { margin-top: 15px; display: flex; gap: 10px; }
+        .btn-sm { padding: 8px 15px; font-size: 12px; }
+        .btn-outline { background: transparent; border: 1px solid #3498db; color: #3498db; }
+        .btn-outline:hover { background: #3498db; color: white; }
+        .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c; }
+        .loading { text-align: center; padding: 40px; color: #3498db; font-style: italic; font-size: 1.1rem; }
+        .no-results { text-align: center; padding: 40px; color: #7f8c8d; }
+        .sort-indicator { margin-left: 5px; opacity: 0.7; }
+        @media (max-width: 768px) {
+            .search-row { flex-direction: column; }
+            .filters-row { grid-template-columns: 1fr; }
+            .catalog-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- <div class="header">
+            <h1>� FAIR Catalog Discovery</h1>
+            <p>Findable • Accessible • Interoperable • Reusable</p>
+        </div> -->
+        
+        <div class="search-section">
+            <div class="search-row">
+                <input type="text" id="searchInput" class="search-input" 
+                       placeholder="Search catalogs by name, token, description... (or leave empty to search by date range only)" value="">
+                <button onclick="performSearch()" class="btn btn-primary">Search Catalogs</button>
+                <button onclick="searchAllCatalogs()" class="btn btn-secondary">Search All</button>
+                <button onclick="clearSearch()" class="btn btn-secondary">Clear</button>
+            </div>
+            
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label for="sortBy">Sort By</label>
+                    <select id="sortBy" class="filter-select" onchange="applySortAndFilter()">
+                        <option value="created_at_desc">Created Date (Newest)</option>
+                        <option value="created_at_asc">Created Date (Oldest)</option>
+                        <option value="namecatalog_asc">Name (A-Z)</option>
+                        <option value="namecatalog_desc">Name (Z-A)</option>
+                        <option value="dispersemode_asc">Disperse Mode</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="filterPrivacy">Privacy Level</label>
+                    <select id="filterPrivacy" class="filter-select" onchange="applySortAndFilter()">
+                        <option value="all">All Catalogs</option>
+                        <option value="public">Public Only</option>
+                        <option value="private">Private Only</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="filterEncryption">Encryption</label>
+                    <select id="filterEncryption" class="filter-select" onchange="applySortAndFilter()">
+                        <option value="all">All Types</option>
+                        <option value="encrypted">Encrypted Only</option>
+                        <option value="unencrypted">Unencrypted Only</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="filterProcessed">Processing Status</label>
+                    <select id="filterProcessed" class="filter-select" onchange="applySortAndFilter()">
+                        <option value="all">All Statuses</option>
+                        <option value="processed">Processed</option>
+                        <option value="unprocessed">Unprocessed</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateFrom">Created From</label>
+                    <input type="date" id="dateFrom" class="filter-input" onchange="applySortAndFilter()">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="dateTo">Created To</label>
+                    <input type="date" id="dateTo" class="filter-input" onchange="applySortAndFilter()">
+                </div>
+                
+                <div class="filter-group">
+                    <label for="userId">User ID (Optional)</label>
+                    <input type="text" id="userId" class="filter-input" 
+                           placeholder="Enter user ID for access control">
+                </div>
+            </div>
+            
+            <div class="fair-principles">
+                <h4>FAIR Data Principles Applied</h4>
+                <div class="fair-tags">
+                    <span class="fair-tag">F: Searchable Metadata</span>
+                    <span class="fair-tag">A: Access Control Aware</span>
+                    <span class="fair-tag">I: Standardized Formats</span>
+                    <span class="fair-tag">R: Rich Descriptions</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-section">
+            <div id="resultsStats" class="results-stats" style="display: none;"></div>
+            <div id="results" class="results"></div>
+        </div>
+    </div>
+
+    <script>
+        let allCatalogs = [];
+        let filteredCatalogs = [];
+        
+        const searchInput = document.getElementById('searchInput');
+        const resultsDiv = document.getElementById('results');
+        const resultsStats = document.getElementById('resultsStats');
+        
+        // Search on Enter key
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // Real-time search as user types (debounced)
+        let searchTimeout;
+        searchInput.addEventListener('input', function(e) {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                if (e.target.value.length >= 2) {
+                    performSearch();
+                }
+            }, 500);
+        });
+        
+        function performSearch() {
+            const searchTerm = searchInput.value.trim();
+            const userId = document.getElementById('userId').value.trim();
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            
+            // Allow search with either a search term OR date filters
+            if (!searchTerm && !dateFrom && !dateTo) {
+                resultsDiv.innerHTML = '<div class="error">Please enter a search term OR select a date range to find catalogs</div>';
+                return;
+            }
+            
+            resultsDiv.innerHTML = '<div class="loading">Searching FAIR catalog repository...</div>';
+            resultsStats.style.display = 'none';
+            
+            // Build URL with parameters for FAIR catalog search
+            // Use wildcard search if no specific term provided but dates are given
+            const searchQuery = searchTerm || '*';
+            let url = `http://localhost:20505/search_catalogs_fair.php?q=${encodeURIComponent(searchQuery)}`;
+            
+            if (userId) {
+                url += `&user_id=${encodeURIComponent(userId)}`;
+            }
+            
+            // Add filter parameters
+            const privacyFilter = document.getElementById('filterPrivacy').value;
+            const encryptionFilter = document.getElementById('filterEncryption').value;
+            const processedFilter = document.getElementById('filterProcessed').value;
+            
+            if (privacyFilter !== 'all') {
+                url += `&privacy=${encodeURIComponent(privacyFilter)}`;
+            }
+            if (encryptionFilter !== 'all') {
+                url += `&encryption=${encodeURIComponent(encryptionFilter)}`;
+            }
+            if (processedFilter !== 'all') {
+                url += `&processed=${encodeURIComponent(processedFilter)}`;
+            }
+            if (dateFrom) {
+                url += `&date_from=${encodeURIComponent(dateFrom)}`;
+            }
+            if (dateTo) {
+                url += `&date_to=${encodeURIComponent(dateTo)}`;
+            }
+            
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success && data.fair_compliant) {
+                        // Store catalogs data from FAIR API
+                        allCatalogs = data.results.catalogs || [];
+                        applySortAndFilter();
+                        displaySearchStats(data.search_metadata, data.repository_statistics);
+                    } else {
+                        resultsDiv.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                    }
+                })
+                .catch(error => {
+                    resultsDiv.innerHTML = `<div class="error">Search failed: ${error.message}<br><small>Make sure the metadata service is running on port 20505</small></div>`;
+                });
+        }
+        
+        function applySortAndFilter() {
+            // Apply filters
+            const privacyFilter = document.getElementById('filterPrivacy').value;
+            const encryptionFilter = document.getElementById('filterEncryption').value;
+            const processedFilter = document.getElementById('filterProcessed').value;
+            
+            filteredCatalogs = allCatalogs.filter(catalog => {
+                // Privacy filter
+                if (privacyFilter === 'public' && catalog.isprivate) return false;
+                if (privacyFilter === 'private' && !catalog.isprivate) return false;
+                
+                // Encryption filter
+                if (encryptionFilter === 'encrypted' && !catalog.encryption) return false;
+                if (encryptionFilter === 'unencrypted' && catalog.encryption) return false;
+                
+                // Processed filter
+                if (processedFilter === 'processed' && !catalog.processed) return false;
+                if (processedFilter === 'unprocessed' && catalog.processed) return false;
+                
+                return true;
+            });
+            
+            // Apply sorting
+            const sortBy = document.getElementById('sortBy').value;
+            const [field, direction] = sortBy.split('_');
+            
+            filteredCatalogs.sort((a, b) => {
+                let aVal = a[field];
+                let bVal = b[field];
+                
+                // Handle different data types
+                if (field === 'created_at') {
+                    aVal = new Date(aVal);
+                    bVal = new Date(bVal);
+                } else if (typeof aVal === 'string') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+                
+                if (direction === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+            
+            displayCatalogs();
+        }
+        
+        function displaySearchStats(searchMetadata, repositoryStats) {
+            const totalCount = allCatalogs.length;
+            const filteredCount = filteredCatalogs.length;
+            
+            resultsStats.innerHTML = `
+                <strong>FAIR Catalog Discovery Results</strong><br>
+                Search: <code>"${searchMetadata.search_term}"</code> 
+                ${searchMetadata.user_context ? `| User: <code>${searchMetadata.user_context}</code>` : ''}<br>
+                Found <strong>${totalCount}</strong> catalogs, showing <strong>${filteredCount}</strong> after client-side filtering<br>
+                <small>Repository: ${repositoryStats.total_catalogs || 0} total • 
+                ${repositoryStats.public_catalogs || 0} public • 
+                ${repositoryStats.encrypted_catalogs || 0} encrypted • 
+                ${repositoryStats.processed_catalogs || 0} processed</small>
+            `;
+            resultsStats.style.display = 'block';
+        }
+        
+        function displayCatalogs() {
+            if (filteredCatalogs.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div class="no-results">
+                        <h3>No catalogs found</h3>
+                        <p>Try adjusting your search terms or filters</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '<div class="catalog-grid">';
+            
+            filteredCatalogs.forEach(catalog => {
+                html += generateCatalogCard(catalog);
+            });
+            
+            html += '</div>';
+            resultsDiv.innerHTML = html;
+        }
+        
+        function generateCatalogCard(catalog) {
+            const createdDate = new Date(catalog.created_at);
+            const shortToken = catalog.tokencatalog.substring(0, 16) + '...';
+            const shortUser = catalog.token_user.substring(0, 16) + '...';
+            
+            return `
+                <div class="catalog-card">
+                    <div class="catalog-header">
+                        <h3 class="catalog-title">${escapeHtml(catalog.namecatalog)}</h3>
+                        <div class="catalog-badges">
+                            ${catalog.encryption ? '<span class="badge badge-encrypted">Encrypted</span>' : ''}
+                            ${catalog.isprivate ? '<span class="badge badge-private">Private</span>' : '<span class="badge badge-public">Public</span>'}
+                            ${catalog.processed ? '<span class="badge badge-processed">Processed</span>' : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="catalog-meta">
+                        <div class="meta-row">
+                            <span class="meta-label">Token:</span>
+                            <span class="meta-value" title="${catalog.tokencatalog}">${shortToken}</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Owner:</span>
+                            <span class="meta-value" title="${catalog.token_user}">${shortUser}</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Disperse Mode:</span>
+                            <span class="meta-value">${catalog.dispersemode || 'N/A'}</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-label">Created:</span>
+                            <span class="meta-value">${createdDate.toLocaleDateString()} ${createdDate.toLocaleTimeString()}</span>
+                        </div>
+                        ${catalog.father ? `
+                        <div class="meta-row">
+                            <span class="meta-label">Parent:</span>
+                            <span class="meta-value" title="${catalog.father}">${catalog.father.substring(0, 16)}...</span>
+                        </div>` : ''}
+                    </div>
+                    
+                    <div class="catalog-actions">
+                        <button class="btn btn-sm btn-outline" onclick="viewCatalogDetails('${catalog.tokencatalog}')">
+                            View Details
+                        </button>
+                        <button class="btn btn-sm btn-outline" onclick="copyCatalogToken('${catalog.tokencatalog}')">
+                            Copy Token
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function viewCatalogDetails(token) {
+            alert(`Catalog Token: ${token}\n\nIn a full implementation, this would open a detailed view of the catalog with:\n• File listings\n• Access permissions\n• Metadata details\n• Processing history`);
+        }
+        
+        function copyCatalogToken(token) {
+            navigator.clipboard.writeText(token).then(() => {
+                // Simple feedback - in production, use a proper toast notification
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#27ae60';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            }).catch(() => {
+                alert(`Token copied to clipboard: ${token}`);
+            });
+        }
+        
+        function clearSearch() {
+            searchInput.value = '';
+            document.getElementById('userId').value = '';
+            document.getElementById('sortBy').value = 'created_at_desc';
+            document.getElementById('filterPrivacy').value = 'all';
+            document.getElementById('filterEncryption').value = 'all';
+            document.getElementById('filterProcessed').value = 'all';
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            resultsDiv.innerHTML = '';
+            resultsStats.style.display = 'none';
+            allCatalogs = [];
+            filteredCatalogs = [];
+            searchInput.focus();
+        }
+        
+        function searchAllCatalogs() {
+            // Clear the search input and perform a wildcard search
+            searchInput.value = '';
+            performSearch();
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Auto-focus search input
+        searchInput.focus();
+        
+        // Load some example searches on page load
+        window.addEventListener('load', () => {
+            // You could add some example searches here
+            console.log('FAIR Catalog Search Interface loaded');
+            console.log('Example searches: TESTCATALOG, DetectorPulmon, Anonimizacion');
+        });
+    </script>
+</body>
+</html>
