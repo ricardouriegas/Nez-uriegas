@@ -1,16 +1,66 @@
-# Python virtual environments and cache
+# Security and Sensitive Files
+*.env
+*.env.*
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+# But allow template files
+!*.env.template
+!*.template
+
+# Specific sensitive files currently in the project
+services/auth/auth.env
+services/pub_sub/pub_sub.env
+services/frontend/frontend/painal/includes/config.php
+services/sincronizador/config.db
+services/deployer/app/config.db
+
+# Database credentials and configs
+config.db
+config.php
+**/config.php
+**/includes/config.php
+
+# Private keys and certificates (but keep .cer files as they're public certificates)
+*.priv
+*.priv.*
+*.key
+*.pem
+*.p12
+*.pfx
+services/deployer/app/bob.abe.priv
+services/sincronizador/bob.abe.priv
+services/deployer/app/puzzlemesh/cmake-build-debug/bob.abe.priv
+
+# Passwords and authentication files
+password*
+passwd*
+secret*
+credential*
+auth_*
+token_*
+api_key*
+*.credentials
+
+# Database files and backups
+*.sql.backup
+*.db.backup
+derby.log
+*.sqlite
+*.sqlite3
+
+# Log files that might contain sensitive info
+*.log
+logs/
+log/
+
+# Original gitignore content
 venv/
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
 services/cmanager/src/app/api/__pycache__/*
 services/cmanager/src/app/__pycache__/*
 services/cmanager/src/app/api/__pycache__/images.cpython-37.pyc
-services/deployer/app/__pycache__/*
-services/deployer/app/normas/__pycache__/*
-
-# Storage and encryption keys - SENSITIVE
 services/storage/storage1/abekeys/*
 services/storage/storage1/c/*
 services/storage/storage2/abekeys/*
@@ -21,148 +71,10 @@ services/storage/storage4/abekeys/*
 services/storage/storage4/c/*
 services/storage/storage5/abekeys/*
 services/storage/storage5/c/*
-
-# Application data and results
 services/deployer/app/results/
-
-# Log files - may contain sensitive information
+services/cmanager/src/app/api/__pycache__/*
+services/deployer/app/__pycache__/*
+services/deployer/app/normas/__pycache__/*
 services/metadata/metadata/log/*
 services/valuechain_api/api/app/logs/execution/*
 services/valuechain_api/logs/*
-logs/
-*.log
-
-# SECURITY - SENSITIVE INFORMATION - DO NOT COMMIT
-# Environment files with credentials
-*.env
-.env
-.env.*
-.env.local
-.env.production
-auth.env
-pub_sub.env
-
-# Database configuration files with passwords
-config.db
-config.py
-derby.log
-
-# API keys, secrets, and credentials
-*secret*
-*SECRET*
-*password*
-*PASSWORD*
-*credential*
-*key*
-*.key
-*.priv
-*.priv.ciph
-*.keyring
-*.cer
-*.p12
-*.jks
-
-# Specific sensitive files identified in codebase
-bob.abe.priv
-bob.abe.priv.ciph
-bob.keyring
-katya.abe.priv.ciph
-katya.cer
-katya.keyring
-
-# Docker Compose files with exposed credentials
-docker-compose*.yml
-docker-compose*.yaml
-
-# Configuration directories with sensitive data
-configs/
-config/
-auth/
-schema-sql/
-
-# Test files with hardcoded credentials
-*test.php
-*_test.php
-search_test.php
-
-# Java files with potential credentials
-sincronizador.iml
-Sincronizador.xml
-local.conf
-PATH.txt
-manifest.mf
-
-# Application executables that might contain embedded credentials
-*.exe
-*.jar
-Sincronizador.exe
-labelImg.exe
-Download.jar
-Upload.jar
-Sincronizador.jar
-
-# Service-specific sensitive files
-services/*/auth/
-services/*/configs/
-services/*/schema-sql/
-services/*/*.env
-services/*/config.py
-services/*/config.db
-
-# Known files with exposed credentials
-services/metadata/metadata/search_test.php
-services/metadata/metadata/search_catalogs_fair.php
-services/docker-compose.yml
-services/APIGateway/APIGateway/models/Gateway.php
-services/valuechain/www/pages/login.php
-services/valuechain/www/models/general.html
-
-# IDE and editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Temporary files
-*.tmp
-*.temp
-tmp/
-temp/
-
-# Backup files
-*.bak
-*.backup
-backup/
-
-# Data directories (may contain sensitive information)
-data/
-datosprueba/
-store/
-Imagenes/
-
-# Build outputs
-build/
-dist/
-out/
-target/
-
-# Package files
-*.tar.gz
-*.zip
-*.rar
-*.7z
-
-# Database files
-*.sqlite
-*.sqlite3
-*.db3

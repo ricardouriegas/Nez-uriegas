@@ -1,0 +1,11 @@
+# Config DB Template
+# Copy this file to config.db and update with your actual values
+
+your_keyring_file
+your_password
+your_priv_key_file
+"grp:your_group_id"
+"grp:your_group_id"
+your_server_ip:20505/
+your_server_ip:20500/
+Dispersal

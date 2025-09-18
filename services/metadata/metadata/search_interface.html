@@ -191,7 +191,7 @@
             // Build URL with parameters for FAIR catalog search
             // Use wildcard search if no specific term provided but dates are given
             const searchQuery = searchTerm || '*';
-            let url = `search_catalogs_fair.php?q=${encodeURIComponent(searchQuery)}`;
+            let url = `http://localhost:20505/search_catalogs_fair.php?q=${encodeURIComponent(searchQuery)}`;
             
             if (userId) {
                 url += `&user_id=${encodeURIComponent(userId)}`;

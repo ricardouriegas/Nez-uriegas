@@ -1,0 +1,17 @@
+<?php
+/*
+    CONFIGURACIONES DEL PROYECTO - TEMPLATE
+    Copy this file to config.php and update with your actual credentials
+*/
+$config = array(
+    "db" => array(
+        "db1" => array(
+            "dbname" => "your_database_name",
+            "username" => "your_username",
+            "password" => 'your_secure_password',
+            "host" => "localhost",
+            "port" => "5432"
+        )
+    ),
+    // Add other configuration settings here
+);

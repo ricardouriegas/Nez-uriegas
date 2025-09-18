@@ -58,10 +58,10 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "./deployer/app:/home/app"
-      - "/home/domizzi/Documents/GitHub/Nez/services/deployer/app/:/home/domizzi/Documents/GitHub/Nez/services/deployer/app/"
+      - "/home/richy/Nez-uriegas/services/deployer/app/:/home/richy/Nez-uriegas/services/deployer/app/"
     environment:
       FLASK_ENV: development
-      HOST_PATH: /home/domizzi/Documents/GitHub/Nez/services/deployer/app/
+      HOST_PATH: /home/richy/Nez-uriegas/services/deployer/app/
   value-chain-api-db: #Base de datos del servicio de construcción
     #build: ./valuechain_api/api/db
     image: ddomizzi/dbnez:v1
@@ -223,7 +223,7 @@ services:
       DB_PORT: 5432
       PUB_SUB_HOST: pub_sub
       AUTH_HOST: auth
-      URL: "http://127.0.0.1:20505"
+      URL: "http://148.247.204.120:20505"
     volumes:
       - ./metadata/metadata/:/var/www/html/
     restart: always
