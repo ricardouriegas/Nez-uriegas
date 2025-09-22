@@ -1,3 +1,4 @@
+<!-- this is just a test html file to test the search.php -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -178,7 +179,7 @@
             // Build URL with parameters for FAIR catalog search
             // Use wildcard search if no specific term provided but dates are given
             const searchQuery = searchTerm || '*';
-            let url = `http://localhost:20505/uriegas-search_catalogs_fair.php?q=${encodeURIComponent(searchQuery)}`;
+            let url = `http://localhost:20505/uriegas-search_catalogs.php?q=${encodeURIComponent(searchQuery)}`;
             
             if (userId) {
                 url += `&user_id=${encodeURIComponent(userId)}`;
