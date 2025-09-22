@@ -1,8 +1,9 @@
 <?php
+// TODO:
 // should be able of searching with the following things:
-// propietario, 
-// tipo de datos  
-// fechas de creacion
+    // propietario, 
+    // tipo de datos  
+    // fechas de creacion
 
 
 header('Content-Type: application/json');
