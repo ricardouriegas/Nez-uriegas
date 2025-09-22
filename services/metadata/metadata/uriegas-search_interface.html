@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>FAIR Catalog Search Interface</title>
+    <title>Uriegas FAIR Catalog Search Interface</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
         .container { max-width: 1400px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); overflow: hidden; margin-top: 20px; margin-bottom: 20px; }
@@ -178,7 +178,7 @@
             // Build URL with parameters for FAIR catalog search
             // Use wildcard search if no specific term provided but dates are given
             const searchQuery = searchTerm || '*';
-            let url = `http://localhost:20505/search_catalogs_fair.php?q=${encodeURIComponent(searchQuery)}`;
+            let url = `http://localhost:20505/uriegas-search_catalogs_fair.php?q=${encodeURIComponent(searchQuery)}`;
             
             if (userId) {
                 url += `&user_id=${encodeURIComponent(userId)}`;

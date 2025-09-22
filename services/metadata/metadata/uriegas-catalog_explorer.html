@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Uriegas Catalog Explorer - Muyal Nez-uriegas</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(90deg, #2c3e50, #3498db); color: white; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .header h1 { margin: 0; font-size: 1.8rem; }
+        .search-section { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .input-group input { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        .btn-primary { background: #3498db; color: white; }
+        .btn-primary:hover { background: #2980b9; }
+        .catalog-info { background: #e8f4fd; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #3498db; }
+        .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .summary-card { background: white; padding: 15px; border-radius: 8px; border: 1px solid #ddd; text-align: center; }
+        .summary-card h3 { margin: 0 0 10px 0; color: #2c3e50; }
+        .summary-card .number { font-size: 1.5rem; font-weight: bold; color: #3498db; }
+        .files-section, .subcatalogs-section { margin-bottom: 30px; }
+        .section-title { font-size: 1.3rem; font-weight: 600; color: #2c3e50; margin-bottom: 15px; border-bottom: 2px solid #3498db; padding-bottom: 5px; }
+        .file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 15px; }
+        .file-card { background: white; border: 1px solid #ddd; border-radius: 8px; padding: 15px; }
+        .file-header { display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px; }
+        .file-name { font-weight: 600; color: #2c3e50; word-break: break-word; }
+        .file-badges { display: flex; gap: 5px; flex-wrap: wrap; }
+        .badge { padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .badge-encrypted { background: #e74c3c; color: white; }
+        .badge-unencrypted { background: #27ae60; color: white; }
+        .badge-ext { background: #9b59b6; color: white; }
+        .file-details { margin-top: 10px; font-size: 0.9rem; color: #666; }
+        .detail-row { display: flex; justify-content: space-between; padding: 2px 0; }
+        .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c; }
+        .loading { text-align: center; padding: 40px; color: #666; }
+        .empty { text-align: center; padding: 40px; color: #666; background: #f8f9fa; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Uriegas Catalog Content Explorer</h1>
+            <p>Explore what files and subcatalogs are inside any catalog</p>
+        </div>
+        
+        <div class="search-section">
+            <div class="input-group">
+                <input type="text" id="catalogToken" placeholder="Enter catalog token (e.g., ef7b2bac7eb28c022951c2869f4345deac1de021ac2576934b5b6b9d27b78873)" value="">
+                <input type="text" id="userId" placeholder="User ID (optional for access control)">
+                <button onclick="exploreCatalog()" class="btn btn-primary">Explore Catalog</button>
+            </div>
+            <small style="color: #666;">
+                You can get catalog tokens from the FAIR Catalog Search interface or from the database.
+            </small>
+        </div>
+        
+        <div id="results"></div>
+    </div>
+
+    <script>
+        const catalogTokenInput = document.getElementById('catalogToken');
+        const userIdInput = document.getElementById('userId');
+        const resultsDiv = document.getElementById('results');
+        
+        // Allow Enter key to trigger search
+        catalogTokenInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                exploreCatalog();
+            }
+        });
+        
+        function exploreCatalog() {
+            const catalogToken = catalogTokenInput.value.trim();
+            const userId = userIdInput.value.trim();
+            
+            if (!catalogToken) {
+                resultsDiv.innerHTML = '<div class="error">Please enter a catalog token</div>';
+                return;
+            }
+            
+            resultsDiv.innerHTML = '<div class="loading">Loading catalog contents...</div>';
+            
+            let url = `http://localhost:20505/uriegas-catalog_explorer.php?catalog_token=${encodeURIComponent(catalogToken)}`;
+            if (userId) {
+                url += `&user_id=${encodeURIComponent(userId)}`;
+            }
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayCatalogContents(data.contents);
+                    } else {
+                        resultsDiv.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                    }
+                })
+                .catch(error => {
+                    resultsDiv.innerHTML = `<div class="error">Request failed: ${error.message}<br><small>Make sure the metadata service is running on port 20505</small></div>`;
+                });
+        }
+        
+        function displayCatalogContents(contents) {
+            const info = contents.catalog_info;
+            const files = contents.files;
+            const subcatalogs = contents.subcatalogs;
+            const summary = contents.summary;
+            
+            let html = `
+                <div class="catalog-info">
+                    <h2>📁 ${escapeHtml(info.namecatalog)}</h2>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-top: 15px;">
+                        <div><strong>Created:</strong> ${new Date(info.created_at).toLocaleString()}</div>
+                        <div><strong>Token:</strong> <code style="font-size: 0.8rem;">${info.tokencatalog}</code></div>
+                        <div><strong>Disperse Mode:</strong> ${info.dispersemode}</div>
+                        <div><strong>Encrypted:</strong> ${info.encryption ? 'Yes' : 'No'}</div>
+                        <div><strong>Private:</strong> ${info.isprivate ? 'Yes' : 'No'}</div>
+                        <div><strong>Processed:</strong> ${info.processed ? 'Yes' : 'No'}</div>
+                    </div>
+                </div>
+                
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h3>Total Files</h3>
+                        <div class="number">${summary.total_files}</div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Total Size</h3>
+                        <div class="number">${summary.total_size_formatted}</div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Total Chunks</h3>
+                        <div class="number">${summary.total_chunks}</div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Encrypted Files</h3>
+                        <div class="number">${summary.encrypted_files}</div>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Subcatalogs</h3>
+                        <div class="number">${summary.total_subcatalogs}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Display file types if available
+            if (Object.keys(summary.file_types).length > 0) {
+                html += `
+                    <div class="catalog-info">
+                        <h3>File Types Distribution</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+                `;
+                for (const [type, count] of Object.entries(summary.file_types)) {
+                    html += `<span class="badge badge-ext">${type.toUpperCase()}: ${count}</span>`;
+                }
+                html += `</div></div>`;
+            }
+            
+            // Display subcatalogs
+            if (subcatalogs.length > 0) {
+                html += `
+                    <div class="subcatalogs-section">
+                        <div class="section-title">📂 Subcatalogs (${subcatalogs.length})</div>
+                        <div class="file-grid">
+                `;
+                subcatalogs.forEach(subcat => {
+                    html += `
+                        <div class="file-card">
+                            <div class="file-header">
+                                <div class="file-name">📁 ${escapeHtml(subcat.namecatalog)}</div>
+                                <div class="file-badges">
+                                    ${subcat.encryption ? '<span class="badge badge-encrypted">Encrypted</span>' : ''}
+                                    ${subcat.isprivate ? '<span class="badge badge-ext">Private</span>' : ''}
+                                </div>
+                            </div>
+                            <div class="file-details">
+                                <div class="detail-row"><span>Files:</span><span>${subcat.file_count}</span></div>
+                                <div class="detail-row"><span>Token:</span><span style="font-size: 0.8rem; font-family: monospace;">${subcat.tokencatalog}</span></div>
+                                <div class="detail-row"><span>Created:</span><span>${new Date(subcat.created_at).toLocaleDateString()}</span></div>
+                            </div>
+                            <button onclick="exploreCatalogToken('${subcat.tokencatalog}')" class="btn btn-primary" style="margin-top: 10px; font-size: 0.8rem;">Explore This Catalog</button>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            }
+            
+            // Display files
+            if (files.length > 0) {
+                html += `
+                    <div class="files-section">
+                        <div class="section-title">📄 Files (${files.length})</div>
+                        <div class="file-grid">
+                `;
+                files.forEach(file => {
+                    html += `
+                        <div class="file-card">
+                            <div class="file-header">
+                                <div class="file-name">${escapeHtml(file.namefile)}</div>
+                                <div class="file-badges">
+                                    ${file.isciphered ? '<span class="badge badge-encrypted">Encrypted</span>' : '<span class="badge badge-unencrypted">Plain</span>'}
+                                    ${file.file_extension ? `<span class="badge badge-ext">${file.file_extension.toUpperCase()}</span>` : ''}
+                                </div>
+                            </div>
+                            <div class="file-details">
+                                <div class="detail-row"><span>Size:</span><span>${file.size_formatted}</span></div>
+                                <div class="detail-row"><span>Chunks:</span><span>${file.chunks}</span></div>
+                                <div class="detail-row"><span>Status:</span><span>${file.catalog_status}</span></div>
+                                <div class="detail-row"><span>Created:</span><span>${new Date(file.created_at).toLocaleDateString()}</span></div>
+                                <div class="detail-row"><span>Hash:</span><span style="font-size: 0.8rem; font-family: monospace; word-break: break-all;">${file.hashfile}</span></div>
+                            </div>
+                        </div>
+                    `;
+                });
+                html += `</div></div>`;
+            } else if (subcatalogs.length === 0) {
+                html += '<div class="empty">This catalog is empty - no files or subcatalogs found.</div>';
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+        
+        function exploreCatalogToken(token) {
+            catalogTokenInput.value = token;
+            exploreCatalog();
+        }
+        
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Example catalog tokens for testing
+        const exampleTokens = [
+            'ef7b2bac7eb28c022951c2869f4345deac1de021ac2576934b5b6b9d27b78873',
+            'b006765eddb8af374c33f761abec639cdacb6a9978c0354b35dcdc44f90e014f',
+            '903da1278e5161fd8075a1bd70490a37e7e1b15b8503616afea6535b019f8c1f'
+        ];
+        
+        // Auto-suggest example when page loads
+        setTimeout(() => {
+            if (!catalogTokenInput.value) {
+                catalogTokenInput.placeholder = `Try: ${exampleTokens[0]}`;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
