@@ -1,0 +1,48 @@
+=== RESUMEN DE CATÁLOGOS CREADOS ===
+Fecha: Mon Sep 22 09:43:07 AM CST 2025
+IP del servidor: 148.247.204.120
+Usuario: testuser
+Token de usuario: ed0920429f3242f682aaf1f8c8f78f71b031cb1b8a57a96f3a3ed71146ee321a
+
+CATÁLOGOS CREADOS:
+
+📁 Catálogo: without-disperse-and-without-encryption
+   Token: e670c67f46e3c3ac5bdea604c1fa9328b3ff3e081796f0effdc2fc0d45d71467
+   Dispersemode: false
+   Encryption: false
+   URL de exploración: http://148.247.204.120:20505/uriegas-catalog_explorer.html?catalog_token=e670c67f46e3c3ac5bdea604c1fa9328b3ff3e081796f0effdc2fc0d45d71467
+
+
+📁 Catálogo: without-disperse-and-with-encryption
+   Token: ab0c932d015e974a6e45f82a20075cb51c37bd9a3b549940a825ecc486b86dc7
+   Dispersemode: false
+   Encryption: true
+   URL de exploración: http://148.247.204.120:20505/uriegas-catalog_explorer.html?catalog_token=ab0c932d015e974a6e45f82a20075cb51c37bd9a3b549940a825ecc486b86dc7
+
+
+📁 Catálogo: with-disperse-and-without-encryption
+   Token: 2d2872ca4fb1b71371c75f720681448f9e2d535885cfb4b19ab47d375c853aca
+   Dispersemode: true
+   Encryption: false
+   URL de exploración: http://148.247.204.120:20505/uriegas-catalog_explorer.html?catalog_token=2d2872ca4fb1b71371c75f720681448f9e2d535885cfb4b19ab47d375c853aca
+
+
+📁 Catálogo: with-disperse-and-with-encryption
+   Token: 020948438d58d3486400f1c18be5c3ec57aa550037e0ef0bc7ef85bb238695b3
+   Dispersemode: true
+   Encryption: true
+   URL de exploración: http://148.247.204.120:20505/uriegas-catalog_explorer.html?catalog_token=020948438d58d3486400f1c18be5c3ec57aa550037e0ef0bc7ef85bb238695b3
+
+
+=== URLS ÚTILES ===
+- Explorador de catálogos: http://148.247.204.120:20505/uriegas-catalog_explorer.html
+- Búsqueda FAIR: http://148.247.204.120:20505/uriegas-search_interface.html
+- API de búsqueda: http://148.247.204.120:20505/uriegas-search_catalogs_fair.php
+- API de exploración: http://148.247.204.120:20505/uriegas-catalog_explorer.php
+
+=== COMANDOS CURL DE EJEMPLO ===
+# Buscar catálogos:
+curl "http://148.247.204.120:20505/uriegas-search_catalogs_fair.php?q=without"
+
+# Explorar contenido de un catálogo:
+curl "http://148.247.204.120:20505/uriegas-catalog_explorer.php?catalog_token=TOKEN_AQUI"

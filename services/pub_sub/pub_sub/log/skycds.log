@@ -116,3 +116,59 @@ LINE 1: SELECT * FROM catalogs_files WHERE tokencatalog=$1;
 [21/Aug/2023:09:44:53] (api) SQLSTATE[42P01]: Undefined table: 7 ERROR:  relation "catalogs_files" does not exist
 LINE 1: SELECT * FROM catalogs_files WHERE tokencatalog=$1;
                       ^
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 9aff20bda71c1f1ff02bd43e2e06a14c568e19eb2c01c77fd342c2f3ae0ad54f) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, b72c98d31d6b4227bf747de7f9e370b10667a108db90bb580d75c765c3ddb395) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 4f5531f81c9cf4e975d0968108475845a8fc67fef561966d55b542793b347529) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, ea12a2a41c2e2119ed777aa900c86ed62d6458c161c7fbf4f125685297d580bf) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 9126ba0f839bacff490985b9b8532706a165ea9df68e164141a34ac079cff104) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 0473c307582b979b48c0a22da482accfef3a7c051734a65207aa323bfb20fb65) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 18ac5eadbe1b90badd6f090904e9b6ec17f76310842ebd45ce27878526792a1d) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, cfdb1616cda5bf6aa03864afbcae4f7944d8a494c35aec9c39815bf0c60bb17c) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 8fb28b5c4eb5ae03764da741f8f508c6798ac56610507574ab4caa0b5e8757a3) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, a8da26b238f9fec032e66d024abdd14ca48968881b4948ab1b50cff6df3809cf) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 80fbf54198678abe8e2ee62d68d9a10d535cbc2bd4199bfe3795d1027f396fe4) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, f93566711a96b2a9e0d9fd480217f3352905e36764b7c746b8180378a0948aab) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 55b65f75f4771420878c51cdda88e2ef4c9b225bcd162124612b3700eb9e78f2) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 539b003c295b28894181381d2dd7aaf4e5a1c835aa7fa9bd62ba1a958e78fc80) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 1d877d34defd54c5fcd0e55b579820ee661b69f4a3e5adfcf0adfbe1c5143fe7) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, e11af2cf18bd375fc6c2c14fa9601ec8525610a5054178b252e7f7f6520378ff) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, f5202110715a03690662146ebc40a4eb5fea68d0794e2eef9bf0199eff7876fd) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 4ac4b9e81145c3cb6e4e141826b8cfa341479d9bf0435467243033a63956b326) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 2b234ad0cea7504d1836ce376952b0d1be5154f7fac8821a2bd781fef68ceec4) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 85b0e22b01f334f910b9d083811eb09ca316c7f79a91ce274485970efd6f0afe) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 74ade33845ee24f3e732a416fe824afa55c925ed6c5b715c9343b3d9c0955077) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 338787a1fdcf9bbb27dbcda156d3a0b3d2b19bea9d5119b43f0874954f113250) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, a840ea23574c6c75c1e39e9a6d757d0c69b7dc91bf3f8b5dc9cb3817b6f8322c) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, c00a6d50d2d0c407eea9ae91e86580fc8e548485986d95642c3bc39bfd63c3d1) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 22f79b767e8bd3e3202201aa0b818a0d02b54a9357c7400693d12de688f6d457) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 5cd676790dbe3b4e5febb3b2b544cc456247d9b01dad5ab1ff0bd16a2ac2bf26) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 5b59a72891f9860fa1ebb24210febced8362d29277ed55780d4960cf612c4fd4) already exists.
+[22/Sep/2025:10:08:41] (api) SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "users_catalogs_pkey"
+DETAIL:  Key (token_user, tokencatalog)=(, 9b423a8925e1d2faca5248ad3ff90e56e4405f0e294a764d147eb9488bff82b5) already exists.
