@@ -430,6 +430,9 @@
                     </div>
                     
                     <div class="catalog-actions">
+                        <button class="btn btn-sm btn-outline" onclick="copyOwnerToken('${catalog.token_user}')">
+                            Copy Owner
+                        </button>
                         <button class="btn btn-sm btn-outline" onclick="copyCatalogToken('${catalog.tokencatalog}')">
                             Copy Token
                         </button>
@@ -450,7 +453,22 @@
                     btn.style.background = '';
                 }, 2000);
             }).catch(() => {
-                alert(`Token copied to clipboard: ${token}`);
+                // alert(`Token copied to clipboard: ${token}`);
+            });
+        }
+
+        function copyOwnerToken(ownerToken) {
+            navigator.clipboard.writeText(ownerToken).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#27ae60';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            }).catch(() => {
+                // alert(`Owner token copied to clipboard: ${ownerToken}`);
             });
         }
         
