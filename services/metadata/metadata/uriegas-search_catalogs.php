@@ -10,17 +10,22 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET');
 
-// FAIR Catalog Search API - Focused on catalog discovery following FAIR principles
 // Findable, Accessible, Interoperable, Reusable
 
 class FAIRCatalogSearch {
     private $pubSubDb;
+    private $metadataDb;
     
+    // functions to connect to both databases 
     public function __construct() {
         try {
             $this->pubSubDb = $this->getPubSubConnection();
+            $this->metadataDb = $this->getMetadataConnection();
             if (!$this->pubSubDb) {
                 throw new Exception("Pub_Sub database connection required for catalog search");
+            }
+            if (!$this->metadataDb) {
+                throw new Exception("Metadata database connection required for file type search");
             }
         } catch (Exception $e) {
             throw new Exception("Database connection failed: " . $e->getMessage());
@@ -44,8 +49,42 @@ class FAIRCatalogSearch {
         }
     }
     
+    // connection to the database
+    // TODO: idk if there's a a file from where i should take the credentials
+    // bc the repository is public
+    private function getMetadataConnection() {
+        try {
+            // Metadata database connection details from docker-compose
+            $host = 'db_metadata';
+            $dbname = 'multi';
+            $username = 'muyalmanager';
+            $password = 'f0l34lraSoTRumoGitRo';
+            
+            $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            return $pdo;
+        } catch (PDOException $e) {
+            error_log("Metadata DB connection failed: " . $e->getMessage());
+            return null;
+        }
+    }
+    
     public function searchCatalogs($searchTerm, $userId = null, $filters = []) {
         try {
+            // Handle file type filter separately due to cross-database query
+            $catalogsWithFileType = [];
+            if (!empty($filters['file_type'])) {
+                $catalogsWithFileType = $this->getCatalogsWithFileType($filters['file_type']);
+                if (empty($catalogsWithFileType)) {
+                    // No catalogs have this file type
+                    return [];
+                }
+                // Remove file_type from filters for main query
+                $tempFilters = $filters;
+                unset($tempFilters['file_type']);
+                $filters = $tempFilters;
+            }
+            
             // Build dynamic query based on FAIR principles
             $query = $this->buildFAIRQuery($userId, $filters, $searchTerm);
             
@@ -70,8 +109,22 @@ class FAIRCatalogSearch {
                 $stmt->bindValue(':dateTo', $filters['date_to'] . ' 23:59:59');
             }
             
+            // Bind owner filter if provided
+            if (!empty($filters['owner'])) {
+                $stmt->bindValue(':owner', '%' . $filters['owner'] . '%');
+            }
+            
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Filter by file type if needed
+            if (!empty($catalogsWithFileType)) {
+                $results = array_filter($results, function($catalog) use ($catalogsWithFileType) {
+                    return in_array($catalog['tokencatalog'], $catalogsWithFileType);
+                });
+                // Re-index array to ensure sequential keys (prevents object in JSON)
+                $results = array_values($results);
+            }
             
             // Enhance results with FAIR metadata
             return $this->enhanceWithFAIRMetadata($results);
@@ -81,9 +134,51 @@ class FAIRCatalogSearch {
         }
     }
     
+    private function getCatalogsWithFileType($fileType) {
+        try {
+            // Sanitize and validate file type
+            $fileType = trim(strtolower($fileType));
+            if (empty($fileType)) {
+                return [];
+            }
+            
+            // Remove leading dot if present
+            $fileType = ltrim($fileType, '.');
+            
+            // Validate file extension (only alphanumeric characters)
+            if (!preg_match('/^[a-z0-9]+$/', $fileType)) {
+                throw new Exception("Invalid file type format");
+            }
+            
+            // Get file tokens that match the file type
+            // Search for files ending with .extension
+            $query = "SELECT DISTINCT keyfile FROM files 
+                      WHERE LOWER(namefile) LIKE :fileType";
+            $stmt = $this->metadataDb->prepare($query);
+            $stmt->bindValue(':fileType', '%.' . $fileType);
+            $stmt->execute();
+            $fileTokens = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            
+            if (empty($fileTokens)) {
+                return [];
+            }
+            
+            // Get catalogs that contain these files
+            $placeholders = str_repeat('?,', count($fileTokens) - 1) . '?';
+            $query = "SELECT DISTINCT tokencatalog FROM catalogs_files 
+                      WHERE token_file IN ($placeholders)";
+            $stmt = $this->pubSubDb->prepare($query);
+            $stmt->execute($fileTokens);
+            
+            return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        } catch (Exception $e) {
+            throw new Exception("File type search failed: " . $e->getMessage());
+        }
+    }
+    
     private function buildFAIRQuery($userId = null, $filters = [], $searchTerm = '') {
         // Base query with FAIR metadata
-        $query = "SELECT 
+        $query = "SELECT DISTINCT
                     c.keycatalog,
                     c.tokencatalog,
                     c.namecatalog,
@@ -95,9 +190,16 @@ class FAIRCatalogSearch {
                     c.father,
                     c.\"group\",
                     c.processed,
-                    COUNT(cf.token_file) as file_count
+                    COUNT(DISTINCT cf.token_file) as file_count
                   FROM catalogs c
                   LEFT JOIN catalogs_files cf ON c.tokencatalog = cf.tokencatalog";
+        
+        // Add metadata joins for file type search
+        $needsMetadataJoin = !empty($filters['file_type']);
+        if ($needsMetadataJoin) {
+            // Note: This requires a connection to the metadata database
+            // We'll handle this in a subquery to avoid cross-database joins
+        }
         
         // Add access control joins if user ID provided (Accessibility principle)
         if ($userId) {
@@ -151,6 +253,11 @@ class FAIRCatalogSearch {
         
         if (!empty($filters['date_to'])) {
             $whereConditions[] = "c.created_at <= :dateTo";
+        }
+        
+        // Owner filter (search by token_user)
+        if (!empty($filters['owner'])) {
+            $whereConditions[] = "c.token_user ILIKE :owner";
         }
         
         // Add WHERE clause only if there are conditions
@@ -243,7 +350,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'encryption' => $_GET['encryption'] ?? null,
         'processed' => $_GET['processed'] ?? null,
         'date_from' => $_GET['date_from'] ?? null,
-        'date_to' => $_GET['date_to'] ?? null
+        'date_to' => $_GET['date_to'] ?? null,
+        'owner' => $_GET['owner'] ?? null,
+        'file_type' => $_GET['file_type'] ?? null
     ];
     
     if (empty($searchTerm)) {
@@ -256,6 +365,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         
         // Get catalog search results
         $catalogs = $fairSearch->searchCatalogs($searchTerm, $userId, $filters);
+        
+        // Ensure catalogs is always a proper array with sequential keys
+        $catalogs = array_values($catalogs);
         
         // Get repository statistics
         $statistics = $fairSearch->getCatalogStatistics();

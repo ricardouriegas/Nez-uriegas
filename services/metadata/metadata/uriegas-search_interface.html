@@ -22,6 +22,8 @@
         .filter-group { display: flex; flex-direction: column; }
         .filter-group label { font-weight: 600; margin-bottom: 5px; color: #2c3e50; }
         .filter-select, .filter-input { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .filter-input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1); }
+        .filter-input::placeholder { color: #999; font-style: italic; }
         .fair-principles { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #3498db; }
         .fair-principles h4 { margin: 0 0 10px 0; color: #2c3e50; }
         .fair-tags { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -65,9 +67,8 @@
         <div class="search-section">
             <div class="search-row">
                 <input type="text" id="searchInput" class="search-input" 
-                       placeholder="Search catalogs by name, token, description" value="">
-                <button onclick="performSearch()" class="btn btn-primary">Search Catalogs</button>
-                <button onclick="searchAllCatalogs()" class="btn btn-secondary">Search All</button>
+                       placeholder="Search catalogs by name, token or description" value="">
+          <button onclick="performSearch()" class="btn btn-primary">Search</button>
                 <button onclick="clearSearch()" class="btn btn-secondary">Clear</button>
             </div>
             
@@ -125,6 +126,20 @@
                     <input type="text" id="userId" class="filter-input" 
                            placeholder="Enter user ID for access control">
                 </div>
+                
+                <div class="filter-group">
+                    <label for="ownerSearch">Search by Owner</label>
+                    <input type="text" id="ownerSearch" class="filter-input" 
+                           placeholder="Enter catalog owner token (partial match)">
+                    <small style="color: #666; font-size: 0.8rem;">Find catalogs by specific owner's token</small>
+                </div>
+                
+                <div class="filter-group">
+                    <label for="fileTypeSearch">File Type Filter</label>
+                    <input type="text" id="fileTypeSearch" class="filter-input" 
+                           placeholder="Enter file extension (e.g., pdf, dcm, txt)">
+                    <small style="color: #666; font-size: 0.8rem;">Type any file extension (e.g., dcm for DICOM files)</small>
+                </div>
             </div>
             
         </div>
@@ -140,6 +155,7 @@
         let filteredCatalogs = [];
         
         const searchInput = document.getElementById('searchInput');
+        const fileTypeInput = document.getElementById('fileTypeSearch');
         const resultsDiv = document.getElementById('results');
         const resultsStats = document.getElementById('resultsStats');
         
@@ -147,6 +163,29 @@
         searchInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 performSearch();
+            }
+        });
+        
+        // Allow Enter key on file type input too
+        fileTypeInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // Validate file type input in real-time
+        fileTypeInput.addEventListener('input', function(e) {
+            const value = e.target.value;
+            const helpText = e.target.nextElementSibling;
+            
+            if (value && !/^[a-zA-Z0-9]*$/.test(value.replace(/^\./, ''))) {
+                helpText.style.color = '#e74c3c';
+                helpText.textContent = 'File extension should only contain letters and numbers (e.g., dcm, pdf, txt)';
+                e.target.style.borderColor = '#e74c3c';
+            } else {
+                helpText.style.color = '#666';
+                helpText.textContent = 'Type any file extension or select from suggestions (e.g., dcm for DICOM files)';
+                e.target.style.borderColor = '#ddd';
             }
         });
         
@@ -166,10 +205,12 @@
             const userId = document.getElementById('userId').value.trim();
             const dateFrom = document.getElementById('dateFrom').value;
             const dateTo = document.getElementById('dateTo').value;
+            const ownerSearch = document.getElementById('ownerSearch').value.trim();
+            const fileTypeSearch = document.getElementById('fileTypeSearch').value.trim();
             
-            // Allow search with either a search term OR date filters
-            if (!searchTerm && !dateFrom && !dateTo) {
-                resultsDiv.innerHTML = '<div class="error">Please enter a search term OR select a date range to find catalogs</div>';
+            // Validate file type format before sending request
+            if (fileTypeSearch && !/^[a-zA-Z0-9]*$/.test(fileTypeSearch.replace(/^\./, ''))) {
+                resultsDiv.innerHTML = '<div class="error">Invalid file type format. Please use only letters and numbers (e.g., dcm, pdf, txt)</div>';
                 return;
             }
             
@@ -205,30 +246,74 @@
             if (dateTo) {
                 url += `&date_to=${encodeURIComponent(dateTo)}`;
             }
+            if (ownerSearch) {
+                url += `&owner=${encodeURIComponent(ownerSearch)}`;
+            }
+            if (fileTypeSearch) {
+                url += `&file_type=${encodeURIComponent(fileTypeSearch)}`;
+            }
             
             fetch(url)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`HTTP ${response.status}`);
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
                     return response.json();
                 })
                 .then(data => {
+                    console.log('API Response:', data); // Debug logging
+                    
                     if (data.success && data.fair_compliant) {
                         // Store catalogs data from FAIR API
-                        allCatalogs = data.results.catalogs || [];
+                        let catalogsData = data.results.catalogs || [];
+                        
+                        // Handle case where catalogs are returned as object instead of array
+                        if (typeof catalogsData === 'object' && !Array.isArray(catalogsData)) {
+                            // Convert object to array using Object.values()
+                            allCatalogs = Object.values(catalogsData);
+                        } else {
+                            allCatalogs = catalogsData;
+                        }
+                        
+                        console.log('Processed catalogs:', allCatalogs); // Debug logging
                         applySortAndFilter();
                         displaySearchStats(data.search_metadata, data.repository_statistics);
                     } else {
-                        resultsDiv.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+                        // Reset catalogs array on error
+                        allCatalogs = [];
+                        filteredCatalogs = [];
+                        resultsStats.style.display = 'none';
+                        
+                        // More detailed error message
+                        let errorMsg = data.error || 'Unknown error occurred';
+                        if (data.fair_compliant === false) {
+                            errorMsg += ' (FAIR compliance check failed)';
+                        }
+                        resultsDiv.innerHTML = `<div class="error">Error: ${errorMsg}</div>`;
                     }
                 })
                 .catch(error => {
-                    resultsDiv.innerHTML = `<div class="error">Search failed: ${error.message}<br><small>Make sure the metadata service is running on port 20505</small></div>`;
+                    console.error('API Error:', error); // Debug logging
+                    
+                    // Reset catalogs array on error
+                    allCatalogs = [];
+                    filteredCatalogs = [];
+                    resultsStats.style.display = 'none';
+                    
+                    let errorMsg = error.message;
+                    if (error.message.includes('Failed to fetch')) {
+                        errorMsg = 'Cannot connect to the search service. Please check if the metadata service is running on port 20505.';
+                    }
+                    resultsDiv.innerHTML = `<div class="error">Search failed: ${errorMsg}</div>`;
                 });
         }
         
         function applySortAndFilter() {
+            // Ensure allCatalogs is an array
+            if (!Array.isArray(allCatalogs)) {
+                allCatalogs = [];
+            }
+            
             // Apply filters
             const privacyFilter = document.getElementById('filterPrivacy').value;
             const encryptionFilter = document.getElementById('filterEncryption').value;
@@ -277,20 +362,9 @@
             displayCatalogs();
         }
         
-        function displaySearchStats(searchMetadata, repositoryStats) {
-            const totalCount = allCatalogs.length;
+        function displaySearchStats() {
             const filteredCount = filteredCatalogs.length;
-            
-            resultsStats.innerHTML = `
-                <strong>FAIR Catalog Discovery Results</strong><br>
-                Search: <code>"${searchMetadata.search_term}"</code> 
-                ${searchMetadata.user_context ? `| User: <code>${searchMetadata.user_context}</code>` : ''}<br>
-                Found <strong>${totalCount}</strong> catalogs, showing <strong>${filteredCount}</strong> after client-side filtering<br>
-                <small>Repository: ${repositoryStats.total_catalogs || 0} total • 
-                ${repositoryStats.public_catalogs || 0} public • 
-                ${repositoryStats.encrypted_catalogs || 0} encrypted • 
-                ${repositoryStats.processed_catalogs || 0} processed</small>
-            `;
+            resultsStats.innerHTML = `<strong>Found ${filteredCount} catalogs</strong>`;
             resultsStats.style.display = 'block';
         }
         
@@ -356,19 +430,12 @@
                     </div>
                     
                     <div class="catalog-actions">
-                        <button class="btn btn-sm btn-outline" onclick="viewCatalogDetails('${catalog.tokencatalog}')">
-                            View Details
-                        </button>
                         <button class="btn btn-sm btn-outline" onclick="copyCatalogToken('${catalog.tokencatalog}')">
                             Copy Token
                         </button>
                     </div>
                 </div>
             `;
-        }
-        
-        function viewCatalogDetails(token) {
-            alert(`Catalog Token: ${token}\n\nIn a full implementation, this would open a detailed view of the catalog with:\n• File listings\n• Access permissions\n• Metadata details\n• Processing history`);
         }
         
         function copyCatalogToken(token) {
@@ -396,17 +463,13 @@
             document.getElementById('filterProcessed').value = 'all';
             document.getElementById('dateFrom').value = '';
             document.getElementById('dateTo').value = '';
+            document.getElementById('ownerSearch').value = '';
+            document.getElementById('fileTypeSearch').value = '';
             resultsDiv.innerHTML = '';
             resultsStats.style.display = 'none';
             allCatalogs = [];
             filteredCatalogs = [];
             searchInput.focus();
-        }
-        
-        function searchAllCatalogs() {
-            // Clear the search input and perform a wildcard search
-            searchInput.value = '';
-            performSearch();
         }
         
         function escapeHtml(text) {
@@ -417,13 +480,6 @@
         
         // Auto-focus search input
         searchInput.focus();
-        
-        // Load some example searches on page load
-        window.addEventListener('load', () => {
-            // You could add some example searches here
-            console.log('FAIR Catalog Search Interface loaded');
-            console.log('Example searches: TESTCATALOG, DetectorPulmon, Anonimizacion');
-        });
     </script>
 </body>
 </html>
