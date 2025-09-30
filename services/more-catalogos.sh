@@ -52,18 +52,18 @@ for config in "${catalog_configs[@]}"; do
     fi
     
     if [ ! -z "$tokencatalog" ]; then
-        printf "✅ Catálogo creado exitosamente: $catalog_name\n"
+        printf "Catálogo creado exitosamente: $catalog_name\n"
         printf "   Token: $tokencatalog\n"
         catalog_tokens+=("$tokencatalog|$catalog_name|$disperse_mode|$encryption_mode")
     else
-        printf "❌ Error creando catálogo: $catalog_name\n"
+        printf "Error creando catálogo: $catalog_name\n"
     fi
 done
 
 printf "\n=== RESUMEN DE CATÁLOGOS CREADOS ===\n"
 for token_info in "${catalog_tokens[@]}"; do
     IFS='|' read -r token name disperse encrypt <<< "$token_info"
-    printf "📁 $name\n"
+    printf "%s\n" "$name"
     printf "   Token: $token\n"
     printf "   Disperse: $disperse, Encryption: $encrypt\n\n"
 done
@@ -94,60 +94,30 @@ for token_info in "${catalog_tokens[@]}"; do
     
     upload_result=$?
     if [ $upload_result -eq 0 ]; then
-        printf "✅ Datos subidos exitosamente al catálogo: $catalog_name\n"
+        printf "Datos subidos exitosamente al catálogo: $catalog_name\n"
     else
-        printf "❌ Error subiendo datos al catálogo: $catalog_name (código: $upload_result)\n"
+        printf "Error subiendo datos al catálogo: $catalog_name (código: $upload_result)\n"
     fi
 done
 
 printf "\n=== PROCESO COMPLETADO ===\n"
 printf "Se crearon ${#catalog_tokens[@]} catálogos con todas las permutaciones de dispersemode y encryption\n"
 
-# Create a summary file with all catalog information
-summary_file="catalog_permutations_summary.txt"
-printf "Creando archivo resumen: $summary_file\n"
+# Create a CSV file with all catalog information
+csv_file="catalogs_created.csv"
+printf "Creando archivo CSV: $csv_file\n"
 
-cat > $summary_file << EOF
-=== RESUMEN DE CATÁLOGOS CREADOS ===
-Fecha: $(date)
-IP del servidor: $my_ip
-Usuario: testuser
-Token de usuario: $tokenuser
-
-CATÁLOGOS CREADOS:
+cat > $csv_file << EOF
+catalog_name,token,dispersemode,encryption,explorer_url
 EOF
 
 for token_info in "${catalog_tokens[@]}"; do
     IFS='|' read -r token name disperse encrypt <<< "$token_info"
-    cat >> $summary_file << EOF
-
-📁 Catálogo: $name
-   Token: $token
-   Dispersemode: $disperse
-   Encryption: $encrypt
-   URL de exploración: http://$my_ip:20505/uriegas-catalog_explorer.html?catalog_token=$token
-
-EOF
+    printf "%s,%s,%s,%s,http://%s:20505/uriegas-catalog_explorer.html?catalog_token=%s\n" "$name" "$token" "$disperse" "$encrypt" "$my_ip" "$token" >> $csv_file
     printf "  - $name (Token: ${token:0:16}...)\n"
 done
 
-cat >> $summary_file << EOF
-
-=== URLS ÚTILES ===
-- Explorador de catálogos: http://$my_ip:20505/uriegas-catalog_explorer.html
-- Búsqueda FAIR: http://$my_ip:20505/uriegas-search_interface.html
-- API de búsqueda: http://$my_ip:20505/uriegas-search_catalogs_fair.php
-- API de exploración: http://$my_ip:20505/uriegas-catalog_explorer.php
-
-=== COMANDOS CURL DE EJEMPLO ===
-# Buscar catálogos:
-curl "http://$my_ip:20505/uriegas-search_catalogs_fair.php?q=without"
-
-# Explorar contenido de un catálogo:
-curl "http://$my_ip:20505/uriegas-catalog_explorer.php?catalog_token=TOKEN_AQUI"
-EOF
-
-printf "✅ Archivo resumen creado: $summary_file\n"
+printf "Archivo CSV creado: $csv_file\n"
 printf "\nPuedes usar los tokens de catálogos para explorar su contenido con:\n"
 printf "  - Interfaz web: http://$my_ip:20505/uriegas-catalog_explorer.html\n"
 printf "  - API directa: http://$my_ip:20505/uriegas-catalog_explorer.php?catalog_token=TOKEN\n"
