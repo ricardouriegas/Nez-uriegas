@@ -1,0 +1,49 @@
+=== RESUMEN DE USUARIOS CREADOS ===
+Fecha: Mon Sep 29 09:37:08 AM CST 2025
+IP del servidor: 148.247.204.120
+Organización: TESTUSERS-ORG
+Token de organización: ad8d8e59d6272b28f55f7e79a725f5f6cb42ec0fcd8133608d281854fcf0e440
+
+USUARIOS CREADOS:
+
+👤 Usuario: usuario1
+   Email: usuario1@test.com
+   Password: Password123.
+   Token User: 35db28096878afb65d30409bd0654fcf921a8463faa56b65b87955f6d95709bb
+   API Key: 4c69dcff575b0794d1b56d106c227ab0e3a2d68c
+   Access Token: 754b5eddc2b4f28d76337598d2322ee636a69aa5a5d5f13ed3d66650dcda44e5
+
+
+👤 Usuario: usuario2
+   Email: usuario2@test.com
+   Password: Password456.
+   Token User: a4b099392922dc3fb2da5f38bd2ce94c9abd02d86ba6a413667e87e4cd901d46
+   API Key: 98d1e9c54259c47c3d36c662d47a9fb63457483e
+   Access Token: 5913f4c30d486ddb13536f7265ef90fc9551f1925dc9479d5b0f938247b92c05
+
+
+👤 Usuario: usuario3
+   Email: usuario3@test.com
+   Password: Password789.
+   Token User: 1a970f2d15c6818374db2d90bae7b690dd94d092d304c1aa23fe670cbee4ceaa
+   API Key: c78dada51c4a2bf58d525416c41d4856865dd98a
+   Access Token: 59abec165ea08bf6e65205da4eed85c93c9013109d98ec08f4eda1716dff311e
+
+
+=== URLS ÚTILES ===
+- Servicio de autenticación: http://148.247.204.120:20500/auth/v1/
+- Login endpoint: http://148.247.204.120:20500/auth/v1/users/login
+- Frontend de eSalud: http://148.247.204.120:22101/
+
+=== COMANDOS CURL DE EJEMPLO ===
+# Login de usuario:
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"user": "USUARIO_AQUI", "password": "PASSWORD_AQUI"}' \
+  http://148.247.204.120:20500/auth/v1/users/login
+
+# Crear catálogo con access_token:
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"catalogname": "MI_CATALOGO", "dispersemode": "false", "encryption":"true", "fathers_token":"/"}' \
+  http://148.247.204.120:20500/pub_sub/v1/catalogs/create?access_token=ACCESS_TOKEN_AQUI

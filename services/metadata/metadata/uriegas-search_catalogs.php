@@ -4,7 +4,7 @@
     // propietario, 
     // tipo de datos  
     // fechas de creacion
-
+    // nombre de usuario propietario
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -15,17 +15,24 @@ header('Access-Control-Allow-Methods: GET');
 class FAIRCatalogSearch {
     private $pubSubDb;
     private $metadataDb;
+    private $authDb;
     
-    // functions to connect to both databases 
+    // functions to connect to all databases 
     public function __construct() {
         try {
             $this->pubSubDb = $this->getPubSubConnection();
             $this->metadataDb = $this->getMetadataConnection();
+            $this->authDb = $this->getAuthConnection();
+            
             if (!$this->pubSubDb) {
                 throw new Exception("Pub_Sub database connection required for catalog search");
             }
             if (!$this->metadataDb) {
                 throw new Exception("Metadata database connection required for file type search");
+            }
+            // Auth database is optional - only warn if not available
+            if (!$this->authDb) {
+                error_log("Warning: Auth database connection failed - username search will be disabled");
             }
         } catch (Exception $e) {
             throw new Exception("Database connection failed: " . $e->getMessage());
@@ -69,8 +76,100 @@ class FAIRCatalogSearch {
         }
     }
     
+    private function getAuthConnection() {
+        try {
+            // Auth database connection details from docker-compose
+            $host = 'db_auth';
+            $dbname = 'auth';
+            $username = 'muyalmanager';
+            $password = 'niCi7unamltrubrlJusp';
+            
+            $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            
+            // Test the connection by running a simple query
+            $stmt = $pdo->query("SELECT 1");
+            if ($stmt) {
+                error_log("Auth DB connection successful");
+                return $pdo;
+            }
+        } catch (PDOException $e) {
+            error_log("Auth DB connection failed: " . $e->getMessage());
+            return null;
+        }
+    }
+    
+    private function getUserTokensByUsername($username) {
+        try {
+            // Check if auth database is available
+            if (!$this->authDb) {
+                error_log("Warning: Auth database not available - username search skipped");
+                return [];
+            }
+            
+            // Sanitize and validate username
+            $username = trim($username);
+            if (empty($username)) {
+                return [];
+            }
+            
+            // Get user tokens that match the username (partial match)
+            $query = "SELECT tokenuser FROM users WHERE username ILIKE :username";
+            $stmt = $this->authDb->prepare($query);
+            $stmt->bindValue(':username', '%' . $username . '%');
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        } catch (Exception $e) {
+            error_log("Username search failed: " . $e->getMessage());
+            return []; // Return empty array instead of throwing exception
+        }
+    }
+    
+    private function getUsernamesByTokens($userTokens) {
+        try {
+            // Check if auth database is available
+            if (!$this->authDb || empty($userTokens)) {
+                return [];
+            }
+            
+            // Create placeholders for the IN clause
+            $placeholders = str_repeat('?,', count($userTokens) - 1) . '?';
+            $query = "SELECT tokenuser, username FROM users WHERE tokenuser IN ($placeholders)";
+            $stmt = $this->authDb->prepare($query);
+            $stmt->execute($userTokens);
+            
+            // Return associative array with tokenuser as key and username as value
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $usernameMap = [];
+            foreach ($results as $row) {
+                $usernameMap[$row['tokenuser']] = $row['username'];
+            }
+            
+            return $usernameMap;
+        } catch (Exception $e) {
+            error_log("Getting usernames by tokens failed: " . $e->getMessage());
+            return [];
+        }
+    }
+    
     public function searchCatalogs($searchTerm, $userId = null, $filters = []) {
         try {
+            // Handle username filter separately due to cross-database query
+            $catalogsWithUsername = [];
+            if (!empty($filters['username'])) {
+                $userTokens = $this->getUserTokensByUsername($filters['username']);
+                if (empty($userTokens)) {
+                    // No users found with this username
+                    return [];
+                }
+                // Remove username from filters for main query
+                $tempFilters = $filters;
+                unset($tempFilters['username']);
+                $filters = $tempFilters;
+                $catalogsWithUsername = $userTokens;
+            }
+            
             // Handle file type filter separately due to cross-database query
             $catalogsWithFileType = [];
             if (!empty($filters['file_type'])) {
@@ -116,6 +215,15 @@ class FAIRCatalogSearch {
             
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Filter by username if needed
+            if (!empty($catalogsWithUsername)) {
+                $results = array_filter($results, function($catalog) use ($catalogsWithUsername) {
+                    return in_array($catalog['token_user'], $catalogsWithUsername);
+                });
+                // Re-index array to ensure sequential keys (prevents object in JSON)
+                $results = array_values($results);
+            }
             
             // Filter by file type if needed
             if (!empty($catalogsWithFileType)) {
@@ -272,9 +380,18 @@ class FAIRCatalogSearch {
     }
     
     private function enhanceWithFAIRMetadata($results) {
-        // Enhance each catalog with FAIR metadata
-        return array_map(function($catalog) {
-            return array_merge($catalog, [
+        // Get usernames for all unique token_users in the results
+        $userTokens = array_unique(array_column($results, 'token_user'));
+        $usernameMap = $this->getUsernamesByTokens($userTokens);
+        
+        // Enhance each catalog with FAIR metadata and username
+        return array_map(function($catalog) use ($usernameMap) {
+            // Add username to the catalog data
+            $enhancedCatalog = array_merge($catalog, [
+                'owner_username' => $usernameMap[$catalog['token_user']] ?? 'Unknown User'
+            ]);
+            
+            return array_merge($enhancedCatalog, [
                 // Findable metadata
                 'fair_findable' => [
                     'indexed' => true,
@@ -352,7 +469,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'date_from' => $_GET['date_from'] ?? null,
         'date_to' => $_GET['date_to'] ?? null,
         'owner' => $_GET['owner'] ?? null,
-        'file_type' => $_GET['file_type'] ?? null
+        'file_type' => $_GET['file_type'] ?? null,
+        'username' => $_GET['username'] ?? null
     ];
     
     if (empty($searchTerm)) {
