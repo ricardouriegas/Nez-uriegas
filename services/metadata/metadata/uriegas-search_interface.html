@@ -402,7 +402,6 @@
         
         function generateCatalogCard(catalog) {
             const createdDate = new Date(catalog.created_at);
-            const shortToken = catalog.tokencatalog.substring(0, 16) + '...';
             const ownerDisplay = catalog.owner_username || 'Unknown User';
             
             return `
@@ -418,69 +417,39 @@
                     
                     <div class="catalog-meta">
                         <div class="meta-row">
-                            <span class="meta-label">Token:</span>
-                            <span class="meta-value" title="${catalog.tokencatalog}">${shortToken}</span>
+                            <span class="meta-label">Owner:</span>
+                            <span class="meta-value">${ownerDisplay}</span>
                         </div>
                         <div class="meta-row">
-                            <span class="meta-label">Owner:</span>
-                            <span class="meta-value" title="${catalog.owner_username}">${ownerDisplay}</span>
+                            <span class="meta-label">Files:</span>
+                            <span class="meta-value">${catalog.file_count || 0}</span>
                         </div>
                         <div class="meta-row">
                             <span class="meta-label">Disperse Mode:</span>
                             <span class="meta-value">${catalog.dispersemode || 'N/A'}</span>
                         </div>
                         <div class="meta-row">
+                            <span class="meta-label">Group:</span>
+                            <span class="meta-value">${catalog.group || 'None'}</span>
+                        </div>
+                        <div class="meta-row">
                             <span class="meta-label">Created:</span>
                             <span class="meta-value">${createdDate.toLocaleDateString()} ${createdDate.toLocaleTimeString()}</span>
                         </div>
-                        ${catalog.father ? `
-                        <div class="meta-row">
-                            <span class="meta-label">Parent:</span>
-                            <span class="meta-value" title="${catalog.father}">${catalog.father.substring(0, 16)}...</span>
-                        </div>` : ''}
                     </div>
                     
                     <div class="catalog-actions">
-                        <button class="btn btn-sm btn-outline" onclick="copyOwnerToken('${catalog.token_user}')">
-                            Copy Owner
-                        </button>
-                        <button class="btn btn-sm btn-outline" onclick="copyCatalogToken('${catalog.tokencatalog}')">
-                            Copy Token
+                        <button class="btn btn-sm btn-outline" onclick="viewCatalogDetails('${escapeHtml(catalog.namecatalog)}')">
+                            View Details
                         </button>
                     </div>
                 </div>
             `;
         }
         
-        function copyCatalogToken(token) {
-            navigator.clipboard.writeText(token).then(() => {
-                // Simple feedback - in production, use a proper toast notification
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = 'Copied!';
-                btn.style.background = '#27ae60';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 2000);
-            }).catch(() => {
-                // alert(`Token copied to clipboard: ${token}`);
-            });
-        }
-
-        function copyOwnerToken(ownerToken) {
-            navigator.clipboard.writeText(ownerToken).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = 'Copied!';
-                btn.style.background = '#27ae60';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '';
-                }, 2000);
-            }).catch(() => {
-                // alert(`Owner token copied to clipboard: ${ownerToken}`);
-            });
+        function viewCatalogDetails(catalogName) {
+            // Simple feedback for now - could be expanded to show a modal or navigate to details page
+            alert(`Viewing details for catalog: ${catalogName}`);
         }
         
         function clearSearch() {

@@ -386,16 +386,24 @@ class FAIRCatalogSearch {
         
         // Enhance each catalog with FAIR metadata and username
         return array_map(function($catalog) use ($usernameMap) {
-            // Add username to the catalog data
-            $enhancedCatalog = array_merge($catalog, [
-                'owner_username' => $usernameMap[$catalog['token_user']] ?? 'Unknown User'
-            ]);
+            // Create a secure catalog response without any sensitive IDs/tokens
+            $secureCatalog = [
+                'namecatalog' => $catalog['namecatalog'],
+                'created_at' => $catalog['created_at'],
+                'owner_username' => $usernameMap[$catalog['token_user']] ?? 'Unknown User',
+                'dispersemode' => $catalog['dispersemode'],
+                'encryption' => $catalog['encryption'],
+                'isprivate' => $catalog['isprivate'],
+                'processed' => $catalog['processed'],
+                'file_count' => (int)$catalog['file_count'],
+                'group' => $catalog['group']
+            ];
             
-            return array_merge($enhancedCatalog, [
+            return array_merge($secureCatalog, [
                 // Findable metadata
                 'fair_findable' => [
                     'indexed' => true,
-                    'searchable_fields' => ['namecatalog', 'tokencatalog', 'keycatalog'],
+                    'searchable_fields' => ['namecatalog'],
                     'created_timestamp' => $catalog['created_at']
                 ],
                 
