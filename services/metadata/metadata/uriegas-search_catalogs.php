@@ -502,7 +502,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             'success' => true,
             'fair_compliant' => true,
             'search_metadata' => [
-                'search_term' => $searchTerm,
+                'search_term' => htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8'),
                 'user_context' => $userId,
                 'filters_applied' => array_filter($filters),
                 'timestamp' => date('c'),
