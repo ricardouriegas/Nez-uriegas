@@ -160,7 +160,7 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&username=admin"
 |--------------|-------|----------|
 | "Search term required (minimum 2 characters)" | Empty or too short search term | Provide a search term with at least 2 characters |
 | "Only GET method allowed" | Using POST/PUT/DELETE | Use GET method only |
-| "Database connection failed" | Database connectivity issues | Check database configuration and connectivity |
+| "Database connection failed" | Database connectivity issues | Check database connectivity |
 
 ## Rate Limiting
 
