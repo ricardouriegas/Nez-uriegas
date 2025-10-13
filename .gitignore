@@ -19,6 +19,7 @@ services/deployer/app/config.db
 
 # created files by the system
 services/users_created.csv
+services/catalogs_created.csv
 
 # Database credentials and configs
 config.db

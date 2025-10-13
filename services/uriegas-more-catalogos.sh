@@ -104,6 +104,7 @@ printf "\n=== PROCESO COMPLETADO ===\n"
 printf "Se crearon ${#catalog_tokens[@]} catálogos con todas las permutaciones de dispersemode y encryption\n"
 
 # Create a CSV file with all catalog information
+cd ..
 csv_file="catalogs_created.csv"
 printf "Creando archivo CSV: $csv_file\n"
 
