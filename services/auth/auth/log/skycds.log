@@ -36,3 +36,18 @@
 [30/Jan/2023:19:22:06] (api) SQLSTATE[08006] [7] could not connect to server: Connection refused
 	Is the server running on host "db_auth" (192.168.144.17) and accepting
 	TCP/IP connections on port 5432?
+[13/Oct/2025:10:56:30] (api) SQLSTATE[08006] [7] could not connect to server: Connection refused
+	Is the server running on host "db_auth" (172.18.0.11) and accepting
+	TCP/IP connections on port 5432?
+[13/Oct/2025:10:56:30] (api) SQLSTATE[08006] [7] could not connect to server: Connection refused
+	Is the server running on host "db_auth" (172.18.0.11) and accepting
+	TCP/IP connections on port 5432?
+[13/Oct/2025:10:56:30] (api) SQLSTATE[08006] [7] could not connect to server: Connection refused
+	Is the server running on host "db_auth" (172.18.0.11) and accepting
+	TCP/IP connections on port 5432?
+[13/Oct/2025:10:56:30] (api) SQLSTATE[08006] [7] could not connect to server: Connection refused
+	Is the server running on host "db_auth" (172.18.0.11) and accepting
+	TCP/IP connections on port 5432?
+[13/Oct/2025:10:57:08] (api) SQLSTATE[08006] [7] could not connect to server: Connection refused
+	Is the server running on host "db_auth" (172.18.0.11) and accepting
+	TCP/IP connections on port 5432?

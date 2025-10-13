@@ -18,6 +18,11 @@ define('DB_HOST', $host);
 define('DB_PORT', $port);
 define('DB_NAME', $db);
 
+// uriegas added
+// pub_sub and auth DB passwords for uriegas-search_catalogs.php connection
+define('PUB_SUB_DB_PASSWORD', $_ENV['PUB_SUB_DB_PASSWORD']);
+define('AUTH_DB_PASSWORD', $_ENV['AUTH_DB_PASSWORD']);
+
 define('AUTH_HOST', $_ENV['AUTH_HOST']);
 define('PUB_SUB_HOST', $_ENV['PUB_SUB_HOST']);
 define('GATEWAY', "apigateway");

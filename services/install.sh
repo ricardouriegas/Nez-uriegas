@@ -23,7 +23,7 @@ gateway="      URL: \"http://${my_ip}:20505\""
 hostpath="      HOST_PATH: $PWD/deployer/app/"
 volumehost="      - \"$PWD/deployer/app/:$PWD/deployer/app/\""
 
-sed -i "226s#.*#$gateway#" ./docker-compose.yml
+sed -i "230s#.*#$gateway#" ./docker-compose.yml # uriegas change here bc of the modification in the docker-compose.yml file
 sed -i "64s#.*#$hostpath#" ./docker-compose.yml
 sed -i "61s#.*#$volumehost#" ./docker-compose.yml
 

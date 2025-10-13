@@ -223,6 +223,10 @@ services:
       DB_PORT: 5432
       PUB_SUB_HOST: pub_sub
       AUTH_HOST: auth
+      # Uriegas added
+      # pub_sub and auth DB passwords for the uriegas-search_catalogs.php connection to the databases
+      PUB_SUB_DB_PASSWORD: sicuhowradRaxi5R2ke6
+      AUTH_DB_PASSWORD: niCi7unamltrubrlJusp
       URL: "http://148.247.204.120:20505"
     volumes:
       - ./metadata/metadata/:/var/www/html/

@@ -17,6 +17,9 @@ services/frontend/frontend/painal/includes/config.php
 services/sincronizador/config.db
 services/deployer/app/config.db
 
+# created files by the system
+services/users_created.csv
+
 # Database credentials and configs
 config.db
 config.php

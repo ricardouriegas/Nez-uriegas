@@ -10,18 +10,30 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET');
 
+// Include necessary files
+require_once dirname(__FILE__) . '/Connection.php';
+require_once dirname(__FILE__) . '/Config.php';
+require_once dirname(__FILE__) . '/Log.php';
+
 // Findable, Accessible, Interoperable, Reusable
 
 class FAIRCatalogSearch {
     private $pubSubDb;
     private $metadataDb;
     private $authDb;
+    private $log;
     
     // functions to connect to all databases 
     public function __construct() {
         try {
+            $this->log = new Log();
+            
+            // Use the standard Connection class for metadata DB (current service)
+            $metadataConnection = new Connection();
+            $this->metadataDb = $metadataConnection->getConnection();
+            
+            // Connect to other databases using environment variables
             $this->pubSubDb = $this->getPubSubConnection();
-            $this->metadataDb = $this->getMetadataConnection();
             $this->authDb = $this->getAuthConnection();
             
             if (!$this->pubSubDb) {
@@ -32,7 +44,7 @@ class FAIRCatalogSearch {
             }
             // Auth database is optional - only warn if not available
             if (!$this->authDb) {
-                error_log("Warning: Auth database connection failed - username search will be disabled");
+                $this->log->lwrite("Warning: Auth database connection failed - username search will be disabled");
             }
         } catch (Exception $e) {
             throw new Exception("Database connection failed: " . $e->getMessage());
@@ -41,48 +53,30 @@ class FAIRCatalogSearch {
     
     private function getPubSubConnection() {
         try {
-            // Pub_Sub database connection details from docker-compose
+            // Pub_Sub database connection using constants from Config.php
             $host = 'db_pub_sub';
             $dbname = 'pub_sub';
-            $username = 'muyalmanager';
-            $password = 'sicuhowradRaxi5R2ke6';
+            $username = DB_USER; // Same username for all databases
+            $password = PUB_SUB_DB_PASSWORD; // Specific password from environment
             
             $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $pdo;
         } catch (PDOException $e) {
-            error_log("Pub_Sub DB connection failed: " . $e->getMessage());
+            $this->log->lwrite("Pub_Sub DB connection failed: " . $e->getMessage());
             return null;
         }
     }
     
-    // connection to the database
-    // TODO: idk if there's a a file from where i should take the credentials
-    // bc the repository is public
-    private function getMetadataConnection() {
-        try {
-            // Metadata database connection details from docker-compose
-            $host = 'db_metadata';
-            $dbname = 'multi';
-            $username = 'muyalmanager';
-            $password = 'f0l34lraSoTRumoGitRo';
-            
-            $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            return $pdo;
-        } catch (PDOException $e) {
-            error_log("Metadata DB connection failed: " . $e->getMessage());
-            return null;
-        }
-    }
+    // Note: Metadata connection is now handled in constructor using the standard Connection class
     
     private function getAuthConnection() {
         try {
-            // Auth database connection details from docker-compose
+            // Auth database connection using constants from Config.php
             $host = 'db_auth';
             $dbname = 'auth';
-            $username = 'muyalmanager';
-            $password = 'niCi7unamltrubrlJusp';
+            $username = DB_USER; // Same username for all databases
+            $password = AUTH_DB_PASSWORD; // Specific password from environment
             
             $pdo = new PDO("pgsql:host=$host;dbname=$dbname", $username, $password);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -90,11 +84,11 @@ class FAIRCatalogSearch {
             // Test the connection by running a simple query
             $stmt = $pdo->query("SELECT 1");
             if ($stmt) {
-                error_log("Auth DB connection successful");
+                $this->log->lwrite("Auth DB connection successful");
                 return $pdo;
             }
         } catch (PDOException $e) {
-            error_log("Auth DB connection failed: " . $e->getMessage());
+            $this->log->lwrite("Auth DB connection failed: " . $e->getMessage());
             return null;
         }
     }
@@ -103,7 +97,7 @@ class FAIRCatalogSearch {
         try {
             // Check if auth database is available
             if (!$this->authDb) {
-                error_log("Warning: Auth database not available - username search skipped");
+                $this->log->lwrite("Warning: Auth database not available - username search skipped");
                 return [];
             }
             
@@ -121,7 +115,7 @@ class FAIRCatalogSearch {
             
             return $stmt->fetchAll(PDO::FETCH_COLUMN);
         } catch (Exception $e) {
-            error_log("Username search failed: " . $e->getMessage());
+            $this->log->lwrite("Username search failed: " . $e->getMessage());
             return []; // Return empty array instead of throwing exception
         }
     }
@@ -148,7 +142,7 @@ class FAIRCatalogSearch {
             
             return $usernameMap;
         } catch (Exception $e) {
-            error_log("Getting usernames by tokens failed: " . $e->getMessage());
+            $this->log->lwrite("Getting usernames by tokens failed: " . $e->getMessage());
             return [];
         }
     }

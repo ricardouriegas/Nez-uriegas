@@ -16,3 +16,12 @@ DETAIL:  Key (final_status)=(0) is not present in table "deployments_status".
 [21/Aug/2023:15:06:58] (API) 0
 [21/Aug/2023:15:06:58] (API) UPDATE executions SET final_status = :st, executed = :ex where id = :id;
 			
+[13/Oct/2025:15:56:52] (API) SQLSTATE[08006] [7] could not connect to server: Connection refused
+	Is the server running on host "value-chain-api-db" (172.18.0.17) and accepting
+	TCP/IP connections on port 5432?
+[13/Oct/2025:15:56:53] (API) SQLSTATE[08006] [7] could not connect to server: Connection refused
+	Is the server running on host "value-chain-api-db" (172.18.0.17) and accepting
+	TCP/IP connections on port 5432?
+[13/Oct/2025:15:56:53] (API) SQLSTATE[08006] [7] could not connect to server: Connection refused
+	Is the server running on host "value-chain-api-db" (172.18.0.17) and accepting
+	TCP/IP connections on port 5432?
