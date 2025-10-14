@@ -15,6 +15,137 @@ require_once dirname(__FILE__) . '/Connection.php';
 require_once dirname(__FILE__) . '/Config.php';
 require_once dirname(__FILE__) . '/Log.php';
 
+/**
+ * SQLMap-powered SQL injection protection
+ * Every input is validated directly with SQLMap
+ */
+function validateSQLInput($input, $paramName = 'input') {
+    if (empty($input)) return '';
+    
+    // Clean and prepare input
+    $cleanInput = trim($input);
+    
+    // Validate every input with SQLMap
+    if (validateWithSQLMap($cleanInput, $paramName)) {
+        logSQLMapDetection($paramName, $cleanInput, 'sqlmap_detected');
+        throw new Exception("SQL injection detected by SQLMap");
+    }
+    
+    return $cleanInput;
+}
+
+/**
+ * Use SQLMap to validate all input for SQL injection
+ */
+function validateWithSQLMap($input, $paramName) {
+    // Create a test URL with the input
+    $testUrl = "http://localhost:20505/uriegas-search_catalogs.php?" . urlencode($paramName) . "=" . urlencode($input);
+    
+    // Add required parameters to make request valid
+    if ($paramName !== 'q') {
+        $testUrl .= "&q=test";
+    }
+    
+    // Temporary file for SQLMap output
+    $outputFile = "/tmp/sqlmap_validation_" . uniqid() . ".txt";
+    
+    // SQLMap command using local installation - optimized for speed
+    //! TODO: make a script or add to the installation script the location of sqlmap
+    $sqlmapCmd = "timeout 15 ~/.local/bin/sqlmap -u " . escapeshellarg($testUrl) . " " .
+                 "--batch --level=1 --risk=1 --threads=1 --timeout=5 " .
+                 "--technique=B --no-cast --flush-session " .
+                 "--answers='crack=N,dict=N,continue=Y' --disable-coloring " .
+                 "> " . escapeshellarg($outputFile) . " 2>&1";
+    
+    // Execute SQLMap with timeout
+    exec($sqlmapCmd, $output, $returnCode);
+    
+    // Read SQLMap output
+    $sqlmapOutput = '';
+    if (file_exists($outputFile)) {
+        $sqlmapOutput = file_get_contents($outputFile);
+        unlink($outputFile); // Clean up
+    }
+    
+    // Check SQLMap results - look for actual vulnerabilities found
+    $isVulnerable = (
+        strpos($sqlmapOutput, 'parameter.*is vulnerable') !== false ||
+        strpos($sqlmapOutput, 'sqlmap identified the following injection point') !== false ||
+        strpos($sqlmapOutput, 'Type: boolean-based') !== false ||
+        strpos($sqlmapOutput, 'Type: error-based') !== false ||
+        strpos($sqlmapOutput, 'Type: time-based') !== false ||
+        strpos($sqlmapOutput, 'Type: UNION query') !== false
+    );
+    
+    // SQLMap reporting "not injectable" or "not vulnerable" means input is SAFE
+    if (strpos($sqlmapOutput, 'does not seem to be injectable') !== false ||
+        strpos($sqlmapOutput, 'not appear to be injectable') !== false) {
+        $isVulnerable = false;
+    }
+    
+    // Log SQLMap analysis for monitoring
+    logSQLMapAnalysis($paramName, $input, substr($sqlmapOutput, 0, 300), $isVulnerable);
+    
+    return $isVulnerable;
+}
+
+/**
+ * Log SQL injection detection events
+ */
+function logSQLMapDetection($paramName, $input, $detectionMethod) {
+    $logEntry = [
+        'timestamp' => date('c'),
+        'event' => 'sql_injection_detected',
+        'parameter' => $paramName,
+        'input' => substr($input, 0, 200), // Limit log size
+        'detection_method' => $detectionMethod,
+        'client_ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+        'request_uri' => $_SERVER['REQUEST_URI'] ?? 'unknown'
+    ];
+    
+    // Try multiple log locations
+    $logLocations = [
+        '/tmp/sqlmap_security.log',
+        dirname(__FILE__) . '/sqlmap_security.log',
+        '/var/log/sqlmap_security.log'
+    ];
+    
+    foreach ($logLocations as $logFile) {
+        if (@file_put_contents($logFile, json_encode($logEntry) . "\n", FILE_APPEND | LOCK_EX)) {
+            break; // Successfully logged
+        }
+    }
+}
+
+/**
+ * Log SQLMap analysis results
+ */
+function logSQLMapAnalysis($paramName, $input, $sqlmapOutput, $isVulnerable) {
+    $logEntry = [
+        'timestamp' => date('c'),
+        'event' => 'sqlmap_analysis',
+        'parameter' => $paramName,
+        'input' => substr($input, 0, 100),
+        'vulnerable' => $isVulnerable,
+        'sqlmap_output_snippet' => substr($sqlmapOutput, 0, 500),
+        'client_ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+    ];
+    
+    // Try multiple log locations
+    $logLocations = [
+        '/tmp/sqlmap_analysis.log',
+        dirname(__FILE__) . '/sqlmap_analysis.log',
+        '/var/log/sqlmap_analysis.log'
+    ];
+    
+    foreach ($logLocations as $logFile) {
+        if (@file_put_contents($logFile, json_encode($logEntry) . "\n", FILE_APPEND | LOCK_EX)) {
+            break; // Successfully logged
+        }
+    }
+}
+
 // Findable, Accessible, Interoperable, Reusable
 
 class FAIRCatalogSearch {
@@ -474,6 +605,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'file_type' => $_GET['file_type'] ?? null,
         'username' => $_GET['username'] ?? null
     ];
+    
+    // Simple SQL injection protection
+    try {
+        $searchTerm = validateSQLInput($searchTerm);
+        if ($userId) $userId = validateSQLInput($userId);
+        foreach ($filters as $key => $value) {
+            if ($value) $filters[$key] = validateSQLInput($value);
+        }
+    } catch (Exception $e) {
+        http_response_code(400);
+        echo json_encode(['error' => 'Invalid input detected', 'success' => false]);
+        exit;
+    }
     
     if (empty($searchTerm)) {
         echo json_encode(['error' => 'Search term required (minimum 2 characters)']);

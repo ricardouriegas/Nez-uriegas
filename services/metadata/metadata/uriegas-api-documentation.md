@@ -1,5 +1,10 @@
 # Uriegas FAIR Catalog Search API Documentation
 
+## Requirements
+- PHP 7.4 or higher
+- PostgreSQL 12 or higher
+- Sqlmap (for sql injection)
+
 ## Endpoint
 
 ```
@@ -166,3 +171,11 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&username=admin"
 
 - Results are limited to 100 catalogs per request
 - No rate limiting is currently implemented on the endpoint
+
+## Security Measures
+
+The API implements input validation and sanitization to prevent SQL injection attacks, using sqlmap. For sql injection testing, you can run the following command (changing sqlmap's location) is:
+
+```bash
+~/.local/bin/sqlmap -u "http://localhost:20505/uriegas-search_catalogs.php?q=test" --batch --level=5 --risk=3
+```
