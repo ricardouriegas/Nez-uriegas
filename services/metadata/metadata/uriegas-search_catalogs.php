@@ -353,11 +353,6 @@ class FAIRCatalogSearch {
                 $stmt->bindValue(':dateTo', $filters['date_to'] . ' 23:59:59');
             }
             
-            // Bind owner filter if provided
-            if (!empty($filters['owner'])) {
-                $stmt->bindValue(':owner', '%' . $filters['owner'] . '%');
-            }
-            
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
@@ -508,11 +503,6 @@ class FAIRCatalogSearch {
             $whereConditions[] = "c.created_at <= :dateTo";
         }
         
-        // Owner filter (search by token_user)
-        if (!empty($filters['owner'])) {
-            $whereConditions[] = "c.token_user ILIKE :owner";
-        }
-        
         // Add WHERE clause only if there are conditions
         if (!empty($whereConditions)) {
             $query .= " WHERE " . implode(' AND ', $whereConditions);
@@ -642,7 +632,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'processed' => $_GET['processed'] ?? null,
         'date_from' => $_GET['date_from'] ?? null,
         'date_to' => $_GET['date_to'] ?? null,
-        'owner' => $_GET['owner'] ?? null,
         'file_type' => $_GET['file_type'] ?? null,
         'username' => $_GET['username'] ?? null
     ];

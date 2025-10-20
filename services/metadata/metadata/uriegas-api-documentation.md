@@ -43,7 +43,6 @@ http://localhost:20505/uriegas-search_catalogs.php
 | `processed` | string | Filter by processing status | `true`, `false` |
 | `date_from` | string | Filter catalogs created from this date | `2024-01-01` |
 | `date_to` | string | Filter catalogs created until this date | `2024-12-31` |
-| `owner` | string | Filter by owner token (internal use) | `f3cde3d296c8e1bd...` |
 | `file_type` | string | Filter by file type (alphanumeric only) | `pdf`, `json`, `csv` |
 | `username` | string | Filter by owner username (exact match) | `admin`, `user123` |
 | `action` | string | Special action to perform | `get_usernames` |

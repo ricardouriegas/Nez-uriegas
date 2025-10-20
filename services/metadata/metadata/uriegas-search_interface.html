@@ -167,13 +167,6 @@
                 </div>
                 
                 <div class="filter-group">
-                    <label for="ownerSearch">Search by Owner</label>
-                    <input type="text" id="ownerSearch" class="filter-input" 
-                           placeholder="Enter catalog owner token (partial match)">
-                    <small style="color: #666; font-size: 0.8rem;">Find catalogs by specific owner's token</small>
-                </div>
-                
-                <div class="filter-group">
                     <label for="usernameSearch">Search by Username</label>
                     <div class="username-input-container" style="position: relative;">
                         <input type="text" id="usernameSearch" class="filter-input" 
@@ -411,7 +404,6 @@
             const userId = document.getElementById('userId').value.trim();
             const dateFrom = document.getElementById('dateFrom').value;
             const dateTo = document.getElementById('dateTo').value;
-            const ownerSearch = document.getElementById('ownerSearch').value.trim();
             const usernameSearch = document.getElementById('usernameSearch').value.trim();
             const fileTypeSearch = document.getElementById('fileTypeSearch').value.trim();
             
@@ -452,9 +444,6 @@
             }
             if (dateTo) {
                 url += `&date_to=${encodeURIComponent(dateTo)}`;
-            }
-            if (ownerSearch) {
-                url += `&owner=${encodeURIComponent(ownerSearch)}`;
             }
             if (usernameSearch) {
                 url += `&username=${encodeURIComponent(usernameSearch)}`;
@@ -660,7 +649,6 @@
             document.getElementById('filterProcessed').value = 'all';
             document.getElementById('dateFrom').value = '';
             document.getElementById('dateTo').value = '';
-            document.getElementById('ownerSearch').value = '';
             document.getElementById('usernameSearch').value = '';
             document.getElementById('fileTypeSearch').value = '';
             hideUsernameDropdown();
