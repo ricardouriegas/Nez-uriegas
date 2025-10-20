@@ -238,15 +238,35 @@ class FAIRCatalogSearch {
                 return [];
             }
             
-            // Get user tokens that match the username (partial match)
-            $query = "SELECT tokenuser FROM users WHERE username ILIKE :username";
+            // Get user tokens that match the username (exact match)
+            $query = "SELECT tokenuser FROM users WHERE username = :username";
             $stmt = $this->authDb->prepare($query);
-            $stmt->bindValue(':username', '%' . $username . '%');
+            $stmt->bindValue(':username', $username);
             $stmt->execute();
             
             return $stmt->fetchAll(PDO::FETCH_COLUMN);
         } catch (Exception $e) {
             $this->log->lwrite("Username search failed: " . $e->getMessage());
+            return []; // Return empty array instead of throwing exception
+        }
+    }
+    
+    public function getAllAvailableUsernames() {
+        try {
+            // Check if auth database is available
+            if (!$this->authDb) {
+                $this->log->lwrite("Warning: Auth database not available - cannot get usernames list");
+                return [];
+            }
+            
+            // Get all unique usernames from users table
+            $query = "SELECT DISTINCT username FROM users WHERE username IS NOT NULL AND username != '' ORDER BY username";
+            $stmt = $this->authDb->prepare($query);
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        } catch (Exception $e) {
+            $this->log->lwrite("Get all usernames failed: " . $e->getMessage());
             return []; // Return empty array instead of throwing exception
         }
     }
@@ -591,6 +611,27 @@ class FAIRCatalogSearch {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Special endpoint to get available usernames for selection
+    if (isset($_GET['action']) && $_GET['action'] === 'get_usernames') {
+        try {
+            $fairSearch = new FAIRCatalogSearch();
+            $usernames = $fairSearch->getAllAvailableUsernames();
+            
+            echo json_encode([
+                'success' => true,
+                'usernames' => $usernames,
+                'total_count' => count($usernames)
+            ]);
+            exit;
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'error' => $e->getMessage()
+            ]);
+            exit;
+        }
+    }
+    
     $searchTerm = $_GET['q'] ?? '';
     $userId = $_GET['user_id'] ?? null;
     

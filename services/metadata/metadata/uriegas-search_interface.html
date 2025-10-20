@@ -54,6 +54,45 @@
         .loading { text-align: center; padding: 40px; color: #3498db; font-style: italic; font-size: 1.1rem; }
         .no-results { text-align: center; padding: 40px; color: #7f8c8d; }
         .sort-indicator { margin-left: 5px; opacity: 0.7; }
+        .username-input-container { position: relative; }
+        .username-dropdown { 
+            position: absolute; 
+            top: 100%; 
+            left: 0; 
+            right: 0; 
+            background: white; 
+            border: 1px solid #ddd; 
+            border-top: none; 
+            border-radius: 0 0 6px 6px; 
+            max-height: 200px; 
+            overflow-y: auto; 
+            z-index: 1000; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .username-option { 
+            padding: 10px 12px; 
+            cursor: pointer; 
+            border-bottom: 1px solid #f0f0f0; 
+            transition: background-color 0.2s;
+        }
+        .username-option:hover, .username-option.highlighted { 
+            background-color: #f8f9fa; 
+        }
+        .username-option:last-child { 
+            border-bottom: none; 
+        }
+        .username-loading { 
+            padding: 10px 12px; 
+            color: #3498db; 
+            font-style: italic; 
+            text-align: center;
+        }
+        .username-no-results { 
+            padding: 10px 12px; 
+            color: #7f8c8d; 
+            font-style: italic; 
+            text-align: center;
+        }
         @media (max-width: 768px) {
             .search-row { flex-direction: column; }
             .filters-row { grid-template-columns: 1fr; }
@@ -136,9 +175,12 @@
                 
                 <div class="filter-group">
                     <label for="usernameSearch">Search by Username</label>
-                    <input type="text" id="usernameSearch" class="filter-input" 
-                           placeholder="Enter username (partial match)">
-                    <small style="color: #666; font-size: 0.8rem;">Find catalogs by username (e.g., testuser, admin)</small>
+                    <div class="username-input-container" style="position: relative;">
+                        <input type="text" id="usernameSearch" class="filter-input" 
+                               placeholder="Type to search usernames..." autocomplete="off">
+                        <div id="usernameDropdown" class="username-dropdown" style="display: none;"></div>
+                    </div>
+                    <small style="color: #666; font-size: 0.8rem;">Select exact username from the list</small>
                 </div>
                 
                 <div class="filter-group">
@@ -160,9 +202,13 @@
     <script>
         let allCatalogs = [];
         let filteredCatalogs = [];
+        let availableUsernames = [];
+        let selectedUsernameIndex = -1;
         
         const searchInput = document.getElementById('searchInput');
         const fileTypeInput = document.getElementById('fileTypeSearch');
+        const usernameInput = document.getElementById('usernameSearch');
+        const usernameDropdown = document.getElementById('usernameDropdown');
         const resultsDiv = document.getElementById('results');
         const resultsStats = document.getElementById('resultsStats');
         
@@ -206,6 +252,159 @@
                 }
             }, 500);
         });
+        
+        // Username autocomplete functionality
+        let usernameTimeout;
+        usernameInput.addEventListener('input', function(e) {
+            clearTimeout(usernameTimeout);
+            const query = e.target.value.trim();
+            
+            if (query.length === 0) {
+                hideUsernameDropdown();
+                return;
+            }
+            
+            usernameTimeout = setTimeout(() => {
+                if (query.length >= 1) {
+                    loadAndFilterUsernames(query);
+                }
+            }, 300);
+        });
+        
+        // Handle keyboard navigation in username dropdown
+        usernameInput.addEventListener('keydown', function(e) {
+            const dropdown = usernameDropdown;
+            const options = dropdown.querySelectorAll('.username-option');
+            
+            if (!dropdown.style.display || dropdown.style.display === 'none') {
+                return;
+            }
+            
+            switch(e.key) {
+                case 'ArrowDown':
+                    e.preventDefault();
+                    selectedUsernameIndex = Math.min(selectedUsernameIndex + 1, options.length - 1);
+                    updateUsernameHighlight(options);
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    selectedUsernameIndex = Math.max(selectedUsernameIndex - 1, -1);
+                    updateUsernameHighlight(options);
+                    break;
+                case 'Enter':
+                    e.preventDefault();
+                    if (selectedUsernameIndex >= 0 && options[selectedUsernameIndex]) {
+                        selectUsername(options[selectedUsernameIndex].textContent);
+                    }
+                    break;
+                case 'Escape':
+                    hideUsernameDropdown();
+                    break;
+            }
+        });
+        
+        // Hide dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!usernameInput.contains(e.target) && !usernameDropdown.contains(e.target)) {
+                hideUsernameDropdown();
+            }
+        });
+        
+        // Load available usernames from API
+        function loadAvailableUsernames() {
+            return fetch('http://localhost:20505/uriegas-search_catalogs.php?action=get_usernames')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        availableUsernames = data.usernames || [];
+                        return availableUsernames;
+                    } else {
+                        throw new Error(data.error || 'Failed to load usernames');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading usernames:', error);
+                    availableUsernames = [];
+                    return [];
+                });
+        }
+        
+        // Filter and display usernames based on user input
+        function loadAndFilterUsernames(query) {
+            usernameDropdown.innerHTML = '<div class="username-loading">Loading usernames...</div>';
+            usernameDropdown.style.display = 'block';
+            
+            // Load usernames if not already loaded
+            const usernamesPromise = availableUsernames.length > 0 
+                ? Promise.resolve(availableUsernames)
+                : loadAvailableUsernames();
+            
+            usernamesPromise.then(usernames => {
+                const filteredUsernames = usernames.filter(username => 
+                    username.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                displayUsernameOptions(filteredUsernames, query);
+            }).catch(error => {
+                usernameDropdown.innerHTML = '<div class="username-no-results">Error loading usernames</div>';
+            });
+        }
+        
+        // Display filtered username options
+        function displayUsernameOptions(usernames, query) {
+            selectedUsernameIndex = -1;
+            
+            if (usernames.length === 0) {
+                usernameDropdown.innerHTML = '<div class="username-no-results">No usernames found</div>';
+                return;
+            }
+            
+            let html = '';
+            usernames.forEach((username, index) => {
+                // Highlight matching text
+                const regex = new RegExp(`(${escapeRegex(query)})`, 'gi');
+                const highlightedUsername = username.replace(regex, '<strong>$1</strong>');
+                
+                html += `<div class="username-option" onclick="selectUsername('${escapeHtml(username)}')">${highlightedUsername}</div>`;
+            });
+            
+            usernameDropdown.innerHTML = html;
+        }
+        
+        // Select a username from the dropdown
+        function selectUsername(username) {
+            usernameInput.value = username;
+            hideUsernameDropdown();
+            // Optionally trigger search automatically when username is selected
+            // performSearch();
+        }
+        
+        // Update keyboard navigation highlight
+        function updateUsernameHighlight(options) {
+            options.forEach((option, index) => {
+                if (index === selectedUsernameIndex) {
+                    option.classList.add('highlighted');
+                } else {
+                    option.classList.remove('highlighted');
+                }
+            });
+        }
+        
+        // Hide username dropdown
+        function hideUsernameDropdown() {
+            usernameDropdown.style.display = 'none';
+            selectedUsernameIndex = -1;
+        }
+        
+        // Escape regex special characters
+        function escapeRegex(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
         
         function performSearch() {
             const searchTerm = searchInput.value.trim();
@@ -464,6 +663,7 @@
             document.getElementById('ownerSearch').value = '';
             document.getElementById('usernameSearch').value = '';
             document.getElementById('fileTypeSearch').value = '';
+            hideUsernameDropdown();
             resultsDiv.innerHTML = '';
             resultsStats.style.display = 'none';
             allCatalogs = [];
@@ -477,8 +677,13 @@
             return div.innerHTML;
         }
         
-        // Auto-focus search input
+        // Auto-focus search input and preload usernames
         searchInput.focus();
+        
+        // Preload usernames when page loads
+        loadAvailableUsernames().then(() => {
+            console.log(`Loaded ${availableUsernames.length} usernames for autocomplete`);
+        });
     </script>
 </body>
 </html>

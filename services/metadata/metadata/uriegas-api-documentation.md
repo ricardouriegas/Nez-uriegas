@@ -5,11 +5,19 @@
 - PostgreSQL 12 or higher
 - Sqlmap (for sql injection)
 
-## Endpoint
+## Endpoints
 
+### Search Catalogs
 ```
 GET /uriegas-search_catalogs.php
 ```
+
+### Get Available Usernames
+```
+GET /uriegas-search_catalogs.php?action=get_usernames
+```
+
+**Note:** To search by username, first call the `get_usernames` endpoint to retrieve a list of available usernames, then use the exact username in your search query. The username filter now requires exact matches only.
 
 ## Base URL
 
@@ -37,7 +45,8 @@ http://localhost:20505/uriegas-search_catalogs.php
 | `date_to` | string | Filter catalogs created until this date | `2024-12-31` |
 | `owner` | string | Filter by owner token (internal use) | `f3cde3d296c8e1bd...` |
 | `file_type` | string | Filter by file type (alphanumeric only) | `pdf`, `json`, `csv` |
-| `username` | string | Filter by owner username (partial match) | `admin`, `user123` |
+| `username` | string | Filter by owner username (exact match) | `admin`, `user123` |
+| `action` | string | Special action to perform | `get_usernames` |
 
 ## Example Requests
 
@@ -56,7 +65,13 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&privacy=public&encr
 curl "http://localhost:20505/uriegas-search_catalogs.php?q=data&user_id=f3cde3d296c8e1bd2239f2772b3569a1483c496f977791644380f5f1463384ec"
 ```
 
-### Search by Username
+### Get Available Usernames
+```bash
+curl "http://localhost:20505/uriegas-search_catalogs.php?action=get_usernames"
+```
+
+### Search by Username (Exact Match)
+Note: Username search now requires exact match. Use the get_usernames endpoint to get a list of available usernames first.
 ```bash
 curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&username=admin"
 ```
@@ -128,6 +143,21 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&username=admin"
     "interoperable": "Standardized JSON/PostgreSQL format",
     "reusable": "Complete provenance and processing metadata"
   }
+}
+```
+
+### Get Usernames Response
+
+```json
+{
+  "success": true,
+  "usernames": [
+    "admin",
+    "dr_smith",
+    "researcher01",
+    "user123"
+  ],
+  "total_count": 4
 }
 ```
 
