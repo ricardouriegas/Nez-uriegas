@@ -49,12 +49,14 @@ function validateWithSQLMap($input, $paramName) {
     // Temporary file for SQLMap output
     $outputFile = "/tmp/sqlmap_validation_" . uniqid() . ".txt";
     
-    // SQLMap command using local installation - optimized for speed
+    // SQLMap command using maximum security levels for comprehensive testing
     //! TODO: make a script or add to the installation script the location of sqlmap
-    $sqlmapCmd = "timeout 15 ~/.local/bin/sqlmap -u " . escapeshellarg($testUrl) . " " .
-                 "--batch --level=1 --risk=1 --threads=1 --timeout=5 " .
-                 "--technique=B --no-cast --flush-session " .
+    $sqlmapCmd = "timeout 30 ~/.local/bin/sqlmap -u " . escapeshellarg($testUrl) . " " .
+                 "--batch --level=5 --risk=3 --threads=1 --timeout=10 " .
+                 "--technique=BEUSTQ --no-cast --flush-session " .
+                 "--tamper=space2comment,randomcase " .
                  "--answers='crack=N,dict=N,continue=Y' --disable-coloring " .
+                 "--user-agent='SQLMapSecurityTest/1.0' " .
                  "> " . escapeshellarg($outputFile) . " 2>&1";
     
     // Execute SQLMap with timeout
@@ -395,28 +397,52 @@ class FAIRCatalogSearch {
                 throw new Exception("Invalid file type format");
             }
             
-            // Get file tokens that match the file type
-            // Search for files ending with .extension
+            // Log security validation for file type search
+            $this->log->lwrite("File type search initiated for extension: " . $fileType);
+            
+            // SECURITY: Use only prepared statements with no string concatenation
+            // Search for files ending with the specified extension using PostgreSQL functions
             $query = "SELECT DISTINCT keyfile FROM files 
-                      WHERE LOWER(namefile) LIKE :fileType";
+                      WHERE LOWER(namefile) LIKE CONCAT('%', '.', LOWER(:fileType))";
             $stmt = $this->metadataDb->prepare($query);
-            $stmt->bindValue(':fileType', '%.' . $fileType);
+            $stmt->bindValue(':fileType', $fileType, PDO::PARAM_STR);
             $stmt->execute();
             $fileTokens = $stmt->fetchAll(PDO::FETCH_COLUMN);
             
             if (empty($fileTokens)) {
+                $this->log->lwrite("No files found with extension: " . $fileType);
                 return [];
             }
             
-            // Get catalogs that contain these files
-            $placeholders = str_repeat('?,', count($fileTokens) - 1) . '?';
-            $query = "SELECT DISTINCT tokencatalog FROM catalogs_files 
-                      WHERE token_file IN ($placeholders)";
-            $stmt = $this->pubSubDb->prepare($query);
-            $stmt->execute($fileTokens);
+            $this->log->lwrite("Found " . count($fileTokens) . " files with extension: " . $fileType);
             
-            return $stmt->fetchAll(PDO::FETCH_COLUMN);
+            // Get catalogs that contain these files using prepared statements only
+            // Use array parameter binding for maximum security
+            $placeholders = [];
+            $paramArray = [];
+            for ($i = 0; $i < count($fileTokens); $i++) {
+                $paramKey = ":token_$i";
+                $placeholders[] = $paramKey;
+                $paramArray[$paramKey] = $fileTokens[$i];
+            }
+            
+            $query = "SELECT DISTINCT tokencatalog FROM catalogs_files 
+                      WHERE token_file IN (" . implode(',', $placeholders) . ")";
+            $stmt = $this->pubSubDb->prepare($query);
+            
+            // Bind each parameter individually for maximum security
+            foreach ($paramArray as $param => $value) {
+                $stmt->bindValue($param, $value, PDO::PARAM_STR);
+            }
+            
+            $stmt->execute();
+            $catalogTokens = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            
+            $this->log->lwrite("File type search completed. Found " . count($catalogTokens) . " catalogs with extension: " . $fileType);
+            
+            return $catalogTokens;
         } catch (Exception $e) {
+            $this->log->lwrite("File type search failed for extension '$fileType': " . $e->getMessage());
             throw new Exception("File type search failed: " . $e->getMessage());
         }
     }
