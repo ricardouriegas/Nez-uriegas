@@ -160,12 +160,7 @@
                     <input type="date" id="dateTo" class="filter-input" onchange="applySortAndFilter()">
                 </div>
                 
-                <div class="filter-group">
-                    <label for="userId">User ID (Optional)</label>
-                    <input type="text" id="userId" class="filter-input" 
-                           placeholder="Enter user ID for access control">
-                </div>
-                
+
                 <div class="filter-group">
                     <label for="usernameSearch">Search by Username</label>
                     <div class="username-input-container" style="position: relative;">
@@ -418,7 +413,6 @@
         
         function performSearch() {
             const searchTerm = searchInput.value.trim();
-            const userId = document.getElementById('userId').value.trim();
             const dateFrom = document.getElementById('dateFrom').value;
             const dateTo = document.getElementById('dateTo').value;
             const usernameSearch = document.getElementById('usernameSearch').value.trim();
@@ -445,9 +439,7 @@
             
             let url = `http://localhost:20505/uriegas-search_catalogs.php?q=${encodeURIComponent(searchQuery)}`;
             
-            if (userId) {
-                url += `&user_id=${encodeURIComponent(userId)}`;
-            }
+
             
             // Add filter parameters
             const privacyFilter = document.getElementById('filterPrivacy').value;
@@ -666,7 +658,7 @@
         
         function clearSearch() {
             searchInput.value = '';
-            document.getElementById('userId').value = '';
+
             document.getElementById('sortBy').value = 'created_at_desc';
             document.getElementById('filterPrivacy').value = 'all';
             document.getElementById('filterEncryption').value = 'all';

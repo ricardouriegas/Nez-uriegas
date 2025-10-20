@@ -298,7 +298,7 @@ class FAIRCatalogSearch {
         }
     }
     
-    public function searchCatalogs($searchTerm, $userId = null, $filters = []) {
+    public function searchCatalogs($searchTerm, $filters = []) {
         try {
             // Handle username filter separately due to cross-database query
             $catalogsWithUsername = [];
@@ -330,7 +330,7 @@ class FAIRCatalogSearch {
             }
             
             // Build dynamic query based on FAIR principles
-            $query = $this->buildFAIRQuery($userId, $filters, $searchTerm);
+            $query = $this->buildFAIRQuery($filters, $searchTerm);
             
             $stmt = $this->pubSubDb->prepare($query);
             
@@ -339,10 +339,7 @@ class FAIRCatalogSearch {
                 $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%');
             }
             
-            // Bind user ID if provided (for Accessibility)
-            if ($userId) {
-                $stmt->bindValue(':userId', $userId);
-            }
+
             
             // Bind date filters if provided
             if (!empty($filters['date_from'])) {
@@ -424,7 +421,7 @@ class FAIRCatalogSearch {
         }
     }
     
-    private function buildFAIRQuery($userId = null, $filters = [], $searchTerm = '') {
+    private function buildFAIRQuery($filters = [], $searchTerm = '') {
         // Base query with FAIR metadata
         $query = "SELECT DISTINCT
                     c.keycatalog,
@@ -449,10 +446,7 @@ class FAIRCatalogSearch {
             // We'll handle this in a subquery to avoid cross-database joins
         }
         
-        // Add access control joins if user ID provided (Accessibility principle)
-        if ($userId) {
-            $query .= " LEFT JOIN users_catalogs uc ON c.tokencatalog = uc.tokencatalog";
-        }
+
         
         // WHERE clause for Findability
         $whereConditions = [];
@@ -462,12 +456,8 @@ class FAIRCatalogSearch {
             $whereConditions[] = "(c.namecatalog ILIKE :searchTerm OR c.tokencatalog ILIKE :searchTerm OR c.keycatalog ILIKE :searchTerm)";
         }
         
-        // Apply privacy filter (Accessibility)
-        if ($userId) {
-            $whereConditions[] = "(c.isprivate = false OR uc.token_user = :userId OR c.token_user = :userId)";
-        } else {
-            $whereConditions[] = "c.isprivate = false";
-        }
+        // Apply privacy filter (Accessibility) - only show public catalogs for security
+        $whereConditions[] = "c.isprivate = false";
         
         // Apply additional filters
         if (!empty($filters['privacy'])) {
@@ -623,7 +613,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     }
     
     $searchTerm = $_GET['q'] ?? '';
-    $userId = $_GET['user_id'] ?? null;
     
     // Parse filters from query parameters
     $filters = [
@@ -639,7 +628,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // SQL injection protection
     try {
         $searchTerm = validateSQLInput($searchTerm);
-        if ($userId) $userId = validateSQLInput($userId);
         foreach ($filters as $key => $value) {
             if ($value) $filters[$key] = validateSQLInput($value);
         }
@@ -658,7 +646,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $fairSearch = new FAIRCatalogSearch();
         
         // Get catalog search results
-        $catalogs = $fairSearch->searchCatalogs($searchTerm, $userId, $filters);
+        $catalogs = $fairSearch->searchCatalogs($searchTerm, $filters);
         
         // Ensure catalogs is always a proper array with sequential keys
         $catalogs = array_values($catalogs);
@@ -671,7 +659,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             'fair_compliant' => true,
             'search_metadata' => [
                 'search_term' => htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8'),
-                'user_context' => $userId,
                 'filters_applied' => array_filter($filters),
                 'timestamp' => date('c'),
                 'total_results' => count($catalogs)

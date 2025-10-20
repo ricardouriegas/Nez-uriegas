@@ -37,7 +37,6 @@ http://localhost:20505/uriegas-search_catalogs.php
 
 | Parameter | Type | Description | Example Values |
 |-----------|------|-------------|----------------|
-| `user_id` | string | User token for access control and personalized results | `f3cde3d296c8e1bd...` |
 | `privacy` | string | Filter by privacy status | `public`, `private` |
 | `encryption` | string | Filter by encryption status | `true`, `false` |
 | `processed` | string | Filter by processing status | `true`, `false` |
@@ -57,11 +56,6 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=healthcare"
 ### Advanced Search with Filters
 ```bash
 curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&privacy=public&encryption=false&processed=true&date_from=2024-01-01"
-```
-
-### User-Specific Search
-```bash
-curl "http://localhost:20505/uriegas-search_catalogs.php?q=data&user_id=f3cde3d296c8e1bd2239f2772b3569a1483c496f977791644380f5f1463384ec"
 ```
 
 ### Get Available Usernames
