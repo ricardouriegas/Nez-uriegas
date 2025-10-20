@@ -219,6 +219,13 @@
             }
         });
         
+        // Allow Enter key on username input
+        usernameInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
         // Validate file type input in real-time
         fileTypeInput.addEventListener('input', function(e) {
             const value = e.target.value;
@@ -243,7 +250,7 @@
                 if (e.target.value.length >= 2) {
                     performSearch();
                 }
-            }, 500);
+            }, 800); // Slightly longer delay to avoid too many requests
         });
         
         // Username autocomplete functionality
@@ -269,25 +276,28 @@
             const dropdown = usernameDropdown;
             const options = dropdown.querySelectorAll('.username-option');
             
-            if (!dropdown.style.display || dropdown.style.display === 'none') {
-                return;
-            }
-            
             switch(e.key) {
                 case 'ArrowDown':
-                    e.preventDefault();
-                    selectedUsernameIndex = Math.min(selectedUsernameIndex + 1, options.length - 1);
-                    updateUsernameHighlight(options);
+                    if (dropdown.style.display !== 'none' && options.length > 0) {
+                        e.preventDefault();
+                        selectedUsernameIndex = Math.min(selectedUsernameIndex + 1, options.length - 1);
+                        updateUsernameHighlight(options);
+                    }
                     break;
                 case 'ArrowUp':
-                    e.preventDefault();
-                    selectedUsernameIndex = Math.max(selectedUsernameIndex - 1, -1);
-                    updateUsernameHighlight(options);
+                    if (dropdown.style.display !== 'none' && options.length > 0) {
+                        e.preventDefault();
+                        selectedUsernameIndex = Math.max(selectedUsernameIndex - 1, -1);
+                        updateUsernameHighlight(options);
+                    }
                     break;
                 case 'Enter':
                     e.preventDefault();
-                    if (selectedUsernameIndex >= 0 && options[selectedUsernameIndex]) {
+                    if (dropdown.style.display !== 'none' && selectedUsernameIndex >= 0 && options[selectedUsernameIndex]) {
                         selectUsername(options[selectedUsernameIndex].textContent);
+                    } else {
+                        // If no dropdown is open or no selection, trigger search with current value
+                        performSearch();
                     }
                     break;
                 case 'Escape':
@@ -373,8 +383,15 @@
         function selectUsername(username) {
             usernameInput.value = username;
             hideUsernameDropdown();
-            // Optionally trigger search automatically when username is selected
-            // performSearch();
+            
+            // Visual feedback that search is being triggered
+            usernameInput.style.borderColor = '#27ae60';
+            setTimeout(() => {
+                usernameInput.style.borderColor = '#ddd';
+            }, 1000);
+            
+            // Automatically trigger search when username is selected
+            performSearch();
         }
         
         // Update keyboard navigation highlight
@@ -417,8 +434,15 @@
             resultsStats.style.display = 'none';
             
             // Build URL with parameters for FAIR catalog search
-            // Use wildcard search if no specific term provided but dates are given
-            const searchQuery = searchTerm || '*';
+            // Use wildcard search if no specific term provided but filters are applied
+            const searchQuery = searchTerm || (usernameSearch || dateFrom || dateTo || fileTypeSearch ? '*' : '');
+            
+            // Validate that we have either a search term or some filters
+            if (!searchQuery) {
+                resultsDiv.innerHTML = '<div class="error">Please enter a search term or apply filters to search</div>';
+                return;
+            }
+            
             let url = `http://localhost:20505/uriegas-search_catalogs.php?q=${encodeURIComponent(searchQuery)}`;
             
             if (userId) {

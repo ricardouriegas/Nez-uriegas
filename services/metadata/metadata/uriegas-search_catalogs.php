@@ -636,7 +636,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'username' => $_GET['username'] ?? null
     ];
     
-    // Simple SQL injection protection
+    // SQL injection protection
     try {
         $searchTerm = validateSQLInput($searchTerm);
         if ($userId) $userId = validateSQLInput($userId);
