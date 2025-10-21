@@ -197,7 +197,7 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&username=admin"
 
 ## Security Measures
 
-The API implements input validation and sanitization to prevent SQL injection attacks, using sqlmap. For sql injection testing, you can run the following command (changing sqlmap's location) is:
+The API implements input validation and sanitization to prevent SQL injection attacks was tested using sqlmap. For that testing you can run the following command (changing sqlmap's location) is:
 
 ```bash
 ~/.local/bin/sqlmap -u "http://localhost:20505/uriegas-search_catalogs.php?q=test" --batch --level=5 --risk=3
