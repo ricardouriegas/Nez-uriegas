@@ -202,3 +202,7 @@ The API implements input validation and sanitization to prevent SQL injection at
 ```bash
 ~/.local/bin/sqlmap -u "http://localhost:20505/uriegas-search_catalogs.php?q=test" --batch --level=5 --risk=3
 ```
+
+### Performance Limits
+
+- Added performance limit (max 1000 tokens) for username token processing to prevent resource exhaustion

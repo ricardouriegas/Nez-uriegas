@@ -16,129 +16,44 @@ require_once dirname(__FILE__) . '/Config.php';
 require_once dirname(__FILE__) . '/Log.php';
 
 /**
- * SQLMap-powered SQL injection protection
- * Every input is validated directly with SQLMap
+ * Secure input validation for prepared statements
+ * Basic sanitization - main protection comes from prepared statements
  */
-function validateSQLInput($input, $paramName = 'input') {
+function validateAndSanitizeInput($input) {
     if (empty($input)) return '';
     
-    // Clean and prepare input
+    // Trim whitespace and basic sanitization
     $cleanInput = trim($input);
     
-    // Validate every input with SQLMap
-    if (validateWithSQLMap($cleanInput, $paramName)) {
-        logSQLMapDetection($paramName, $cleanInput, 'sqlmap_detected');
-        throw new Exception("SQL injection detected by SQLMap");
+    // Limit input length to prevent excessive resource usage
+    if (strlen($cleanInput) > 1000) {
+        throw new Exception("Input too long");
     }
+    
+    // Log input validation for monitoring
+    logInputValidation($cleanInput);
     
     return $cleanInput;
 }
 
 /**
- * Use SQLMap to validate all input for SQL injection
+ * Log input validation events for security monitoring
  */
-function validateWithSQLMap($input, $paramName) {
-    // Create a test URL with the input
-    $testUrl = "http://localhost:20505/uriegas-search_catalogs.php?" . urlencode($paramName) . "=" . urlencode($input);
-    
-    // Add required parameters to make request valid
-    if ($paramName !== 'q') {
-        $testUrl .= "&q=test";
-    }
-    
-    // Temporary file for SQLMap output
-    $outputFile = "/tmp/sqlmap_validation_" . uniqid() . ".txt";
-    
-    // SQLMap command using maximum security levels for comprehensive testing
-    //! TODO: make a script or add to the installation script the location of sqlmap
-    $sqlmapCmd = "timeout 30 ~/.local/bin/sqlmap -u " . escapeshellarg($testUrl) . " " .
-                 "--batch --level=5 --risk=3 --threads=1 --timeout=10 " .
-                 "--technique=BEUSTQ --no-cast --flush-session " .
-                 "--tamper=space2comment,randomcase " .
-                 "--answers='crack=N,dict=N,continue=Y' --disable-coloring " .
-                 "--user-agent='SQLMapSecurityTest/1.0' " .
-                 "> " . escapeshellarg($outputFile) . " 2>&1";
-    
-    // Execute SQLMap with timeout
-    exec($sqlmapCmd, $output, $returnCode);
-    
-    // Read SQLMap output
-    $sqlmapOutput = '';
-    if (file_exists($outputFile)) {
-        $sqlmapOutput = file_get_contents($outputFile);
-        unlink($outputFile); // Clean up
-    }
-    
-    // Check SQLMap results - look for actual vulnerabilities found
-    $isVulnerable = (
-        strpos($sqlmapOutput, 'parameter.*is vulnerable') !== false ||
-        strpos($sqlmapOutput, 'sqlmap identified the following injection point') !== false ||
-        strpos($sqlmapOutput, 'Type: boolean-based') !== false ||
-        strpos($sqlmapOutput, 'Type: error-based') !== false ||
-        strpos($sqlmapOutput, 'Type: time-based') !== false ||
-        strpos($sqlmapOutput, 'Type: UNION query') !== false
-    );
-    
-    // SQLMap reporting "not injectable" or "not vulnerable" means input is SAFE
-    if (strpos($sqlmapOutput, 'does not seem to be injectable') !== false ||
-        strpos($sqlmapOutput, 'not appear to be injectable') !== false) {
-        $isVulnerable = false;
-    }
-    
-    // Log SQLMap analysis for monitoring
-    logSQLMapAnalysis($paramName, $input, substr($sqlmapOutput, 0, 300), $isVulnerable);
-    
-    return $isVulnerable;
-}
-
-/**
- * Log SQL injection detection events
- */
-function logSQLMapDetection($paramName, $input, $detectionMethod) {
+function logInputValidation($input) {
     $logEntry = [
         'timestamp' => date('c'),
-        'event' => 'sql_injection_detected',
-        'parameter' => $paramName,
-        'input' => substr($input, 0, 200), // Limit log size
-        'detection_method' => $detectionMethod,
+        'event' => 'input_validation',
+        'input_length' => strlen($input),
         'client_ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown',
-        'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+        'user_agent' => substr($_SERVER['HTTP_USER_AGENT'] ?? 'unknown', 0, 100),
         'request_uri' => $_SERVER['REQUEST_URI'] ?? 'unknown'
     ];
     
     // Try multiple log locations
     $logLocations = [
-        '/tmp/sqlmap_security.log',
-        dirname(__FILE__) . '/sqlmap_security.log',
-        '/var/log/sqlmap_security.log'
-    ];
-    
-    foreach ($logLocations as $logFile) {
-        if (@file_put_contents($logFile, json_encode($logEntry) . "\n", FILE_APPEND | LOCK_EX)) {
-            break; // Successfully logged
-        }
-    }
-}
-
-/**
- * Log SQLMap analysis results
- */
-function logSQLMapAnalysis($paramName, $input, $sqlmapOutput, $isVulnerable) {
-    $logEntry = [
-        'timestamp' => date('c'),
-        'event' => 'sqlmap_analysis',
-        'parameter' => $paramName,
-        'input' => substr($input, 0, 100),
-        'vulnerable' => $isVulnerable,
-        'sqlmap_output_snippet' => substr($sqlmapOutput, 0, 500),
-        'client_ip' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
-    ];
-    
-    // Try multiple log locations
-    $logLocations = [
-        '/tmp/sqlmap_analysis.log',
-        dirname(__FILE__) . '/sqlmap_analysis.log',
-        '/var/log/sqlmap_analysis.log'
+        '/tmp/search_security.log',
+        dirname(__FILE__) . '/search_security.log',
+        '/var/log/search_security.log'
     ];
     
     foreach ($logLocations as $logFile) {
@@ -201,8 +116,6 @@ class FAIRCatalogSearch {
         }
     }
     
-    // Note: Metadata connection is now handled in constructor using the standard Connection class
-    
     private function getAuthConnection() {
         try {
             // Auth database connection using constants from Config.php
@@ -234,19 +147,28 @@ class FAIRCatalogSearch {
                 return [];
             }
             
-            // Sanitize and validate username
+            // Validate and sanitize username
             $username = trim($username);
-            if (empty($username)) {
+            if (empty($username) || strlen($username) < 2) {
                 return [];
             }
             
-            // Get user tokens that match the username (exact match)
+            // Validate username format (alphanumeric, underscore, dash, dot only)
+            if (!preg_match('/^[a-zA-Z0-9._-]+$/', $username)) {
+                $this->log->lwrite("Invalid username format: " . substr($username, 0, 20));
+                return [];
+            }
+            
+            // SECURITY: Use prepared statement for exact username match
             $query = "SELECT tokenuser FROM users WHERE username = :username";
             $stmt = $this->authDb->prepare($query);
-            $stmt->bindValue(':username', $username);
+            $stmt->bindValue(':username', $username, PDO::PARAM_STR);
             $stmt->execute();
             
-            return $stmt->fetchAll(PDO::FETCH_COLUMN);
+            $tokens = $stmt->fetchAll(PDO::FETCH_COLUMN);
+            $this->log->lwrite("Username search for '$username' found " . count($tokens) . " tokens");
+            
+            return $tokens;
         } catch (Exception $e) {
             $this->log->lwrite("Username search failed: " . $e->getMessage());
             return []; // Return empty array instead of throwing exception
@@ -280,11 +202,27 @@ class FAIRCatalogSearch {
                 return [];
             }
             
-            // Create placeholders for the IN clause
-            $placeholders = str_repeat('?,', count($userTokens) - 1) . '?';
-            $query = "SELECT tokenuser, username FROM users WHERE tokenuser IN ($placeholders)";
+            // Limit the number of tokens to prevent performance issues
+            $userTokens = array_slice($userTokens, 0, 1000);
+            
+            // SECURITY: Use individual parameter binding for array values
+            $placeholders = [];
+            $paramArray = [];
+            for ($i = 0; $i < count($userTokens); $i++) {
+                $paramKey = ":token_$i";
+                $placeholders[] = $paramKey;
+                $paramArray[$paramKey] = $userTokens[$i];
+            }
+            
+            $query = "SELECT tokenuser, username FROM users WHERE tokenuser IN (" . implode(',', $placeholders) . ")";
             $stmt = $this->authDb->prepare($query);
-            $stmt->execute($userTokens);
+            
+            // Bind each parameter individually for maximum security
+            foreach ($paramArray as $param => $value) {
+                $stmt->bindValue($param, $value, PDO::PARAM_STR);
+            }
+            
+            $stmt->execute();
             
             // Return associative array with tokenuser as key and username as value
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -293,6 +231,7 @@ class FAIRCatalogSearch {
                 $usernameMap[$row['tokenuser']] = $row['username'];
             }
             
+            $this->log->lwrite("Retrieved usernames for " . count($usernameMap) . " tokens");
             return $usernameMap;
         } catch (Exception $e) {
             $this->log->lwrite("Getting usernames by tokens failed: " . $e->getMessage());
@@ -336,20 +275,20 @@ class FAIRCatalogSearch {
             
             $stmt = $this->pubSubDb->prepare($query);
             
-            // Bind search term only if it's not a wildcard
-            if ($searchTerm !== '*') {
-                $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%');
+            // Bind search term only if it's not a wildcard and not empty
+            if ($searchTerm !== '*' && !empty($searchTerm)) {
+                $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
             }
             
 
             
-            // Bind date filters if provided
+            // Bind date filters if provided with proper parameter types
             if (!empty($filters['date_from'])) {
-                $stmt->bindValue(':dateFrom', $filters['date_from'] . ' 00:00:00');
+                $stmt->bindValue(':dateFrom', $filters['date_from'] . ' 00:00:00', PDO::PARAM_STR);
             }
             
             if (!empty($filters['date_to'])) {
-                $stmt->bindValue(':dateTo', $filters['date_to'] . ' 23:59:59');
+                $stmt->bindValue(':dateTo', $filters['date_to'] . ' 23:59:59', PDO::PARAM_STR);
             }
             
             $stmt->execute();
@@ -448,6 +387,7 @@ class FAIRCatalogSearch {
     }
     
     private function buildFAIRQuery($filters = [], $searchTerm = '') {
+        // SECURITY: All dynamic content uses prepared statement parameters
         // Base query with FAIR metadata
         $query = "SELECT DISTINCT
                     c.keycatalog,
@@ -465,35 +405,28 @@ class FAIRCatalogSearch {
                   FROM catalogs c
                   LEFT JOIN catalogs_files cf ON c.tokencatalog = cf.tokencatalog";
         
-        // Add metadata joins for file type search
-        $needsMetadataJoin = !empty($filters['file_type']);
-        if ($needsMetadataJoin) {
-            // Note: This requires a connection to the metadata database
-            // We'll handle this in a subquery to avoid cross-database joins
-        }
-        
-
-        
-        // WHERE clause for Findability
+        // WHERE clause for Findability (FAIR principle)
         $whereConditions = [];
         
         // Only add search term condition if it's not a wildcard
-        if ($searchTerm !== '*') {
+        if ($searchTerm !== '*' && !empty($searchTerm)) {
             $whereConditions[] = "(c.namecatalog ILIKE :searchTerm OR c.tokencatalog ILIKE :searchTerm OR c.keycatalog ILIKE :searchTerm)";
         }
         
-        // Apply privacy filter (Accessibility) - only show public catalogs for security
-        $whereConditions[] = "c.isprivate = false";
-        
-        // Apply additional filters
+        // Apply privacy filter (Accessibility - FAIR principle)
+        // Default to public catalogs only for security
         if (!empty($filters['privacy'])) {
             if ($filters['privacy'] === 'public') {
                 $whereConditions[] = "c.isprivate = false";
             } elseif ($filters['privacy'] === 'private') {
                 $whereConditions[] = "c.isprivate = true";
             }
+        } else {
+            // Default: only show public catalogs
+            $whereConditions[] = "c.isprivate = false";
         }
         
+        // Apply encryption filter
         if (!empty($filters['encryption'])) {
             if ($filters['encryption'] === 'encrypted') {
                 $whereConditions[] = "c.encryption = true";
@@ -502,6 +435,7 @@ class FAIRCatalogSearch {
             }
         }
         
+        // Apply processing status filter
         if (!empty($filters['processed'])) {
             if ($filters['processed'] === 'processed') {
                 $whereConditions[] = "c.processed = true";
@@ -510,7 +444,7 @@ class FAIRCatalogSearch {
             }
         }
         
-        // Date range filters
+        // Date range filters - parameters bound in calling function
         if (!empty($filters['date_from'])) {
             $whereConditions[] = "c.created_at >= :dateFrom";
         }
@@ -524,6 +458,7 @@ class FAIRCatalogSearch {
             $query .= " WHERE " . implode(' AND ', $whereConditions);
         }
         
+        // GROUP BY and ORDER BY for proper FAIR compliance
         $query .= " GROUP BY c.keycatalog, c.tokencatalog, c.namecatalog, c.created_at, c.token_user, c.dispersemode, c.encryption, c.isprivate, c.father, c.\"group\", c.processed";
         $query .= " ORDER BY c.created_at DESC LIMIT 100";
         
@@ -651,21 +586,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'username' => $_GET['username'] ?? null
     ];
     
-    // SQL injection protection
+    // Basic input validation - security provided by prepared statements
     try {
-        $searchTerm = validateSQLInput($searchTerm);
+        $searchTerm = validateAndSanitizeInput($searchTerm);
         foreach ($filters as $key => $value) {
-            if ($value) $filters[$key] = validateSQLInput($value);
+            if ($value) $filters[$key] = validateAndSanitizeInput($value);
         }
     } catch (Exception $e) {
         http_response_code(400);
-        echo json_encode(['error' => 'Invalid input detected', 'success' => false]);
+        echo json_encode(['error' => 'Invalid input', 'success' => false]);
         exit;
     }
     
+    // Allow wildcard searches and empty terms for browsing
     if (empty($searchTerm)) {
-        echo json_encode(['error' => 'Search term required (minimum 2 characters)']);
-        exit;
+        $searchTerm = '*'; // Convert empty to wildcard for browsing
     }
     
     try {
