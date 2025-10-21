@@ -1,10 +1,4 @@
 <?php
-// TODO:
-// should be able of searching with the following things:
-    // propietario, 
-    // tipo de datos  
-    // fechas de creacion
-    // nombre de usuario propietario
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
