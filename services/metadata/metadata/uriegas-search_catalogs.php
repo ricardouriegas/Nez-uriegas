@@ -169,7 +169,7 @@ class FAIRCatalogSearch {
         }
     }
     
-    public function getAllAvailableUsernames() {
+    public function getAllAvailableUsernames($searchTerm = '', $limit = 100) {
         try {
             // Check if auth database is available
             if (!$this->authDb) {
@@ -177,11 +177,24 @@ class FAIRCatalogSearch {
                 return [];
             }
             
-            // Get all unique usernames from users table
-            $query = "SELECT DISTINCT username FROM users WHERE username IS NOT NULL AND username != '' ORDER BY username";
-            $stmt = $this->authDb->prepare($query);
-            $stmt->execute();
+            // Build query with optional search term
+            if (!empty($searchTerm)) {
+                // Search usernames that contain the search term (case insensitive)
+                $query = "SELECT DISTINCT username FROM users 
+                         WHERE username IS NOT NULL AND username != '' 
+                         AND LOWER(username) LIKE LOWER(:searchTerm)
+                         ORDER BY username LIMIT :limit";
+                $stmt = $this->authDb->prepare($query);
+                $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
+                $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            } else {
+                // Get limited unique usernames from users table (prevent overwhelming dropdown)
+                $query = "SELECT DISTINCT username FROM users WHERE username IS NOT NULL AND username != '' ORDER BY username LIMIT :limit";
+                $stmt = $this->authDb->prepare($query);
+                $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            }
             
+            $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_COLUMN);
         } catch (Exception $e) {
             $this->log->lwrite("Get all usernames failed: " . $e->getMessage());
@@ -189,15 +202,13 @@ class FAIRCatalogSearch {
         }
     }
     
+    // this function tranforms user tokens to usernames
     private function getUsernamesByTokens($userTokens) {
         try {
             // Check if auth database is available
             if (!$this->authDb || empty($userTokens)) {
                 return [];
             }
-            
-            // Limit the number of tokens to prevent performance issues
-            $userTokens = array_slice($userTokens, 0, 1000);
             
             // SECURITY: Use individual parameter binding for array values
             $placeholders = [];
@@ -550,12 +561,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     if (isset($_GET['action']) && $_GET['action'] === 'get_usernames') {
         try {
             $fairSearch = new FAIRCatalogSearch();
-            $usernames = $fairSearch->getAllAvailableUsernames();
+            $searchTerm = $_GET['search'] ?? '';
+            $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 100;
+            
+            // Validate and sanitize search term
+            if (!empty($searchTerm)) {
+                $searchTerm = validateAndSanitizeInput($searchTerm);
+            }
+            
+            $usernames = $fairSearch->getAllAvailableUsernames($searchTerm, $limit);
             
             echo json_encode([
                 'success' => true,
                 'usernames' => $usernames,
-                'total_count' => count($usernames)
+                'total_count' => count($usernames),
+                'search_term' => $searchTerm,
+                'limit_applied' => $limit
             ]);
             exit;
         } catch (Exception $e) {

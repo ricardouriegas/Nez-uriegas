@@ -3,7 +3,8 @@
 ## Requirements
 - PHP 7.4 or higher
 - PostgreSQL 12 or higher
-- Sqlmap (for sql injection)
+<!-- DEPRECATED:
+- Sqlmap (for sql injection) -->
 
 ## Endpoints
 
@@ -16,6 +17,10 @@ GET /uriegas-search_catalogs.php
 ```
 GET /uriegas-search_catalogs.php?action=get_usernames
 ```
+
+**Optional Parameters:**
+- `search`: Filter usernames containing this text (case insensitive)
+- `limit`: Maximum number of usernames to return (default: 100, max: 100)
 
 **Note:** To search by username, first call the `get_usernames` endpoint to retrieve a list of available usernames, then use the exact username in your search query. The username filter now requires exact matches only.
 
@@ -61,6 +66,11 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&privacy=public&encr
 ### Get Available Usernames
 ```bash
 curl "http://localhost:20505/uriegas-search_catalogs.php?action=get_usernames"
+```
+
+### Search Usernames
+```bash
+curl "http://localhost:20505/uriegas-search_catalogs.php?action=get_usernames&search=admin&limit=50"
 ```
 
 ### Search by Username (Exact Match)
@@ -150,7 +160,9 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&username=admin"
     "researcher01",
     "user123"
   ],
-  "total_count": 4
+  "total_count": 4,
+  "search_term": "",
+  "limit_applied": 100
 }
 ```
 
@@ -193,6 +205,7 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&username=admin"
 ## Rate Limiting
 
 - Results are limited to 100 catalogs per request
+- Username list is limited to 100 usernames per request for performance
 - No rate limiting is currently implemented on the endpoint
 
 ## Security Measures
@@ -202,7 +215,3 @@ The API implements input validation and sanitization to prevent SQL injection at
 ```bash
 ~/.local/bin/sqlmap -u "http://localhost:20505/uriegas-search_catalogs.php?q=test" --batch --level=5 --risk=3
 ```
-
-### Performance Limits
-
-- Added performance limit (max 1000 tokens) for username token processing to prevent resource exhaustion
