@@ -13,15 +13,29 @@ apikey=$(echo $outputjson | grep -o '"apikey":"[^"]*' | grep -o '[^"]*$')
 access_token=$(echo $outputjson | grep -o '"access_token":"[^"]*' | grep -o '[^"]*$')
 
 # here i use chatgpt to create all permutations of catalogs
-printf "CREANDO DATOS DE CATALOGO DE PRUEBA - TODAS LAS PERMUTACIONES\n"
+printf "CREANDO 110 CATALOGOS DE PRUEBA (SIN DATOS)\n"
 
-# Array of catalog configurations: name|dispersemode|encryption
-catalog_configs=(
-    "without-disperse-and-without-encryption|false|false"
-    "without-disperse-and-with-encryption|false|true"
-    "with-disperse-and-without-encryption|true|false"
-    "with-disperse-and-with-encryption|true|true"
-)
+# Generate 110 catalog configurations: name|dispersemode|encryption
+catalog_configs=()
+for i in {1..110}; do
+    # Cycle through disperse and encryption combinations
+    disperse_mode=$((($i - 1) % 2))
+    encryption_mode=$(((($i - 1) / 2) % 2))
+    
+    if [ $disperse_mode -eq 0 ]; then
+        disperse="false"
+    else
+        disperse="true"
+    fi
+    
+    if [ $encryption_mode -eq 0 ]; then
+        encrypt="false"
+    else
+        encrypt="true"
+    fi
+    
+    catalog_configs+=("catalog-$i|$disperse|$encrypt")
+done
 
 # Array to store all created catalog tokens
 declare -a catalog_tokens=()
@@ -68,43 +82,11 @@ for token_info in "${catalog_tokens[@]}"; do
     printf "   Disperse: $disperse, Encryption: $encrypt\n\n"
 done
 
-printf "\n=== CARGANDO DATOS DE PRUEBA EN TODOS LOS CATÁLOGOS ===\n"
-
-cd sincronizador
-
-sed -i "6s#.*#$my_ip:20505/#" ./config.db
-sed -i "7s#.*#$my_ip:20500/#" ./config.db
-
-docker compose cp config.db deployer:/home/app/
-docker compose cp config.db decipher:/app
-
-# Upload data to each created catalog
-for token_info in "${catalog_tokens[@]}"; do
-    IFS='|' read -r tokencatalog catalog_name disperse_mode encryption_mode <<< "$token_info"
-    
-    printf "\n--- Subiendo datos al catálogo: $catalog_name ---\n"
-    printf "Token: $tokencatalog\n"
-    printf "Configuración: Disperse=$disperse_mode, Encryption=$encryption_mode\n"
-    
-    upload_command="java -jar Upload.jar $tokenuser $apikey $tokencatalog SINGLE bob 2 $PWD/../datosprueba TESTORG true $access_token true false 4"
-    printf "Comando: $upload_command\n"
-    
-    # Execute the upload
-    java -jar Upload.jar $tokenuser $apikey $tokencatalog SINGLE bob 2 $PWD/../datosprueba TESTORG true $access_token true false 4
-    
-    upload_result=$?
-    if [ $upload_result -eq 0 ]; then
-        printf "Datos subidos exitosamente al catálogo: $catalog_name\n"
-    else
-        printf "Error subiendo datos al catálogo: $catalog_name (código: $upload_result)\n"
-    fi
-done
-
 printf "\n=== PROCESO COMPLETADO ===\n"
-printf "Se crearon ${#catalog_tokens[@]} catálogos con todas las permutaciones de dispersemode y encryption\n"
+printf "Se crearon ${#catalog_tokens[@]} catálogos vacíos para pruebas\n"
 
-# Create a CSV file with all catalog information
-cd ..
+# Create a CSV file with all catalog information at services level
+cd $(dirname "$0")  # Go to the script directory (services/)
 csv_file="catalogs_created.csv"
 printf "Creando archivo CSV: $csv_file\n"
 
@@ -118,8 +100,9 @@ for token_info in "${catalog_tokens[@]}"; do
     printf "  - $name (Token: ${token:0:16}...)\n"
 done
 
-printf "Archivo CSV creado: $csv_file\n"
+printf "Archivo CSV creado en: $(pwd)/$csv_file\n"
 printf "\nPuedes usar los tokens de catálogos para explorar su contenido con:\n"
 printf "  - Interfaz web: http://$my_ip:20505/uriegas-catalog_explorer.html\n"
 printf "  - API directa: http://$my_ip:20505/uriegas-catalog_explorer.php?catalog_token=TOKEN\n"
+printf "  - API de búsqueda: http://$my_ip:20505/uriegas-search_catalogs.php\n"
 

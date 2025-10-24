@@ -18,36 +18,46 @@ fi
 
 printf "\nCREANDO ORGANIZACIÓN DE PRUEBA\n"
 
+# Generate a unique organization name with timestamp
+timestamp=$(date +%s)
+org_acronym="TESTUSERS$timestamp"
+org_fullname="TESTUSERS-ORG-$timestamp"
+
+printf "Intentando crear organización: $org_acronym\n"
+
 # Create organization first
 orgtoken=$(curl --header "Content-Type: application/json" \
   --request POST \
-  --data '{    "acronym": "TESTUSERS",    "fullname": "TESTUSERS-ORG",    "fathers_token": "/" }' \
+  --data "{    \"acronym\": \"$org_acronym\",    \"fullname\": \"$org_fullname\",    \"fathers_token\": \"/\" }" \
   http://${my_ip}:20500/auth/v1/hierarchy/create)
 
 echo $orgtoken
 orgtoken=$(echo $orgtoken | grep -o '"tokenhierarchy":"[^"]*' | grep -o '[^"]*$')
 
 if [ -z "$orgtoken" ]; then
-    printf "Error creando organización\n"
-    exit 1
+    printf "Error creando organización con nombre único. Intentando con organización por defecto...\n"
+    
+    # Try to get existing organization token
+    # For now, we'll use a hardcoded fallback or ask user to provide one
+    printf "Por favor, proporciona un token de organización existente o ejecuta el script con permisos para crear organizaciones.\n"
+    read -p "Token de organización (deja vacío para intentar con '/'): " orgtoken
+    
+    if [ -z "$orgtoken" ]; then
+        orgtoken="/"
+        printf "Usando organización raíz: /\n"
+    fi
 else
-    printf "Organización creada exitosamente\n"
+    printf "Organización creada exitosamente: $org_acronym\n"
     printf "   Token: $orgtoken\n"
 fi
 
 printf "\nCREANDO DATOS DE USUARIOS DE PRUEBA - MULTIPLES USUARIOS\n"
 
-# Array of user configurations: username|password|email
-user_configs=(
-    "usuario1|Password123.|usuario1@test.com"
-    "usuario2|Password456.|usuario2@test.com"
-    "usuario3|Password789.|usuario3@test.com"
-    "admin_user|AdminPass123.|admin@test.com"
-    "test_user|TestPass123.|testuser@test.com"
-    "demo_user|DemoPass123.|demo@test.com"
-    "guest_user|GuestPass123.|guest@test.com"
-    "dev_user|DevPass123.|developer@test.com"
-)
+# Generate 110 user configurations: username|password|email
+user_configs=()
+for i in {1..110}; do
+    user_configs+=("usuario$i|Password123.|usuario$i@test.com")
+done
 
 # Array to store all created user information
 declare -a user_info=()
@@ -113,7 +123,8 @@ done
 printf "\n=== PROCESO COMPLETADO ===\n"
 printf "Se crearon ${#user_info[@]} usuarios exitosamente\n"
 
-# Create CSV file for easy import
+# Create CSV file for easy import at services level
+cd $(dirname "$0")  # Go to the script directory (services/)
 csv_file="users_created.csv"
 printf "Creando archivo CSV: $csv_file\n"
 
@@ -126,7 +137,7 @@ for info in "${user_info[@]}"; do
     printf "%s,%s,%s,%s,%s,%s\n" "$username" "$password" "$email" "$tokenuser" "$apikey" "$access_token" >> $csv_file
 done
 
-printf "Archivo CSV creado: $csv_file\n"
+printf "Archivo CSV creado en: $(pwd)/$csv_file\n"
 
 printf "\nPuedes usar las credenciales de los usuarios para:\n"
 printf "  - Login en la interfaz web: http://$my_ip:22101/\n"
