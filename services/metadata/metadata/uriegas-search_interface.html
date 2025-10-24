@@ -577,9 +577,42 @@
             displayCatalogs();
         }
         
-        function displaySearchStats() {
-            const filteredCount = filteredCatalogs.length;
-            resultsStats.innerHTML = `<strong>Found ${filteredCount} catalogs</strong>`;
+        function displaySearchStats(searchMetadata, repositoryStats) {
+            if (!searchMetadata) {
+                // Fallback for client-side filtering
+                const filteredCount = filteredCatalogs.length;
+                resultsStats.innerHTML = `<strong>Found ${filteredCount} catalogs</strong>`;
+                resultsStats.style.display = 'block';
+                return;
+            }
+
+            const totalResults = searchMetadata.total_results || 0;
+            const returnedResults = searchMetadata.returned_results || 0;
+            const isLimited = searchMetadata.limited || false;
+            
+            let statsText = '';
+            
+            if (isLimited && totalResults > returnedResults) {
+                // When there are more results than shown (limited by API)
+                statsText = `<strong>Showing ${returnedResults} of ${totalResults} catalogs</strong>`;
+            } else {
+                // When all results are shown
+                statsText = `<strong>Found ${totalResults} catalog${totalResults !== 1 ? 's' : ''}</strong>`;
+            }
+            
+            // Add search metadata if available
+            if (searchMetadata.search_term && searchMetadata.search_term !== '*') {
+                statsText += ` for "${searchMetadata.search_term}"`;
+            }
+            
+            // Add filter information if filters were applied
+            const filtersApplied = searchMetadata.filters_applied || {};
+            const filterCount = Object.keys(filtersApplied).length;
+            if (filterCount > 0) {
+                statsText += ` with ${filterCount} filter${filterCount !== 1 ? 's' : ''} applied`;
+            }
+            
+            resultsStats.innerHTML = statsText;
             resultsStats.style.display = 'block';
         }
         

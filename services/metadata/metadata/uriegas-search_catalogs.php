@@ -252,7 +252,7 @@ class FAIRCatalogSearch {
                 $userTokens = $this->getUserTokensByUsername($filters['username']);
                 if (empty($userTokens)) {
                     // No users found with this username
-                    return [];
+                    return ['catalogs' => [], 'total_count' => 0];
                 }
                 // Remove username from filters for main query
                 $tempFilters = $filters;
@@ -267,14 +267,32 @@ class FAIRCatalogSearch {
                 $catalogsWithFileType = $this->getCatalogsWithFileType($filters['file_type']);
                 if (empty($catalogsWithFileType)) {
                     // No catalogs have this file type
-                    return [];
+                    return ['catalogs' => [], 'total_count' => 0];
                 }
                 // Remove file_type from filters for main query
                 $tempFilters = $filters;
                 unset($tempFilters['file_type']);
                 $filters = $tempFilters;
             }
+
+            // First, get the total count without LIMIT
+            $countQuery = $this->buildFAIRCountQuery($filters, $searchTerm);
+            $countStmt = $this->pubSubDb->prepare($countQuery);
             
+            // Bind parameters for count query
+            if ($searchTerm !== '*' && !empty($searchTerm)) {
+                $countStmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
+            }
+            if (!empty($filters['date_from'])) {
+                $countStmt->bindValue(':dateFrom', $filters['date_from'] . ' 00:00:00', PDO::PARAM_STR);
+            }
+            if (!empty($filters['date_to'])) {
+                $countStmt->bindValue(':dateTo', $filters['date_to'] . ' 23:59:59', PDO::PARAM_STR);
+            }
+            
+            $countStmt->execute();
+            $totalBeforeFiltering = $countStmt->fetchColumn();
+
             // Build dynamic query based on FAIR principles
             $query = $this->buildFAIRQuery($filters, $searchTerm);
             
@@ -284,8 +302,6 @@ class FAIRCatalogSearch {
             if ($searchTerm !== '*' && !empty($searchTerm)) {
                 $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
             }
-            
-
             
             // Bind date filters if provided with proper parameter types
             if (!empty($filters['date_from'])) {
@@ -299,6 +315,9 @@ class FAIRCatalogSearch {
             $stmt->execute();
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
             
+            // Calculate total count after username/filetype filtering
+            $totalCount = $totalBeforeFiltering;
+            
             // Filter by username if needed
             if (!empty($catalogsWithUsername)) {
                 $results = array_filter($results, function($catalog) use ($catalogsWithUsername) {
@@ -306,6 +325,9 @@ class FAIRCatalogSearch {
                 });
                 // Re-index array to ensure sequential keys (prevents object in JSON)
                 $results = array_values($results);
+                
+                // Recalculate total count after username filtering
+                $totalCount = count($results);
             }
             
             // Filter by file type if needed
@@ -315,14 +337,96 @@ class FAIRCatalogSearch {
                 });
                 // Re-index array to ensure sequential keys (prevents object in JSON)
                 $results = array_values($results);
+                
+                // Recalculate total count after file type filtering
+                $totalCount = count($results);
             }
             
-            // Enhance results with FAIR metadata
-            return $this->enhanceWithFAIRMetadata($results);
+            // For username and file type filtering, we need to count before applying LIMIT
+            // So we'll estimate based on the filtered results
+            if (!empty($catalogsWithUsername) || !empty($catalogsWithFileType)) {
+                // If we have cross-database filtering, the count is the actual filtered count
+                $actualTotalCount = count($results);
+                
+                // Apply manual limit since cross-database filtering happens after query
+                $limitedResults = array_slice($results, 0, 100);
+                
+                return [
+                    'catalogs' => $this->enhanceWithFAIRMetadata($limitedResults),
+                    'total_count' => $actualTotalCount
+                ];
+            }
+            
+            // For regular queries, use the count from the count query
+            return [
+                'catalogs' => $this->enhanceWithFAIRMetadata($results),
+                'total_count' => (int)$totalCount
+            ];
             
         } catch (Exception $e) {
             throw new Exception("Catalog search failed: " . $e->getMessage());
         }
+    }
+
+    private function buildFAIRCountQuery($filters = [], $searchTerm = '') {
+        // Build count query (similar to buildFAIRQuery but without SELECT fields and LIMIT)
+        $query = "SELECT COUNT(DISTINCT c.tokencatalog) 
+                  FROM catalogs c";
+        
+        // WHERE clause for Findability (FAIR principle)
+        $whereConditions = [];
+        
+        // Only add search term condition if it's not a wildcard
+        if ($searchTerm !== '*' && !empty($searchTerm)) {
+            $whereConditions[] = "(c.namecatalog ILIKE :searchTerm OR c.tokencatalog ILIKE :searchTerm OR c.keycatalog ILIKE :searchTerm)";
+        }
+        
+        // Apply privacy filter (Accessibility - FAIR principle)
+        // Default to public catalogs only for security
+        if (!empty($filters['privacy'])) {
+            if ($filters['privacy'] === 'public') {
+                $whereConditions[] = "c.isprivate = false";
+            } elseif ($filters['privacy'] === 'private') {
+                $whereConditions[] = "c.isprivate = true";
+            }
+        } else {
+            // Default: only show public catalogs
+            $whereConditions[] = "c.isprivate = false";
+        }
+        
+        // Apply encryption filter
+        if (!empty($filters['encryption'])) {
+            if ($filters['encryption'] === 'encrypted') {
+                $whereConditions[] = "c.encryption = true";
+            } elseif ($filters['encryption'] === 'unencrypted') {
+                $whereConditions[] = "c.encryption = false";
+            }
+        }
+        
+        // Apply processing status filter
+        if (!empty($filters['processed'])) {
+            if ($filters['processed'] === 'processed') {
+                $whereConditions[] = "c.processed = true";
+            } elseif ($filters['processed'] === 'unprocessed') {
+                $whereConditions[] = "c.processed = false";
+            }
+        }
+        
+        // Date range filters - parameters bound in calling function
+        if (!empty($filters['date_from'])) {
+            $whereConditions[] = "c.created_at >= :dateFrom";
+        }
+        
+        if (!empty($filters['date_to'])) {
+            $whereConditions[] = "c.created_at <= :dateTo";
+        }
+        
+        // Add WHERE clause only if there are conditions
+        if (!empty($whereConditions)) {
+            $query .= " WHERE " . implode(' AND ', $whereConditions);
+        }
+        
+        return $query;
     }
     
     private function getCatalogsWithFileType($fileType) {
@@ -621,8 +725,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
         $fairSearch = new FAIRCatalogSearch();
         
-        // Get catalog search results
-        $catalogs = $fairSearch->searchCatalogs($searchTerm, $filters);
+        // Get catalog search results with total count
+        $searchResult = $fairSearch->searchCatalogs($searchTerm, $filters);
+        
+        // Extract catalogs and total count
+        $catalogs = $searchResult['catalogs'] ?? [];
+        $totalCount = $searchResult['total_count'] ?? 0;
         
         // Ensure catalogs is always a proper array with sequential keys
         $catalogs = array_values($catalogs);
@@ -637,7 +745,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 'search_term' => htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8'),
                 'filters_applied' => array_filter($filters),
                 'timestamp' => date('c'),
-                'total_results' => count($catalogs)
+                'total_results' => $totalCount,
+                'returned_results' => count($catalogs),
+                'limited' => $totalCount > count($catalogs)
             ],
             'repository_statistics' => $statistics,
             'results' => [

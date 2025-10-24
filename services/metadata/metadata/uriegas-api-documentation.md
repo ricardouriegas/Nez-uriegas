@@ -95,7 +95,9 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&username=admin"
       "encryption": "false"
     },
     "timestamp": "2024-10-06T15:30:45+00:00",
-    "total_results": 5
+    "total_results": 110,
+    "returned_results": 100,
+    "limited": true
   },
   "repository_statistics": {
     "total_catalogs": 150,
@@ -175,6 +177,21 @@ curl "http://localhost:20505/uriegas-search_catalogs.php?q=*&username=admin"
   "fair_compliant": false
 }
 ```
+
+### Search Metadata Fields
+
+The `search_metadata` object contains important information about the search results:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `total_results` | integer | Total number of catalogs matching the search criteria |
+| `returned_results` | integer | Number of catalogs returned in this response (max 100) |
+| `limited` | boolean | `true` if there are more results than returned (pagination needed) |
+| `search_term` | string | The search term used for the query |
+| `filters_applied` | object | Applied filters (only non-empty filters included) |
+| `timestamp` | string | ISO 8601 timestamp when the search was performed |
+
+**Note:** When `limited` is `true` and `total_results` > `returned_results`, it means there are more catalogs available but the API limits results to 100 per request for performance.
 
 ## Catalog Object Properties
 
