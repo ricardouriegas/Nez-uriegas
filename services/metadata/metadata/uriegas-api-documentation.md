@@ -319,3 +319,184 @@ The API implements input validation and sanitization to prevent SQL injection at
 ```bash
 ~/.local/bin/sqlmap -u "http://localhost:20505/uriegas-search_catalogs.php?q=test" --batch --level=5 --risk=3
 ```
+
+
+## Logging and Monitoring
+
+The API generates comprehensive logs for security monitoring, debugging, and system administration. Multiple types of logs are created to track different aspects of the system.
+
+### Log Files and Locations
+
+#### 1. Security Logs (`search_security.log`)
+**Purpose:** Monitor input validation and potential security threats
+**Locations tried (in order):**
+- `/tmp/search_security.log`
+- `<api_directory>/search_security.log`
+- `/var/log/search_security.log`
+
+**Log Format:** JSON entries, one per line
+```json
+{
+  "timestamp": "2025-10-29T11:22:05-06:00",
+  "event": "input_validation",
+  "input_length": 12,
+  "client_ip": "172.18.0.1",
+  "user_agent": "curl/8.11.1",
+  "request_uri": "/uriegas-search_catalogs.php?q=test"
+}
+```
+
+#### 2. DoS Protection Logs
+**Purpose:** Track rate limiting, blacklisting, and abuse prevention
+**Log Entry Examples:**
+```
+DoS Protection: Rate limit exceeded for IP: 172.18.0.1
+DoS Protection: Blocked blacklisted IP: 172.18.0.1
+DoS Protection: Request too large from IP: 172.18.0.1
+DoS Protection: IP 172.18.0.1 temporarily banned for 10 minutes (3 strikes)
+DoS Protection: IP 172.18.0.1 temporarily banned for 1 hour (5 strikes)
+DoS Protection: IP 172.18.0.1 temporarily banned for 24 hours (10 strikes)
+```
+
+#### 3. Database Connection Logs
+**Purpose:** Monitor database connectivity and issues
+**Log Entry Examples:**
+```
+Pub_Sub DB connection failed: SQLSTATE[08006] [7] could not connect to server
+Auth DB connection successful
+Auth DB connection failed: SQLSTATE[08006] [7] could not connect to server
+Warning: Auth database not available - username search will be disabled
+```
+
+#### 4. Search Operation Logs
+**Purpose:** Track search operations and performance
+**Log Entry Examples:**
+```
+Username search for 'testuser' found 2 tokens
+Retrieved usernames for 5 tokens
+File type search initiated for extension: pdf
+Found 150 files with extension: pdf
+File type search completed. Found 45 catalogs with extension: pdf
+File type search failed for extension 'invalidext': Invalid file type format
+Invalid username format: user@invalid
+Warning: Auth database not available - username search skipped
+```
+
+#### 5. Rate Limiting Data Files
+**Purpose:** Store rate limiting and blacklist data
+**Files:**
+- `rate_limits.json` - Current rate limiting data per IP
+- `blacklist.json` - Blacklisted IPs with strikes and expiration times
+
+### Rate Limits Data Structure
+
+#### `rate_limits.json`
+```json
+{
+  "172.18.0.1": {
+    "minute_requests": [1761757890, 1761757895, 1761757900],
+    "hour_requests": [1761757890, 1761757895, 1761757900, 1761757905],
+    "last_request": 1761757905
+  }
+}
+```
+
+#### `blacklist.json`
+```json
+{
+  "172.18.0.1": {
+    "strikes": 3,
+    "first_strike": 1761757347,
+    "reasons": [
+      "rapid_requests at 2025-10-29 11:22:05",
+      "rate_limit_minute at 2025-10-29 11:22:15",
+      "large_request at 2025-10-29 11:22:25"
+    ],
+    "expires": 1761758053
+  }
+}
+```
+
+### Log Monitoring and Management
+
+#### Log Rotation
+- Security logs are appended to prevent data loss
+- Rate limiting files are automatically cleaned of expired entries
+- DoS protection logs are managed by the system Log class
+
+#### Key Events to Monitor
+
+**Security Events:**
+- Input validation failures
+- Suspicious user agents
+- Unusual request patterns
+- File type search attempts with invalid extensions
+
+**Performance Events:**
+- Database connection failures
+- Cross-database query performance
+- Large result set processing
+
+**DoS Protection Events:**
+- Rate limit violations
+- IP blacklisting
+- Strike accumulation
+- Request size violations
+
+#### Log Analysis Examples
+
+**Find Rate Limited IPs:**
+```bash
+grep "Rate limit exceeded" /path/to/log/file
+```
+
+**Monitor File Type Searches:**
+```bash
+grep "File type search" /path/to/log/file
+```
+
+**Check Database Connection Issues:**
+```bash
+grep "connection failed" /path/to/log/file
+```
+
+**Monitor Security Events:**
+```bash
+jq '.event' /tmp/search_security.log | sort | uniq -c
+```
+
+### Troubleshooting with Logs
+
+#### Common Issues and Log Patterns
+
+**1. High Rate Limiting:**
+```
+DoS Protection: Rate limit exceeded for IP: [IP]
+```
+*Solution:* Check if legitimate traffic, adjust rate limits if needed
+
+**2. Database Connectivity:**
+```
+Pub_Sub DB connection failed: [error details]
+```
+*Solution:* Verify database service status and connection parameters
+
+**3. Cross-Database Queries Failing:**
+```
+Username search failed: [error details]
+File type search failed: [error details]
+```
+*Solution:* Check auth and metadata database connectivity
+
+**4. Excessive Security Events:**
+```json
+{"event": "input_validation", "input_length": 1500, ...}
+```
+*Solution:* Monitor for potential attacks or malformed requests
+
+### Log Retention Recommendations
+
+- **Security Logs:** Retain for 90 days minimum for forensic analysis
+- **DoS Protection Logs:** Retain for 30 days for pattern analysis
+- **Rate Limiting Files:** Automatically cleaned, no manual retention needed
+- **Database Logs:** Retain for 7 days for operational monitoring

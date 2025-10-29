@@ -57,13 +57,13 @@ else
     test_result "API endpoint accessible" "FAIL" "HTTP $http_code - API may be down"
 fi
 
-# Test 2: Empty search (no parameters)
+# Test 2: Empty search (browsing functionality)
 echo "2. Testing empty search..."
 response=$(curl -s "$API_URL" 2>/dev/null)
-if echo "$response" | grep -q "Search term required"; then
+if echo "$response" | grep -q "success.*true"; then
     test_result "Empty search handling" "PASS"
 else
-    test_result "Empty search handling" "FAIL" "Should require search term"
+    test_result "Empty search handling" "FAIL" "Should allow browsing all catalogs"
 fi
 
 # Test 3: Basic search with query parameter

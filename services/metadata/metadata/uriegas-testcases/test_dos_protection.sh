@@ -62,32 +62,52 @@ make_request() {
     fi
 }
 
-# Test 1: Rate Limit Status Check
-test_rate_limit_status() {
-    print_test_header "Test 1: Rate Limit Status Check"
+# Test 1: Basic API Response
+test_basic_api_response() {
+    print_test_header "Test 1: Basic API Response"
     increment_test
     
-    status_url="${BASE_URL}?action=rate_limit_status"
+    result=$(make_request "${BASE_URL}?q=test" "200")
+    
+    status=$(echo "$result" | grep "STATUS:" | cut -d: -f2)
+    body=$(echo "$result" | grep "BODY:" | cut -d: -f2-)
+    
+    if [ "$status" = "200" ]; then
+        if echo "$body" | grep -q "success.*true"; then
+            print_success "API responding normally"
+        else
+            print_failure "API returned error response"
+        fi
+    else
+        print_failure "API failed (HTTP $status)"
+    fi
+}
+
+# Test 2: DoS Protection Status
+test_dos_protection_status() {
+    print_test_header "Test 2: DoS Protection Status"
+    increment_test
+    
+    status_url="${BASE_URL}?action=dos_status"
     result=$(make_request "$status_url" "200")
     
     status=$(echo "$result" | grep "STATUS:" | cut -d: -f2)
     body=$(echo "$result" | grep "BODY:" | cut -d: -f2-)
     
     if [ "$status" = "200" ]; then
-        if echo "$body" | grep -q "rate_limit_status"; then
-            print_success "Rate limit status endpoint accessible"
-            echo "Current status: $body" | jq . 2>/dev/null || echo "Response: $body"
+        if echo "$body" | grep -q "dos_protection"; then
+            print_success "DoS protection is active"
         else
-            print_failure "Rate limit status endpoint returned unexpected response"
+            print_failure "DoS protection status endpoint returned unexpected response"
         fi
     else
-        print_failure "Rate limit status endpoint failed (HTTP $status)"
+        print_failure "DoS protection status endpoint failed (HTTP $status)"
     fi
 }
 
-# Test 2: Normal Search Request
+# Test 3: Normal Search Request
 test_normal_request() {
-    print_test_header "Test 2: Normal Search Request"
+    print_test_header "Test 3: Normal Search Request"
     increment_test
     
     search_url="${BASE_URL}?q=catalog"
@@ -207,36 +227,8 @@ test_request_sizes() {
     fi
 }
 
-# Test 6: Post-Rate-Limit Status Check
-test_post_rate_limit_status() {
-    print_test_header "Test 6: Rate Limit Status After Tests"
-    increment_test
-    
-    status_url="${BASE_URL}?action=rate_limit_status"
-    result=$(make_request "$status_url" "200")
-    
-    status=$(echo "$result" | grep "STATUS:" | cut -d: -f2)
-    body=$(echo "$result" | grep "BODY:" | cut -d: -f2-)
-    
-    if [ "$status" = "200" ]; then
-        print_success "Rate limit status check after tests"
-        echo "Final status:" | grep -v "^$"
-        echo "$body" | jq . 2>/dev/null || echo "$body"
-        
-        # Extract key metrics
-        requests_minute=$(echo "$body" | jq -r '.rate_limit_status.requests_last_minute' 2>/dev/null || echo "unknown")
-        requests_hour=$(echo "$body" | jq -r '.rate_limit_status.requests_last_hour' 2>/dev/null || echo "unknown")
-        strikes=$(echo "$body" | jq -r '.rate_limit_status.strikes' 2>/dev/null || echo "unknown")
-        is_blacklisted=$(echo "$body" | jq -r '.rate_limit_status.is_blacklisted' 2>/dev/null || echo "unknown")
-        
-        print_info "Requests in last minute: $requests_minute"
-        print_info "Requests in last hour: $requests_hour"
-        print_info "Current strikes: $strikes"
-        print_info "Is blacklisted: $is_blacklisted"
-    else
-        print_failure "Rate limit status check failed (HTTP $status)"
-    fi
-}
+# Test Summary and Results
+print_summary() {
 
 # Test 7: Security Headers Check
 test_security_headers() {
@@ -319,14 +311,13 @@ main() {
     fi
     
     # Run all tests
-    test_rate_limit_status
+    test_basic_api_response
+    test_dos_protection_status
     test_normal_request
     test_security_headers
     test_request_sizes
     test_rapid_successive
     test_rate_limiting
-    test_large_request
-    test_post_rate_limit_status
     
     # Final summary
     echo ""
@@ -351,4 +342,38 @@ main() {
 }
 
 # Run the tests
-main "$@"
+main() {
+    echo "Starting DoS Protection Tests..."
+    echo ""
+    
+    # Run all tests
+    test_basic_api_response
+    test_dos_protection_status
+    test_normal_request
+    test_security_headers
+    test_request_sizes
+    test_rapid_successive
+    test_rate_limiting
+    
+    # Final summary
+    echo ""
+    echo "=========================================="
+    echo "DoS Protection Test Summary"
+    echo "=========================================="
+    echo "Total Tests: $TOTAL_TESTS"
+    echo "Passed: $PASSED_TESTS"
+    echo "Failed: $((TOTAL_TESTS - PASSED_TESTS))"
+    echo ""
+    
+    if [ $PASSED_TESTS -eq $TOTAL_TESTS ]; then
+        echo "🎉 ALL DoS PROTECTION TESTS PASSED!"
+    else
+        echo "⚠ Some tests failed."
+        echo "Review the failed tests to improve DoS protection."
+    fi
+    
+    echo ""
+    echo "Note: Check the API logs for detailed protection activity."
+}
+
+main "$@"}

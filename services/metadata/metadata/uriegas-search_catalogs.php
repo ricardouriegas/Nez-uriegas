@@ -13,312 +13,84 @@ require_once dirname(__FILE__) . '/Config.php';
 require_once dirname(__FILE__) . '/Log.php';
 
 /**
- * DoS Protection Class
- * Implements rate limiting, request validation, and abuse prevention
+ * Simple DoS Protection Class
+ * Basic protection since server already has comprehensive defenses
  */
-class DoSProtection {
+class SimpleDoSProtection {
     private $log;
-    private $rateLimitFile;
-    private $requestSizeLimit = 8192; // 8KB max request size
-    private $maxRequestsPerMinute = 30; // Max requests per IP per minute
-    private $maxRequestsPerHour = 300; // Max requests per IP per hour
-    private $blacklistFile;
+    private $maxRequestSize = 4096; // 4KB max request size
+    private $minRequestInterval = 1; // Minimum 1 second between requests
     
     public function __construct() {
         $this->log = new Log();
-        $this->rateLimitFile = dirname(__FILE__) . '/rate_limits.json';
-        $this->blacklistFile = dirname(__FILE__) . '/blacklist.json';
-        $this->initializeProtection();
-    }
-    
-    private function initializeProtection() {
-        // Create rate limit file if it doesn't exist
-        if (!file_exists($this->rateLimitFile)) {
-            file_put_contents($this->rateLimitFile, json_encode([]));
-        }
-        
-        // Create blacklist file if it doesn't exist
-        if (!file_exists($this->blacklistFile)) {
-            file_put_contents($this->blacklistFile, json_encode([]));
-        }
     }
     
     /**
-     * Check if request should be blocked due to DoS protection
+     * Basic DoS checks - simple and fast
      */
-    public function shouldBlockRequest() {
-        $clientIP = $this->getClientIP();
-        
-        // Check if IP is blacklisted
-        if ($this->isBlacklisted($clientIP)) {
-            $this->log->lwrite("DoS Protection: Blocked blacklisted IP: $clientIP");
-            return ['blocked' => true, 'reason' => 'IP blacklisted due to abuse'];
-        }
-        
+    public function isValidRequest() {
         // Check request size
         if ($this->isRequestTooLarge()) {
-            $this->log->lwrite("DoS Protection: Request too large from IP: $clientIP");
-            $this->addStrike($clientIP, 'large_request');
-            return ['blocked' => true, 'reason' => 'Request size exceeds limit'];
+            $this->log->lwrite("Large request blocked from: " . $this->getClientIP());
+            return false;
         }
         
-        // Check rate limits
-        $rateLimitCheck = $this->checkRateLimit($clientIP);
-        if ($rateLimitCheck['blocked']) {
-            $this->log->lwrite("DoS Protection: Rate limit exceeded for IP: $clientIP");
-            return $rateLimitCheck;
+        // Check for rapid fire requests (basic bot detection)
+        if ($this->isTooFast()) {
+            $this->log->lwrite("Rapid requests blocked from: " . $this->getClientIP());
+            return false;
         }
         
-        // Log legitimate request
-        $this->recordRequest($clientIP);
-        
-        return ['blocked' => false];
-    }
-    
-    /**
-     * Get client IP address with proxy support
-     */
-    public function getClientIP() {
-        $headers = [
-            'HTTP_CF_CONNECTING_IP',     // Cloudflare
-            'HTTP_X_FORWARDED_FOR',      // Load balancers/proxies
-            'HTTP_X_REAL_IP',           // Nginx proxy
-            'HTTP_CLIENT_IP',           // Proxy
-            'REMOTE_ADDR'               // Standard
-        ];
-        
-        foreach ($headers as $header) {
-            if (!empty($_SERVER[$header])) {
-                $ip = $_SERVER[$header];
-                // Handle comma-separated IPs (X-Forwarded-For)
-                if (strpos($ip, ',') !== false) {
-                    $ip = trim(explode(',', $ip)[0]);
-                }
-                // Validate IP format
-                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-                    return $ip;
-                }
-            }
-        }
-        
-        return $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        return true;
     }
     
     /**
      * Check if request size exceeds limits
      */
     private function isRequestTooLarge() {
-        $requestSize = 0;
+        $requestSize = strlen($_SERVER['REQUEST_URI'] ?? '') + 
+                      strlen($_SERVER['QUERY_STRING'] ?? '') +
+                      strlen(serialize(getallheaders()));
         
-        // Check URI length
-        $requestSize += strlen($_SERVER['REQUEST_URI'] ?? '');
-        
-        // Check headers size
-        $requestSize += strlen(serialize(getallheaders()));
-        
-        // Check query string
-        $requestSize += strlen($_SERVER['QUERY_STRING'] ?? '');
-        
-        return $requestSize > $this->requestSizeLimit;
+        return $requestSize > $this->maxRequestSize;
     }
     
     /**
-     * Check if IP is blacklisted
+     * Simple rate limiting using session
      */
-    private function isBlacklisted($ip) {
-        $blacklist = $this->loadBlacklist();
-        return isset($blacklist[$ip]) && $blacklist[$ip]['expires'] > time();
+    private function isTooFast() {
+        session_start();
+        $now = time();
+        $lastRequest = $_SESSION['last_request'] ?? 0;
+        
+        if (($now - $lastRequest) < $this->minRequestInterval) {
+            return true;
+        }
+        
+        $_SESSION['last_request'] = $now;
+        return false;
     }
     
     /**
-     * Check rate limits for IP
+     * Get client IP address
      */
-    private function checkRateLimit($ip) {
-        $rateLimits = $this->loadRateLimits();
-        $currentTime = time();
-        
-        // Initialize IP data if not exists
-        if (!isset($rateLimits[$ip])) {
-            $rateLimits[$ip] = [
-                'minute_requests' => [],
-                'hour_requests' => [],
-                'last_request' => 0 // Initialize to 0 to allow first request
-            ];
-        }
-        
-        $ipData = &$rateLimits[$ip];
-        
-        // Clean old entries
-        $ipData['minute_requests'] = array_filter($ipData['minute_requests'], function($time) use ($currentTime) {
-            return ($currentTime - $time) < 60; // Keep last minute
-        });
-        
-        $ipData['hour_requests'] = array_filter($ipData['hour_requests'], function($time) use ($currentTime) {
-            return ($currentTime - $time) < 3600; // Keep last hour
-        });
-        
-        // Check minute limit
-        if (count($ipData['minute_requests']) >= $this->maxRequestsPerMinute) {
-            $this->addStrike($ip, 'rate_limit_minute');
-            return ['blocked' => true, 'reason' => 'Too many requests per minute'];
-        }
-        
-        // Check hour limit
-        if (count($ipData['hour_requests']) >= $this->maxRequestsPerHour) {
-            $this->addStrike($ip, 'rate_limit_hour');
-            return ['blocked' => true, 'reason' => 'Too many requests per hour'];
-        }
-        
-        // Check for rapid successive requests (potential bot)
-        if (($currentTime - $ipData['last_request']) < 1) { // Less than 1 second between requests
-            $this->addStrike($ip, 'rapid_requests');
-            return ['blocked' => true, 'reason' => 'Requests too frequent'];
-        }
-        
-        return ['blocked' => false];
-    }
-    
-    /**
-     * Record a legitimate request
-     */
-    private function recordRequest($ip) {
-        $rateLimits = $this->loadRateLimits();
-        $currentTime = time();
-        
-        if (!isset($rateLimits[$ip])) {
-            $rateLimits[$ip] = [
-                'minute_requests' => [],
-                'hour_requests' => [],
-                'last_request' => 0 // Initialize to 0 to allow first request
-            ];
-        }
-        
-        $rateLimits[$ip]['minute_requests'][] = $currentTime;
-        $rateLimits[$ip]['hour_requests'][] = $currentTime;
-        $rateLimits[$ip]['last_request'] = $currentTime;
-        
-        $this->saveRateLimits($rateLimits);
-    }
-    
-    /**
-     * Add strike to IP for violations
-     */
-    private function addStrike($ip, $reason) {
-        $blacklist = $this->loadBlacklist();
-        $currentTime = time();
-        
-        if (!isset($blacklist[$ip])) {
-            $blacklist[$ip] = [
-                'strikes' => 0,
-                'first_strike' => $currentTime,
-                'reasons' => [],
-                'expires' => 0
-            ];
-        }
-        
-        $blacklist[$ip]['strikes']++;
-        $blacklist[$ip]['reasons'][] = $reason . ' at ' . date('Y-m-d H:i:s');
-        
-        // Progressive punishment
-        $strikes = $blacklist[$ip]['strikes'];
-        if ($strikes >= 10) {
-            // Temporary ban after 10 strikes
-            $blacklist[$ip]['expires'] = $currentTime + (24 * 3600); // 24 hours
-            $this->log->lwrite("DoS Protection: IP $ip temporarily banned for 24 hours ($strikes strikes)");
-        } elseif ($strikes >= 5) {
-            // 1 hour ban after 5 strikes
-            $blacklist[$ip]['expires'] = $currentTime + 3600;
-            $this->log->lwrite("DoS Protection: IP $ip temporarily banned for 1 hour ($strikes strikes)");
-        } elseif ($strikes >= 3) {
-            // 10 minute ban after 3 strikes
-            $blacklist[$ip]['expires'] = $currentTime + 600;
-            $this->log->lwrite("DoS Protection: IP $ip temporarily banned for 10 minutes ($strikes strikes)");
-        }
-        
-        $this->saveBlacklist($blacklist);
-    }
-    
-    /**
-     * Load rate limits from file
-     */
-    private function loadRateLimits() {
-        if (file_exists($this->rateLimitFile)) {
-            $content = file_get_contents($this->rateLimitFile);
-            return json_decode($content, true) ?: [];
-        }
-        return [];
-    }
-    
-    /**
-     * Save rate limits to file
-     */
-    private function saveRateLimits($rateLimits) {
-        // Keep only recent data to prevent file from growing too large
-        $currentTime = time();
-        foreach ($rateLimits as $ip => $data) {
-            if (($currentTime - $data['last_request']) > 3600) { // Remove data older than 1 hour
-                unset($rateLimits[$ip]);
-            }
-        }
-        
-        file_put_contents($this->rateLimitFile, json_encode($rateLimits));
-    }
-    
-    /**
-     * Load blacklist from file
-     */
-    private function loadBlacklist() {
-        if (file_exists($this->blacklistFile)) {
-            $content = file_get_contents($this->blacklistFile);
-            return json_decode($content, true) ?: [];
-        }
-        return [];
-    }
-    
-    /**
-     * Save blacklist to file
-     */
-    private function saveBlacklist($blacklist) {
-        // Clean expired entries
-        $currentTime = time();
-        foreach ($blacklist as $ip => $data) {
-            if ($data['expires'] > 0 && $data['expires'] < $currentTime) {
-                unset($blacklist[$ip]);
-            }
-        }
-        
-        file_put_contents($this->blacklistFile, json_encode($blacklist));
-    }
-    
-    /**
-     * Get current rate limit status for debugging
-     */
-    public function getRateLimitStatus($ip) {
-        $rateLimits = $this->loadRateLimits();
-        $blacklist = $this->loadBlacklist();
-        
-        return [
-            'ip' => $ip,
-            'requests_last_minute' => isset($rateLimits[$ip]) ? count($rateLimits[$ip]['minute_requests']) : 0,
-            'requests_last_hour' => isset($rateLimits[$ip]) ? count($rateLimits[$ip]['hour_requests']) : 0,
-            'is_blacklisted' => $this->isBlacklisted($ip),
-            'strikes' => isset($blacklist[$ip]) ? $blacklist[$ip]['strikes'] : 0
-        ];
+    private function getClientIP() {
+        return $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 
+               $_SERVER['HTTP_X_REAL_IP'] ?? 
+               $_SERVER['REMOTE_ADDR'] ?? 'unknown';
     }
 }
 
-// Initialize DoS Protection
-$dosProtection = new DoSProtection();
+// Initialize Simple DoS Protection
+$dosProtection = new SimpleDoSProtection();
 
-// Check if request should be blocked
-$protectionCheck = $dosProtection->shouldBlockRequest();
-if ($protectionCheck['blocked']) {
+// Check if request is valid
+if (!$dosProtection->isValidRequest()) {
     http_response_code(429); // Too Many Requests
     echo json_encode([
         'success' => false,
-        'error' => 'Request blocked: ' . $protectionCheck['reason'],
-        'code' => 'DOS_PROTECTION_ACTIVE',
-        'retry_after' => 60 // Suggest retry after 60 seconds
+        'error' => 'Request blocked due to abuse prevention',
+        'code' => 'REQUEST_BLOCKED'
     ]);
     exit;
 }
@@ -997,20 +769,20 @@ class FAIRCatalogSearch {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Special endpoint to check DoS protection status (for debugging)
-    if (isset($_GET['action']) && $_GET['action'] === 'rate_limit_status') {
-        $clientIP = $dosProtection->getClientIP();
-        $status = $dosProtection->getRateLimitStatus($clientIP);
-        
+    // Simple endpoint to check DoS protection status
+    if (isset($_GET['action']) && $_GET['action'] === 'dos_status') {
         echo json_encode([
             'success' => true,
-            'rate_limit_status' => $status,
-            'limits' => [
-                'max_requests_per_minute' => 30,
-                'max_requests_per_hour' => 300,
-                'max_request_size_kb' => 8
+            'dos_protection' => [
+                'active' => true,
+                'type' => 'Simple Session-based',
+                'max_request_size_kb' => 4,
+                'min_request_interval_seconds' => 1
             ],
-            'protection_active' => true
+            'server_info' => [
+                'timestamp' => date('c'),
+                'protection_level' => 'Basic'
+            ]
         ]);
         exit;
     }
