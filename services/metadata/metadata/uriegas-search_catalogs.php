@@ -3,11 +3,325 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('X-XSS-Protection: 1; mode=block');
 
 // Include necessary files
 require_once dirname(__FILE__) . '/Connection.php';
 require_once dirname(__FILE__) . '/Config.php';
 require_once dirname(__FILE__) . '/Log.php';
+
+/**
+ * DoS Protection Class
+ * Implements rate limiting, request validation, and abuse prevention
+ */
+class DoSProtection {
+    private $log;
+    private $rateLimitFile;
+    private $requestSizeLimit = 8192; // 8KB max request size
+    private $maxRequestsPerMinute = 30; // Max requests per IP per minute
+    private $maxRequestsPerHour = 300; // Max requests per IP per hour
+    private $blacklistFile;
+    
+    public function __construct() {
+        $this->log = new Log();
+        $this->rateLimitFile = dirname(__FILE__) . '/rate_limits.json';
+        $this->blacklistFile = dirname(__FILE__) . '/blacklist.json';
+        $this->initializeProtection();
+    }
+    
+    private function initializeProtection() {
+        // Create rate limit file if it doesn't exist
+        if (!file_exists($this->rateLimitFile)) {
+            file_put_contents($this->rateLimitFile, json_encode([]));
+        }
+        
+        // Create blacklist file if it doesn't exist
+        if (!file_exists($this->blacklistFile)) {
+            file_put_contents($this->blacklistFile, json_encode([]));
+        }
+    }
+    
+    /**
+     * Check if request should be blocked due to DoS protection
+     */
+    public function shouldBlockRequest() {
+        $clientIP = $this->getClientIP();
+        
+        // Check if IP is blacklisted
+        if ($this->isBlacklisted($clientIP)) {
+            $this->log->lwrite("DoS Protection: Blocked blacklisted IP: $clientIP");
+            return ['blocked' => true, 'reason' => 'IP blacklisted due to abuse'];
+        }
+        
+        // Check request size
+        if ($this->isRequestTooLarge()) {
+            $this->log->lwrite("DoS Protection: Request too large from IP: $clientIP");
+            $this->addStrike($clientIP, 'large_request');
+            return ['blocked' => true, 'reason' => 'Request size exceeds limit'];
+        }
+        
+        // Check rate limits
+        $rateLimitCheck = $this->checkRateLimit($clientIP);
+        if ($rateLimitCheck['blocked']) {
+            $this->log->lwrite("DoS Protection: Rate limit exceeded for IP: $clientIP");
+            return $rateLimitCheck;
+        }
+        
+        // Log legitimate request
+        $this->recordRequest($clientIP);
+        
+        return ['blocked' => false];
+    }
+    
+    /**
+     * Get client IP address with proxy support
+     */
+    public function getClientIP() {
+        $headers = [
+            'HTTP_CF_CONNECTING_IP',     // Cloudflare
+            'HTTP_X_FORWARDED_FOR',      // Load balancers/proxies
+            'HTTP_X_REAL_IP',           // Nginx proxy
+            'HTTP_CLIENT_IP',           // Proxy
+            'REMOTE_ADDR'               // Standard
+        ];
+        
+        foreach ($headers as $header) {
+            if (!empty($_SERVER[$header])) {
+                $ip = $_SERVER[$header];
+                // Handle comma-separated IPs (X-Forwarded-For)
+                if (strpos($ip, ',') !== false) {
+                    $ip = trim(explode(',', $ip)[0]);
+                }
+                // Validate IP format
+                if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+                    return $ip;
+                }
+            }
+        }
+        
+        return $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+    }
+    
+    /**
+     * Check if request size exceeds limits
+     */
+    private function isRequestTooLarge() {
+        $requestSize = 0;
+        
+        // Check URI length
+        $requestSize += strlen($_SERVER['REQUEST_URI'] ?? '');
+        
+        // Check headers size
+        $requestSize += strlen(serialize(getallheaders()));
+        
+        // Check query string
+        $requestSize += strlen($_SERVER['QUERY_STRING'] ?? '');
+        
+        return $requestSize > $this->requestSizeLimit;
+    }
+    
+    /**
+     * Check if IP is blacklisted
+     */
+    private function isBlacklisted($ip) {
+        $blacklist = $this->loadBlacklist();
+        return isset($blacklist[$ip]) && $blacklist[$ip]['expires'] > time();
+    }
+    
+    /**
+     * Check rate limits for IP
+     */
+    private function checkRateLimit($ip) {
+        $rateLimits = $this->loadRateLimits();
+        $currentTime = time();
+        
+        // Initialize IP data if not exists
+        if (!isset($rateLimits[$ip])) {
+            $rateLimits[$ip] = [
+                'minute_requests' => [],
+                'hour_requests' => [],
+                'last_request' => 0 // Initialize to 0 to allow first request
+            ];
+        }
+        
+        $ipData = &$rateLimits[$ip];
+        
+        // Clean old entries
+        $ipData['minute_requests'] = array_filter($ipData['minute_requests'], function($time) use ($currentTime) {
+            return ($currentTime - $time) < 60; // Keep last minute
+        });
+        
+        $ipData['hour_requests'] = array_filter($ipData['hour_requests'], function($time) use ($currentTime) {
+            return ($currentTime - $time) < 3600; // Keep last hour
+        });
+        
+        // Check minute limit
+        if (count($ipData['minute_requests']) >= $this->maxRequestsPerMinute) {
+            $this->addStrike($ip, 'rate_limit_minute');
+            return ['blocked' => true, 'reason' => 'Too many requests per minute'];
+        }
+        
+        // Check hour limit
+        if (count($ipData['hour_requests']) >= $this->maxRequestsPerHour) {
+            $this->addStrike($ip, 'rate_limit_hour');
+            return ['blocked' => true, 'reason' => 'Too many requests per hour'];
+        }
+        
+        // Check for rapid successive requests (potential bot)
+        if (($currentTime - $ipData['last_request']) < 1) { // Less than 1 second between requests
+            $this->addStrike($ip, 'rapid_requests');
+            return ['blocked' => true, 'reason' => 'Requests too frequent'];
+        }
+        
+        return ['blocked' => false];
+    }
+    
+    /**
+     * Record a legitimate request
+     */
+    private function recordRequest($ip) {
+        $rateLimits = $this->loadRateLimits();
+        $currentTime = time();
+        
+        if (!isset($rateLimits[$ip])) {
+            $rateLimits[$ip] = [
+                'minute_requests' => [],
+                'hour_requests' => [],
+                'last_request' => 0 // Initialize to 0 to allow first request
+            ];
+        }
+        
+        $rateLimits[$ip]['minute_requests'][] = $currentTime;
+        $rateLimits[$ip]['hour_requests'][] = $currentTime;
+        $rateLimits[$ip]['last_request'] = $currentTime;
+        
+        $this->saveRateLimits($rateLimits);
+    }
+    
+    /**
+     * Add strike to IP for violations
+     */
+    private function addStrike($ip, $reason) {
+        $blacklist = $this->loadBlacklist();
+        $currentTime = time();
+        
+        if (!isset($blacklist[$ip])) {
+            $blacklist[$ip] = [
+                'strikes' => 0,
+                'first_strike' => $currentTime,
+                'reasons' => [],
+                'expires' => 0
+            ];
+        }
+        
+        $blacklist[$ip]['strikes']++;
+        $blacklist[$ip]['reasons'][] = $reason . ' at ' . date('Y-m-d H:i:s');
+        
+        // Progressive punishment
+        $strikes = $blacklist[$ip]['strikes'];
+        if ($strikes >= 10) {
+            // Temporary ban after 10 strikes
+            $blacklist[$ip]['expires'] = $currentTime + (24 * 3600); // 24 hours
+            $this->log->lwrite("DoS Protection: IP $ip temporarily banned for 24 hours ($strikes strikes)");
+        } elseif ($strikes >= 5) {
+            // 1 hour ban after 5 strikes
+            $blacklist[$ip]['expires'] = $currentTime + 3600;
+            $this->log->lwrite("DoS Protection: IP $ip temporarily banned for 1 hour ($strikes strikes)");
+        } elseif ($strikes >= 3) {
+            // 10 minute ban after 3 strikes
+            $blacklist[$ip]['expires'] = $currentTime + 600;
+            $this->log->lwrite("DoS Protection: IP $ip temporarily banned for 10 minutes ($strikes strikes)");
+        }
+        
+        $this->saveBlacklist($blacklist);
+    }
+    
+    /**
+     * Load rate limits from file
+     */
+    private function loadRateLimits() {
+        if (file_exists($this->rateLimitFile)) {
+            $content = file_get_contents($this->rateLimitFile);
+            return json_decode($content, true) ?: [];
+        }
+        return [];
+    }
+    
+    /**
+     * Save rate limits to file
+     */
+    private function saveRateLimits($rateLimits) {
+        // Keep only recent data to prevent file from growing too large
+        $currentTime = time();
+        foreach ($rateLimits as $ip => $data) {
+            if (($currentTime - $data['last_request']) > 3600) { // Remove data older than 1 hour
+                unset($rateLimits[$ip]);
+            }
+        }
+        
+        file_put_contents($this->rateLimitFile, json_encode($rateLimits));
+    }
+    
+    /**
+     * Load blacklist from file
+     */
+    private function loadBlacklist() {
+        if (file_exists($this->blacklistFile)) {
+            $content = file_get_contents($this->blacklistFile);
+            return json_decode($content, true) ?: [];
+        }
+        return [];
+    }
+    
+    /**
+     * Save blacklist to file
+     */
+    private function saveBlacklist($blacklist) {
+        // Clean expired entries
+        $currentTime = time();
+        foreach ($blacklist as $ip => $data) {
+            if ($data['expires'] > 0 && $data['expires'] < $currentTime) {
+                unset($blacklist[$ip]);
+            }
+        }
+        
+        file_put_contents($this->blacklistFile, json_encode($blacklist));
+    }
+    
+    /**
+     * Get current rate limit status for debugging
+     */
+    public function getRateLimitStatus($ip) {
+        $rateLimits = $this->loadRateLimits();
+        $blacklist = $this->loadBlacklist();
+        
+        return [
+            'ip' => $ip,
+            'requests_last_minute' => isset($rateLimits[$ip]) ? count($rateLimits[$ip]['minute_requests']) : 0,
+            'requests_last_hour' => isset($rateLimits[$ip]) ? count($rateLimits[$ip]['hour_requests']) : 0,
+            'is_blacklisted' => $this->isBlacklisted($ip),
+            'strikes' => isset($blacklist[$ip]) ? $blacklist[$ip]['strikes'] : 0
+        ];
+    }
+}
+
+// Initialize DoS Protection
+$dosProtection = new DoSProtection();
+
+// Check if request should be blocked
+$protectionCheck = $dosProtection->shouldBlockRequest();
+if ($protectionCheck['blocked']) {
+    http_response_code(429); // Too Many Requests
+    echo json_encode([
+        'success' => false,
+        'error' => 'Request blocked: ' . $protectionCheck['reason'],
+        'code' => 'DOS_PROTECTION_ACTIVE',
+        'retry_after' => 60 // Suggest retry after 60 seconds
+    ]);
+    exit;
+}
 
 /**
  * Secure input validation for prepared statements
@@ -169,7 +483,7 @@ class FAIRCatalogSearch {
         }
     }
     
-    public function getAllAvailableUsernames($searchTerm = '', $limit = 100) {
+    public function getAllAvailableUsernames($searchTerm = '', $limit = null) {
         try {
             // Check if auth database is available
             if (!$this->authDb) {
@@ -183,15 +497,25 @@ class FAIRCatalogSearch {
                 $query = "SELECT DISTINCT username FROM users 
                          WHERE username IS NOT NULL AND username != '' 
                          AND LOWER(username) LIKE LOWER(:searchTerm)
-                         ORDER BY username LIMIT :limit";
+                         ORDER BY username";
+                if ($limit !== null && $limit > 0) {
+                    $query .= " LIMIT :limit";
+                }
                 $stmt = $this->authDb->prepare($query);
                 $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
-                $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+                if ($limit !== null && $limit > 0) {
+                    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+                }
             } else {
-                // Get limited unique usernames from users table (prevent overwhelming dropdown)
-                $query = "SELECT DISTINCT username FROM users WHERE username IS NOT NULL AND username != '' ORDER BY username LIMIT :limit";
+                // Get unique usernames from users table
+                $query = "SELECT DISTINCT username FROM users WHERE username IS NOT NULL AND username != '' ORDER BY username";
+                if ($limit !== null && $limit > 0) {
+                    $query .= " LIMIT :limit";
+                }
                 $stmt = $this->authDb->prepare($query);
-                $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+                if ($limit !== null && $limit > 0) {
+                    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+                }
             }
             
             $stmt->execute();
@@ -244,7 +568,7 @@ class FAIRCatalogSearch {
         }
     }
     
-    public function searchCatalogs($searchTerm, $filters = []) {
+    public function searchCatalogs($searchTerm, $filters = [], $limit = null, $offset = 0) {
         try {
             // Handle username filter separately due to cross-database query
             $catalogsWithUsername = [];
@@ -294,7 +618,7 @@ class FAIRCatalogSearch {
             $totalBeforeFiltering = $countStmt->fetchColumn();
 
             // Build dynamic query based on FAIR principles
-            $query = $this->buildFAIRQuery($filters, $searchTerm);
+            $query = $this->buildFAIRQuery($filters, $searchTerm, $limit, $offset);
             
             $stmt = $this->pubSubDb->prepare($query);
             
@@ -348,8 +672,12 @@ class FAIRCatalogSearch {
                 // If we have cross-database filtering, the count is the actual filtered count
                 $actualTotalCount = count($results);
                 
-                // Apply manual limit since cross-database filtering happens after query
-                $limitedResults = array_slice($results, 0, 100);
+                // Apply manual limit if specified
+                if ($limit !== null && $limit > 0) {
+                    $limitedResults = array_slice($results, $offset, $limit);
+                } else {
+                    $limitedResults = $results;
+                }
                 
                 return [
                     'catalogs' => $this->enhanceWithFAIRMetadata($limitedResults),
@@ -495,7 +823,7 @@ class FAIRCatalogSearch {
         }
     }
     
-    private function buildFAIRQuery($filters = [], $searchTerm = '') {
+    private function buildFAIRQuery($filters = [], $searchTerm = '', $limit = null, $offset = 0) {
         // SECURITY: All dynamic content uses prepared statement parameters
         // Base query with FAIR metadata
         $query = "SELECT DISTINCT
@@ -569,7 +897,15 @@ class FAIRCatalogSearch {
         
         // GROUP BY and ORDER BY for proper FAIR compliance
         $query .= " GROUP BY c.keycatalog, c.tokencatalog, c.namecatalog, c.created_at, c.token_user, c.dispersemode, c.encryption, c.isprivate, c.father, c.\"group\", c.processed";
-        $query .= " ORDER BY c.created_at DESC LIMIT 100";
+        $query .= " ORDER BY c.created_at DESC";
+        
+        // Add optional LIMIT and OFFSET
+        if ($limit !== null && $limit > 0) {
+            $query .= " LIMIT " . (int)$limit;
+            if ($offset > 0) {
+                $query .= " OFFSET " . (int)$offset;
+            }
+        }
         
         return $query;
     }
@@ -661,12 +997,33 @@ class FAIRCatalogSearch {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Special endpoint to check DoS protection status (for debugging)
+    if (isset($_GET['action']) && $_GET['action'] === 'rate_limit_status') {
+        $clientIP = $dosProtection->getClientIP();
+        $status = $dosProtection->getRateLimitStatus($clientIP);
+        
+        echo json_encode([
+            'success' => true,
+            'rate_limit_status' => $status,
+            'limits' => [
+                'max_requests_per_minute' => 30,
+                'max_requests_per_hour' => 300,
+                'max_request_size_kb' => 8
+            ],
+            'protection_active' => true
+        ]);
+        exit;
+    }
+    
     // Special endpoint to get available usernames for selection
     if (isset($_GET['action']) && $_GET['action'] === 'get_usernames') {
         try {
             $fairSearch = new FAIRCatalogSearch();
             $searchTerm = $_GET['search'] ?? '';
-            $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 100;
+            $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : null;
+            
+            // Validate limit parameter
+            if ($limit !== null && $limit < 0) $limit = null;
             
             // Validate and sanitize search term
             if (!empty($searchTerm)) {
@@ -705,6 +1062,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'username' => $_GET['username'] ?? null
     ];
     
+    // Parse pagination parameters
+    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : null;
+    $offset = isset($_GET['offset']) ? (int)$_GET['offset'] : 0;
+    
+    // Validate pagination parameters
+    if ($limit !== null && $limit < 0) $limit = null;
+    if ($offset < 0) $offset = 0;
+    
     // Basic input validation - security provided by prepared statements
     try {
         $searchTerm = validateAndSanitizeInput($searchTerm);
@@ -726,7 +1091,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $fairSearch = new FAIRCatalogSearch();
         
         // Get catalog search results with total count
-        $searchResult = $fairSearch->searchCatalogs($searchTerm, $filters);
+        $searchResult = $fairSearch->searchCatalogs($searchTerm, $filters, $limit, $offset);
         
         // Extract catalogs and total count
         $catalogs = $searchResult['catalogs'] ?? [];
@@ -747,7 +1112,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 'timestamp' => date('c'),
                 'total_results' => $totalCount,
                 'returned_results' => count($catalogs),
-                'limited' => $totalCount > count($catalogs)
+                'limited' => $totalCount > count($catalogs),
+                'pagination' => [
+                    'limit' => $limit,
+                    'offset' => $offset,
+                    'has_more' => ($limit !== null) ? ($offset + count($catalogs) < $totalCount) : false
+                ]
             ],
             'repository_statistics' => $statistics,
             'results' => [

@@ -51,6 +51,7 @@
         .btn-outline { background: transparent; border: 1px solid #3498db; color: #3498db; }
         .btn-outline:hover { background: #3498db; color: white; }
         .error { background: #f8d7da; color: #721c24; padding: 15px; border-radius: 8px; border-left: 4px solid #e74c3c; }
+        .rate-limit-warning { background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin-bottom: 15px; }
         .loading { text-align: center; padding: 40px; color: #3498db; font-style: italic; font-size: 1.1rem; }
         .no-results { text-align: center; padding: 40px; color: #7f8c8d; }
         .sort-indicator { margin-left: 5px; opacity: 0.7; }
@@ -470,6 +471,13 @@
             
             fetch(url)
                 .then(response => {
+                    // Handle rate limiting and other HTTP errors
+                    if (response.status === 429) {
+                        return response.json().then(data => {
+                            throw new Error(`Rate limited: ${data.error}. Please wait ${data.retry_after || 60} seconds before trying again.`);
+                        });
+                    }
+                    
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
@@ -516,10 +524,16 @@
                     resultsStats.style.display = 'none';
                     
                     let errorMsg = error.message;
-                    if (error.message.includes('Failed to fetch')) {
+                    let errorClass = 'error';
+                    
+                    if (error.message.includes('Rate limited')) {
+                        errorClass = 'rate-limit-warning';
+                        errorMsg = error.message + '<br><small>Tip: Reduce your search frequency to avoid rate limits.</small>';
+                    } else if (error.message.includes('Failed to fetch')) {
                         errorMsg = 'Cannot connect to the search service. Please check if the metadata service is running on port 20505.';
                     }
-                    resultsDiv.innerHTML = `<div class="error">Search failed: ${errorMsg}</div>`;
+                    
+                    resultsDiv.innerHTML = `<div class="${errorClass}">Search failed: ${errorMsg}</div>`;
                 });
         }
         
