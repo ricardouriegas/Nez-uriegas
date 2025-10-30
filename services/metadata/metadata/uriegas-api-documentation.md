@@ -18,6 +18,11 @@ GET /uriegas-search_catalogs.php
 GET /uriegas-search_catalogs.php?action=get_usernames
 ```
 
+### Check DoS Protection Status
+```
+GET /uriegas-search_catalogs.php?action=dos_status
+```
+
 **Optional Parameters:**
 - `search`: Filter usernames containing this text (case insensitive)
 - `limit`: Maximum number of usernames to return (default: 100, max: 100)
@@ -51,7 +56,7 @@ http://localhost:20505/uriegas-search_catalogs.php
 | `username` | string | Filter by owner username (exact match) | `admin`, `user123` |
 | `limit` | integer | Maximum number of results to return | `50`, `100`, `500` |
 | `offset` | integer | Number of results to skip (for pagination) | `0`, `50`, `100` |
-| `action` | string | Special action to perform | `get_usernames`, `rate_limit_status` |
+| `action` | string | Special action to perform | `get_usernames`, `dos_status` |
 
 ### Pagination Parameters
 
@@ -255,62 +260,59 @@ The `search_metadata` object contains important information about the search res
 | "Only GET method allowed" | Using POST/PUT/DELETE | Use GET method only |
 | "Database connection failed" | Database connectivity issues | Check database connectivity |
 
-## Rate Limiting and DoS Protection
+## Simple DoS Protection
 
-The API implements comprehensive DoS (Denial of Service) protection with the following limits:
+The API implements lightweight DoS (Denial of Service) protection designed to work alongside server-level protection:
 
-### Rate Limits
-- **30 requests per minute** per IP address
-- **300 requests per hour** per IP address
-- **Maximum request size**: 8KB
-- **Minimum interval**: 1 second between successive requests
+### Protection Features
+- **Request Size Limit**: Maximum 4KB per request
+- **Rate Limiting**: Minimum 1 second between successive requests (session-based)
+- **Simple Blocking**: Automatic blocking of oversized or too-frequent requests
 
-### Progressive Penalties
-- **3 strikes**: 10-minute temporary ban
-- **5 strikes**: 1-hour temporary ban  
-- **10 strikes**: 24-hour temporary ban
+### Protection Limits
+- **Maximum request size**: 4KB (URI + headers + query string)
+- **Minimum interval**: 1 second between requests from the same session
+- **Protection method**: PHP session-based (lightweight)
 
-### Violations That Trigger Penalties
-- Exceeding rate limits (requests per minute/hour)
-- Sending requests larger than 8KB
-- Making requests faster than 1 second apart
-- Multiple violations from the same IP
-
-### Status Check Endpoint
+### DoS Protection Status Check
 ```
-GET /uriegas-search_catalogs.php?action=rate_limit_status
+GET /uriegas-search_catalogs.php?action=dos_status
 ```
 
-Returns current rate limit status for debugging:
+Returns current DoS protection information:
 ```json
 {
   "success": true,
-  "rate_limit_status": {
-    "ip": "192.168.1.100",
-    "requests_last_minute": 5,
-    "requests_last_hour": 45,
-    "is_blacklisted": false,
-    "strikes": 0
+  "dos_protection": {
+    "active": true,
+    "type": "Simple Session-based",
+    "max_request_size_kb": 4,
+    "min_request_interval_seconds": 1
   },
-  "limits": {
-    "max_requests_per_minute": 30,
-    "max_requests_per_hour": 300,
-    "max_request_size_kb": 8
-  },
-  "protection_active": true
+  "server_info": {
+    "timestamp": "2025-10-29T17:30:45+00:00",
+    "protection_level": "Basic"
+  }
 }
 ```
 
-### Error Response for Rate Limiting
-When rate limits are exceeded, the API returns HTTP 429:
+### Error Response for DoS Protection
+When protection is triggered, the API returns HTTP 429:
 ```json
 {
   "success": false,
-  "error": "Request blocked: Too many requests per minute",
-  "code": "DOS_PROTECTION_ACTIVE",
-  "retry_after": 60
+  "error": "Request blocked due to abuse prevention",
+  "code": "REQUEST_BLOCKED"
 }
 ```
+
+### Design Philosophy
+This simplified DoS protection focuses on:
+- **Minimal overhead** for normal operations
+- **Basic protection** against simple abuse
+- **Server-level reliance** for sophisticated attacks
+- **Session-based tracking** (no complex file storage)
+- **Zero external dependencies** (no Redis/JSON files)
 
 ## Security Measures
 
@@ -323,7 +325,7 @@ The API implements input validation and sanitization to prevent SQL injection at
 
 ## Logging and Monitoring
 
-The API generates comprehensive logs for security monitoring, debugging, and system administration. Multiple types of logs are created to track different aspects of the system.
+The API generates logs for security monitoring, debugging, and system administration.
 
 ### Log Files and Locations
 
@@ -346,16 +348,12 @@ The API generates comprehensive logs for security monitoring, debugging, and sys
 }
 ```
 
-#### 2. DoS Protection Logs
-**Purpose:** Track rate limiting, blacklisting, and abuse prevention
+#### 2. Simple DoS Protection Logs
+**Purpose:** Track basic protection events
 **Log Entry Examples:**
 ```
-DoS Protection: Rate limit exceeded for IP: 172.18.0.1
-DoS Protection: Blocked blacklisted IP: 172.18.0.1
-DoS Protection: Request too large from IP: 172.18.0.1
-DoS Protection: IP 172.18.0.1 temporarily banned for 10 minutes (3 strikes)
-DoS Protection: IP 172.18.0.1 temporarily banned for 1 hour (5 strikes)
-DoS Protection: IP 172.18.0.1 temporarily banned for 24 hours (10 strikes)
+Large request blocked from: 172.18.0.1
+Rapid requests blocked from: 172.18.0.1
 ```
 
 #### 3. Database Connection Logs
@@ -382,47 +380,12 @@ Invalid username format: user@invalid
 Warning: Auth database not available - username search skipped
 ```
 
-#### 5. Rate Limiting Data Files
-**Purpose:** Store rate limiting and blacklist data
-**Files:**
-- `rate_limits.json` - Current rate limiting data per IP
-- `blacklist.json` - Blacklisted IPs with strikes and expiration times
-
-### Rate Limits Data Structure
-
-#### `rate_limits.json`
-```json
-{
-  "172.18.0.1": {
-    "minute_requests": [1761757890, 1761757895, 1761757900],
-    "hour_requests": [1761757890, 1761757895, 1761757900, 1761757905],
-    "last_request": 1761757905
-  }
-}
-```
-
-#### `blacklist.json`
-```json
-{
-  "172.18.0.1": {
-    "strikes": 3,
-    "first_strike": 1761757347,
-    "reasons": [
-      "rapid_requests at 2025-10-29 11:22:05",
-      "rate_limit_minute at 2025-10-29 11:22:15",
-      "large_request at 2025-10-29 11:22:25"
-    ],
-    "expires": 1761758053
-  }
-}
-```
-
 ### Log Monitoring and Management
 
-#### Log Rotation
-- Security logs are appended to prevent data loss
-- Rate limiting files are automatically cleaned of expired entries
-- DoS protection logs are managed by the system Log class
+#### Simple Protection Data
+- DoS protection uses PHP sessions (no persistent files)
+- Logs are managed by the system Log class
+- No complex rate limiting files to maintain
 
 #### Key Events to Monitor
 
@@ -438,16 +401,15 @@ Warning: Auth database not available - username search skipped
 - Large result set processing
 
 **DoS Protection Events:**
-- Rate limit violations
-- IP blacklisting
-- Strike accumulation
-- Request size violations
+- Large request blocking
+- Rapid request detection
+- Basic abuse prevention
 
 #### Log Analysis Examples
 
-**Find Rate Limited IPs:**
+**Find DoS Protection Events:**
 ```bash
-grep "Rate limit exceeded" /path/to/log/file
+grep "blocked from" /path/to/log/file
 ```
 
 **Monitor File Type Searches:**
@@ -469,11 +431,12 @@ jq '.event' /tmp/search_security.log | sort | uniq -c
 
 #### Common Issues and Log Patterns
 
-**1. High Rate Limiting:**
+**1. DoS Protection Triggered:**
 ```
-DoS Protection: Rate limit exceeded for IP: [IP]
+Large request blocked from: [IP]
+Rapid requests blocked from: [IP]
 ```
-*Solution:* Check if legitimate traffic, adjust rate limits if needed
+*Solution:* Check if legitimate traffic, client may need to slow down requests
 
 **2. Database Connectivity:**
 ```
@@ -498,5 +461,6 @@ File type search failed: [error details]
 
 - **Security Logs:** Retain for 90 days minimum for forensic analysis
 - **DoS Protection Logs:** Retain for 30 days for pattern analysis
-- **Rate Limiting Files:** Automatically cleaned, no manual retention needed
 - **Database Logs:** Retain for 7 days for operational monitoring
+
+**Note:** Simple DoS protection uses session-based tracking with no persistent files requiring maintenance.
