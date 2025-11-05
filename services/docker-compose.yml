@@ -1,4 +1,3 @@
-version: "3"
 services:
   #############
   # Servicios de Nez
@@ -231,6 +230,48 @@ services:
     volumes:
       - ./metadata/metadata/:/var/www/html/
     restart: always
+  
+  # Uriegas FAIR API - Dedicated container for the search API
+  uriegas-api: #FAIR-compliant catalog search API
+    build:
+      context: ./uriegas-api
+      dockerfile: Dockerfile
+    image: uriegas-api:latest
+    depends_on:
+      - db_metadata
+      - db_pub_sub
+      - db_auth
+    ports:
+      - "20506:80"  # Different port to avoid conflicts
+    expose:
+      - "80"
+    environment:
+      # Database connections
+      DB_USER: muyalmanager
+      DB_PASSWORD: f0l34lraSoTRumoGitRo
+      DB_HOST: db_metadata
+      DB_NAME: multi
+      DB_PORT: 5432
+      # Additional database passwords for cross-database access
+      PUB_SUB_DB_PASSWORD: sicuhowradRaxi5R2ke6
+      AUTH_DB_PASSWORD: niCi7unamltrubrlJusp
+      PUB_SUB_HOST: pub_sub
+      AUTH_HOST: auth
+      # API configuration
+      API_LOG_LEVEL: INFO
+      API_TIMEZONE: America/Mexico_City
+      URL: "http://localhost:20506"
+    volumes:
+      - ./uriegas-api/src/:/var/www/html/
+      - ./uriegas-api/logs:/var/www/html/logs
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/uriegas-search_catalogs.php?action=dos_status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
   balancing: #Servicio de balanceo de carga 
     image: ddomizzi/balancing:muyal
     expose:
