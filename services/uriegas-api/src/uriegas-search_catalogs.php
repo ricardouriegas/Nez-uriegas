@@ -1,11 +1,21 @@
 <?php
 
+// Enhanced CORS headers for browser compatibility
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Accept, Origin, X-Requested-With');
+header('Access-Control-Max-Age: 86400'); // Cache preflight for 24 hours
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 header('X-XSS-Protection: 1; mode=block');
+
+// Handle CORS preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    // This is a preflight request, just return success
+    http_response_code(200);
+    exit;
+}
 
 // Include necessary files
 require_once dirname(__FILE__) . '/Connection.php';
