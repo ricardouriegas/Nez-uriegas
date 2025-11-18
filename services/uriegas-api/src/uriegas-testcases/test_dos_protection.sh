@@ -15,7 +15,20 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Configuration
-BASE_URL="http://localhost:20505/uriegas-search_catalogs.php"
+BASE_URL="http://localhost:20506/uriegas-search_catalogs.php"
+
+echo -e "${BLUE}Testing containerized API at:${NC} $BASE_URL"
+
+# Check if container is running
+echo ""
+echo "Checking if uriegas-api container is running..."
+if docker ps --format "table {{.Names}}" | grep -q "services-uriegas-api-1\|uriegas-api"; then
+    echo -e "${GREEN}✓ uriegas-api container is running${NC}"
+else
+    echo -e "${RED}✗ uriegas-api container is not running${NC}"
+    echo -e "${YELLOW}Please run: cd /home/richy/Nez-uriegas/services && docker-compose up -d uriegas-api${NC}"
+    exit 1
+fi
 TEST_RESULTS=()
 TOTAL_TESTS=0
 PASSED_TESTS=0
@@ -227,9 +240,6 @@ test_request_sizes() {
     fi
 }
 
-# Test Summary and Results
-print_summary() {
-
 # Test 7: Security Headers Check
 test_security_headers() {
     print_test_header "Test 7: Security Headers Check"
@@ -341,39 +351,4 @@ main() {
     echo "Rate limit files: rate_limits.json and blacklist.json"
 }
 
-# Run the tests
-main() {
-    echo "Starting DoS Protection Tests..."
-    echo ""
-    
-    # Run all tests
-    test_basic_api_response
-    test_dos_protection_status
-    test_normal_request
-    test_security_headers
-    test_request_sizes
-    test_rapid_successive
-    test_rate_limiting
-    
-    # Final summary
-    echo ""
-    echo "=========================================="
-    echo "DoS Protection Test Summary"
-    echo "=========================================="
-    echo "Total Tests: $TOTAL_TESTS"
-    echo "Passed: $PASSED_TESTS"
-    echo "Failed: $((TOTAL_TESTS - PASSED_TESTS))"
-    echo ""
-    
-    if [ $PASSED_TESTS -eq $TOTAL_TESTS ]; then
-        echo "🎉 ALL DoS PROTECTION TESTS PASSED!"
-    else
-        echo "⚠ Some tests failed."
-        echo "Review the failed tests to improve DoS protection."
-    fi
-    
-    echo ""
-    echo "Note: Check the API logs for detailed protection activity."
-}
-
-main "$@"}
+main "$@"

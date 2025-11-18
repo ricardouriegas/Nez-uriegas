@@ -37,11 +37,23 @@ test_result() {
     fi
 }
 
-# Get IP
-my_ip=$(ip route get 8.8.8.8 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')
-echo -e "${BLUE}Testing API at:${NC} http://${my_ip}:20505/uriegas-search_catalogs.php"
+# Configuration
+BASE_URL="http://localhost:20506/uriegas-search_catalogs.php"
 
-API_URL="http://${my_ip}:20505/uriegas-search_catalogs.php"
+echo -e "${BLUE}Testing containerized API at:${NC} $BASE_URL"
+
+# Check if container is running
+echo ""
+echo "Checking if uriegas-api container is running..."
+if docker ps --format "table {{.Names}}" | grep -q "services-uriegas-api-1\|uriegas-api"; then
+    echo -e "${GREEN}✓ uriegas-api container is running${NC}"
+else
+    echo -e "${RED}✗ uriegas-api container is not running${NC}"
+    echo -e "${YELLOW}Please run: cd /home/richy/Nez-uriegas/services && docker-compose up -d uriegas-api${NC}"
+    exit 1
+fi
+
+API_URL="$BASE_URL"
 
 echo ""
 echo "=========================================="
@@ -252,19 +264,28 @@ echo "=========================================="
 echo "You can manually test the API with:"
 echo ""
 echo "# Basic search:"
-echo "curl \"${API_URL}?q=your_search_term\""
+echo "curl \"${BASE_URL}?q=your_search_term\""
 echo ""
 echo "# Search with filters:"
-echo "curl \"${API_URL}?q=test&privacy=public&encryption=false\""
+echo "curl \"${BASE_URL}?q=test&privacy=public&encryption=false\""
 echo ""
-echo "# Search with user authentication:"
-echo "curl \"${API_URL}?q=test&user_id=YOUR_USER_TOKEN\""
+echo "# Search with username filter:"
+echo "curl \"${BASE_URL}?q=test&username=admin\""
 echo ""
 echo "# Search with date range:"
-echo "curl \"${API_URL}?q=test&date_from=2024-01-01&date_to=2024-12-31\""
+echo "curl \"${BASE_URL}?q=test&date_from=2024-01-01&date_to=2024-12-31\""
+echo ""
+echo "# Get available usernames:"
+echo "curl \"${BASE_URL}?action=get_usernames\""
+echo ""
+echo "# Check DoS protection status:"
+echo "curl \"${BASE_URL}?action=dos_status\""
 echo ""
 echo "# Pretty print JSON response:"
-echo "curl \"${API_URL}?q=test\" | python3 -m json.tool"
+echo "curl \"${BASE_URL}?q=test\" | python3 -m json.tool"
 echo ""
-echo "Note: To get real catalog data, run the project setup scripts first:"
-echo "cd /home/richy/Nez-uriegas/services/ && ./configure.sh && ./uriegas-more-catalogos.sh"
+echo "Note: To get real catalog data, ensure containers are running:"
+echo "cd /home/richy/Nez-uriegas/services/ && docker-compose up -d"
+echo ""
+echo "Then run the setup scripts:"
+echo "./configure.sh && ./uriegas-more-catalogos.sh"

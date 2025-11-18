@@ -15,7 +15,20 @@ BLUE='\033[0;34m'
 NC='\033[0m'
 
 # Configuration
-BASE_URL="http://localhost:20505/uriegas-search_catalogs.php"
+BASE_URL="http://localhost:20506/uriegas-search_catalogs.php"
+
+echo -e "${BLUE}Testing containerized API at:${NC} $BASE_URL"
+
+# Check if container is running
+echo ""
+echo "Checking if uriegas-api container is running..."
+if docker ps --format "table {{.Names}}" | grep -q "services-uriegas-api-1\|uriegas-api"; then
+    echo -e "${GREEN}✓ uriegas-api container is running${NC}"
+else
+    echo -e "${RED}✗ uriegas-api container is not running${NC}"
+    echo -e "${YELLOW}Please run: cd /home/richy/Nez-uriegas/services && docker-compose up -d uriegas-api${NC}"
+    exit 1
+fi
 TOTAL_TESTS=0
 PASSED_TESTS=0
 
