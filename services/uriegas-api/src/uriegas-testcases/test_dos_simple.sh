@@ -85,16 +85,17 @@ fi
 # Test 4: Rapid Requests Protection
 echo "4. Testing rapid requests protection..."
 increment_test
-# Make 3 rapid requests
-curl -s "${BASE_URL}?q=test1" > /dev/null 2>&1 &
-sleep 0.1
-curl -s "${BASE_URL}?q=test2" > /dev/null 2>&1 &
-sleep 0.1
-status_code=$(curl -s -o /dev/null -w "%{http_code}" "${BASE_URL}?q=test3" 2>/dev/null)
+# Create a temporary cookie file to maintain session
+COOKIE_FILE=$(mktemp)
+# Make 3 rapid requests using the same session
+curl -s -c "$COOKIE_FILE" -b "$COOKIE_FILE" "${BASE_URL}?q=test1" > /dev/null 2>&1
+# Immediate second request (should be blocked due to 1-second rate limit)
+status_code=$(curl -s -c "$COOKIE_FILE" -b "$COOKIE_FILE" -o /dev/null -w "%{http_code}" "${BASE_URL}?q=test2" 2>/dev/null)
+rm -f "$COOKIE_FILE"
 if [ "$status_code" = "429" ]; then
     print_success "Rapid requests properly blocked"
 else
-    print_info "Rapid request returned HTTP $status_code (may allow some rapid requests)"
+    print_info "Rapid request returned HTTP $status_code (session-based rate limiting may not apply to stateless requests)"
 fi
 
 # Test 5: Normal Request After Delay
