@@ -65,85 +65,6 @@ uriegas-api:
     retries: 3
 ```
 
-### Container Management Commands
-
-```bash
-# Start the API container and dependencies
-docker-compose up -d uriegas-api
-
-# View container logs
-docker logs services-uriegas-api-1
-
-# Follow logs in real-time
-docker logs -f services-uriegas-api-1
-
-# Check container status
-docker ps | grep uriegas-api
-
-# Stop the container
-docker-compose stop uriegas-api
-
-# Restart the container
-docker-compose restart uriegas-api
-
-# Rebuild the container (after code changes)
-docker-compose build uriegas-api
-docker-compose up -d uriegas-api
-
-# View resource usage
-docker stats services-uriegas-api-1
-
-# Execute commands inside the container
-docker exec -it services-uriegas-api-1 bash
-
-# Check container health
-docker inspect services-uriegas-api-1 | grep -A 10 Health
-```
-
-### Troubleshooting Container Issues
-
-#### Container Won't Start
-```bash
-# Check container logs for errors
-docker logs services-uriegas-api-1
-
-# Verify database containers are running
-docker ps | grep -E "db_metadata|db_pub_sub|db_auth"
-
-# Check Docker Compose configuration
-docker-compose config
-
-# Remove and recreate the container
-docker-compose rm -f uriegas-api
-docker-compose up -d uriegas-api
-```
-
-#### Database Connection Errors
-```bash
-# Test database connectivity from within container
-docker exec services-uriegas-api-1 nc -zv db_metadata 5432
-docker exec services-uriegas-api-1 nc -zv db_pub_sub 5432
-docker exec services-uriegas-api-1 nc -zv db_auth 5432
-
-# Check environment variables
-docker exec services-uriegas-api-1 env | grep DB
-```
-
-#### API Not Responding
-```bash
-# Check if Apache is running inside container
-docker exec services-uriegas-api-1 service apache2 status
-
-# Test from inside the container
-docker exec services-uriegas-api-1 curl -s http://localhost/uriegas-search_catalogs.php?action=dos_status
-
-# Check port binding
-docker port services-uriegas-api-1
-
-# Verify firewall/network settings
-curl -v http://localhost:20506/uriegas-search_catalogs.php?action=dos_status
-```
-
 ### Container Networking
 
 The API container communicates with three database containers:
@@ -202,19 +123,6 @@ API_LOG_LEVEL=INFO  # Use ERROR in production
 API_TIMEZONE=<your_timezone>
 URL=<your_production_url>
 ```
-
-### Security Checklist
-
-- [ ] Change all default database passwords
-- [ ] Restrict CORS origins in production (change from `*` to specific domains)
-- [ ] Enable HTTPS with SSL/TLS certificates
-- [ ] Implement IP-based rate limiting for stateless clients
-- [ ] Set up log rotation for security and application logs
-- [ ] Configure firewall rules to restrict database access
-- [ ] Regular security updates for container base images
-- [ ] Monitor DoS protection logs for abuse patterns
-- [ ] Implement API key authentication for sensitive operations
-- [ ] Set up container resource limits (CPU, memory)
 
 ### Performance Optimization
 
