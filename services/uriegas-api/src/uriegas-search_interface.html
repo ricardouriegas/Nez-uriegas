@@ -311,7 +311,7 @@
         
         // Load available usernames from API
         function loadAvailableUsernames() {
-            return fetch('http://localhost:20505/uriegas-search_catalogs.php?action=get_usernames')
+            return fetch('http://localhost:20506/uriegas-search_catalogs.php?action=get_usernames')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -438,7 +438,7 @@
                 return;
             }
             
-            let url = `http://localhost:20505/uriegas-search_catalogs.php?q=${encodeURIComponent(searchQuery)}`;
+            let url = `http://localhost:20506/uriegas-search_catalogs.php?q=${encodeURIComponent(searchQuery)}`;
             
 
             
@@ -530,7 +530,7 @@
                         errorClass = 'rate-limit-warning';
                         errorMsg = error.message + '<br><small>Tip: Reduce your search frequency to avoid rate limits.</small>';
                     } else if (error.message.includes('Failed to fetch')) {
-                        errorMsg = 'Cannot connect to the search service. Please check if the metadata service is running on port 20505.';
+                        errorMsg = 'Cannot connect to the search service. Please check if the metadata service is running on port 20506.';
                     }
                     
                     resultsDiv.innerHTML = `<div class="${errorClass}">Search failed: ${errorMsg}</div>`;
