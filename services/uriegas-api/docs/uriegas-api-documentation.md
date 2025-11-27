@@ -18,14 +18,6 @@ The API requires the following containerized services:
 - `db_pub_sub`: Publication metadata database
 - `db_metadata`: Catalog metadata database
 
-### Log Retention Recommendations
-
-- **Security Logs:** Retain for 90 days minimum for forensic analysis
-- **DoS Protection Logs:** Retain for 30 days for pattern analysis
-- **Database Logs:** Retain for 7 days for operational monitoring
-
-**Note:** Simple DoS protection uses session-based tracking with no persistent files requiring maintenance.
-
 ## Response Format
 
 ### Success Response
@@ -289,3 +281,11 @@ curl "http://localhost:20506/uriegas-search_catalogs.php?q=*&username=admin"
 | "Search term required (minimum 2 characters)" | Empty or too short search term | Provide a search term with at least 2 characters |
 | "Only GET method allowed" | Using POST/PUT/DELETE | Use GET method only |
 | "Database connection failed" | Database connectivity issues | Check database connectivity |
+
+## Log Retention Recommendations
+
+- **Security Logs:** Retain for 90 days minimum for forensic analysis
+- **DoS Protection Logs:** Retain for 30 days for pattern analysis
+- **Database Logs:** Retain for 7 days for operational monitoring
+
+> **Note:** Simple DoS protection uses session-based tracking with no persistent files requiring maintenance.
