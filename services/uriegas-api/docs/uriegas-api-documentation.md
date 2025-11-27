@@ -13,7 +13,12 @@ The Uriegas FAIR Catalog Search API is a containerized, FAIR-compliant (Findable
 
 ### Required Services
 The API requires the following containerized services:
-- `uriegas-api`: Main API containe### Log Retention Recommendations
+- `uriegas-api`: Main API container
+- `db_auth`: User authentication database
+- `db_pub_sub`: Publication metadata database
+- `db_metadata`: Catalog metadata database
+
+### Log Retention Recommendations
 
 - **Security Logs:** Retain for 90 days minimum for forensic analysis
 - **DoS Protection Logs:** Retain for 30 days for pattern analysis
